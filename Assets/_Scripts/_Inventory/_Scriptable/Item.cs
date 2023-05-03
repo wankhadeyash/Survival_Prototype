@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public enum ItemType 
 {
@@ -16,6 +15,8 @@ public class Item : ScriptableObject
     [Header("Item")]
     public ItemType itemType;
     public ItemPickupType itemPickupType;
+    [DrawIf("itemPickupType", ItemPickupType.Manual)]
+    public KeyCode pickUpButton = KeyCode.E;
     public string itemName;
     public Sprite icon;
     public string description;
