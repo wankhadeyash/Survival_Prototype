@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+
+public enum ItemType 
+{
+    Weapon,Armor,Shield,Food,Decoration,Resource
+}
+public enum ItemPickupType 
+{
+    Automatic, Manual
+}
+public class Item : ScriptableObject
+{
+    [Header("Item")]
+    public ItemType itemType;
+    public ItemPickupType itemPickupType;
+    public string itemName;
+    public Sprite icon;
+    public string description;
+    public int weight;
+}
