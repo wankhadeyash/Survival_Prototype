@@ -15,32 +15,36 @@ public class DrawIfAttributeDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         drawIf = attribute as DrawIfAttribute;
-        string path = System.IO.Path.ChangeExtension(property.propertyPath, drawIf.comparedPropertyName);
         comparedField = property.serializedObject.FindProperty(drawIf.comparedPropertyName);
+        if (comparedField == null)
+        {
+            Debug.LogError($"compared field variable name spelled wrong");
+            return;
+        }
         //comparedField = property.serializedObject.FindProperty(path);
 
-        if (ShowMe(comparedField)) 
+        if (ShowMe(comparedField))
         {
             EditorGUI.PropertyField(position, property, label);
         }
-        
+
     }
 
-    bool ShowMe(SerializedProperty comapredField) 
+    bool ShowMe(SerializedProperty comapredField)
     {
-        switch (comapredField.type) 
+        switch (comapredField.type)
         {
             case "bool":
                 return comparedField.boolValue.Equals(drawIf.comparedValue);
             case "Enum":
-                try 
+                try
                 {
                     var drawIfVals = drawIf.comparedValue as object[];
                     if (drawIfVals == null)
                         return comapredField.intValue.Equals((int)drawIf.comparedValue);
                     if (drawIfVals.Length == 0)
                         return true;
-                    foreach (object val in drawIfVals) 
+                    foreach (object val in drawIfVals)
                     {
                         if (comapredField.intValue.Equals((int)val))
                             return true;
