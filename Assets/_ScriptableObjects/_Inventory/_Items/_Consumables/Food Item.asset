@@ -12,10 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad5ecef0fbbb854992b9704b8764462, type: 3}
   m_Name: Food Item
   m_EditorClassIdentifier: 
-  itemType: 0
+  itemType: 8
+  itemPickupType: 1
+  pickUpButton: 0
+  itemStackableType: 1
+  maxQuantity: 0
+  useButton: 0
+  useButtonType: 0
   itemName: 
   icon: {fileID: 0}
   description: 
   weight: 0
+  statsRestore: -1
   healthRestore: 0
   staminaRestore: 0
+  hungerRestore: 0
+  thirstRestore: 0

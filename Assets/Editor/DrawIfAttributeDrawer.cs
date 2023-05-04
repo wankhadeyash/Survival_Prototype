@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
+using System;
+using System.Reflection;
 
 [CustomPropertyDrawer(typeof(DrawIfAttribute))]
 public class DrawIfAttributeDrawer : PropertyDrawer
@@ -30,32 +33,20 @@ public class DrawIfAttributeDrawer : PropertyDrawer
 
     }
 
-    bool ShowMe(SerializedProperty comapredField)
+    bool ShowMe(SerializedProperty comparedField)
     {
-        switch (comapredField.type)
+        switch (comparedField.type)
         {
             case "bool":
-                return comparedField.boolValue.Equals(drawIf.comparedValue);
+                return this.comparedField.boolValue.Equals(drawIf.comparedValue);
             case "Enum":
-                try
+                var drawIfVals = drawIf.comparedValue as object[];
+                if (drawIfVals == null)
                 {
-                    var drawIfVals = drawIf.comparedValue as object[];
-                    if (drawIfVals == null)
-                        return comapredField.intValue.Equals((int)drawIf.comparedValue);
-                    if (drawIfVals.Length == 0)
-                        return true;
-                    foreach (object val in drawIfVals)
-                    {
-                        if (comapredField.intValue.Equals((int)val))
-                            return true;
-                    }
-                    return true;
+                    int enumValue = comparedField.enumValueFlag;
+                        return (enumValue & (int)drawIf.comparedValue) == (int)drawIf.comparedValue;
                 }
-                catch (System.Exception e)
-                {
-                    Debug.LogError(e.GetType() + ": trying to cast drawIf value to enum array when no enum array was passed");
-                    return true;
-                }
+                return false;
         }
         return false;
     }

@@ -12,12 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731a1136e9605c442857cbff372039f9, type: 3}
   m_Name: Aex
   m_EditorClassIdentifier: 
-  itemType: 0
-  itemPickupType: 0
+  itemType: 1
+  itemPickupType: 2
   pickUpButton: 0
+  itemStackableType: 0
+  maxQuantity: 0
+  useButton: 32
+  useButtonType: 1
   itemName: Aex
   icon: {fileID: 0}
   description: 
   weight: 0
   weaponType: 0
+  range: 0
   damage: 0
+  durability: 0

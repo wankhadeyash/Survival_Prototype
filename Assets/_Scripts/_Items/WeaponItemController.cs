@@ -5,12 +5,12 @@ using UnityEngine;
 public class WeaponItemController : ItemController
 {
 
-    public override void UseItem()
+    protected override void UseItem()
     {
         Debug.Log($"Using aex");
     }
 
-    public override void DoSecondaryTask()
+    protected override void DoSecondaryTask()
     {
     }
 
