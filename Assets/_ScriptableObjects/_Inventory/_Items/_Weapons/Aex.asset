@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 1
   itemPickupType: 2
-  pickUpButton: 0
+  pickUpButton: 49
   itemStackableType: 0
   maxQuantity: 0
   useButton: 32

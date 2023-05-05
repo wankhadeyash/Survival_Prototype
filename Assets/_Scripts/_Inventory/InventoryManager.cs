@@ -13,7 +13,7 @@ public class InventoryManager : MonoBehaviour
     public List<ItemController> m_ItemControllers = new List<ItemController>();
 
     // Add an item to the inventory
-    public void AddItemController(ItemController itemController)
+    public void AddItem(ItemController itemController)
     {
         // Check if there is space in the inventory
         if (m_Items.Count >= m_MaxSlots)
@@ -32,7 +32,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     // Remove an item from the inventory
-    public void RemoveItemController(ItemController itemController)
+    public void RemoveItem(ItemController itemController)
     {
         // Check if the item is in the inventory
         if (!m_ItemControllers.Contains(itemController))

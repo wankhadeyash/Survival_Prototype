@@ -8,12 +8,16 @@ public abstract class ItemController : MonoBehaviour
     [SerializeField] protected Item m_Item; // Serialized field to hold a reference to the ScriptableObject item
     public Item item => m_Item;
 
+    protected InventoryManager m_InventoryManager;
+
     protected bool m_IsEquipped;
     protected KeyCode m_UseButton; // Protected variable to hold the key code for using the item
-
+    protected KeyCode m_PickUpButton; // If pickup type is manual
     private void Awake()
     {
         m_UseButton = m_Item.useButton; // Assign the use button from the ScriptableObject item on Awake
+        m_PickUpButton = m_Item.itemPickupType == ItemPickupType.Manual ? m_Item.pickUpButton : KeyCode.None;
+        m_InventoryManager = FindObjectOfType<InventoryManager>();
     }
 
     protected virtual void OnOnStartBefore() { } // Virtual method that gets called before Start()
@@ -35,7 +39,9 @@ public abstract class ItemController : MonoBehaviour
     {
         OnOnUpdateBefore(); // Call OnOnUpdateBefore() before Update()
 
-        GetInput(); // Call the GetInput() method to check for input
+        UseItemInput(); // Call the GetInput() method to check for Use item input
+
+        PickUpItemInput(); // Call the GetInput() method to check for pickup item input
 
         OnOnUpdateAfter(); // Call OnOnUpdateAfter() after Update()
     }
@@ -47,7 +53,15 @@ public abstract class ItemController : MonoBehaviour
 
     protected virtual void OnOnUpdateAfter() { } // Virtual method that gets called after Update()
 
-    protected virtual void GetInput()
+    protected virtual void PickUpItemInput() 
+    {
+        if (Input.GetKeyDown(m_PickUpButton)) 
+        {
+            m_InventoryManager.AddItem(this);
+        }
+    }
+
+    protected virtual void UseItemInput()
     {
         switch (m_Item.useButtonType) // Check the use button type from the ScriptableObject item
         {
