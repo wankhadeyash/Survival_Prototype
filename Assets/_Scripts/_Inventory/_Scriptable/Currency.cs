@@ -10,7 +10,7 @@ public enum CurrencyType
     Bronze
 }
 [CreateAssetMenu(fileName = "Currency Item", menuName = "ScriptableObject/Inventory/Currency")]
-public class Currency : Item
+public class Currency : InventoryItemData
 {
     public CurrencyType currencyType;
 }

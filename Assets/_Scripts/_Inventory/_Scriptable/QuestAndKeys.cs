@@ -9,7 +9,7 @@ public enum RequiredTasks
     None
 }
 [CreateAssetMenu(fileName = "QuestAndKeys Item", menuName = "ScriptableObject/Inventory/QuestAndKeys")]
-public class QuestAndKeys : Item
+public class QuestAndKeys : InventoryItemData
 {
     public bool isUnique; // Only one present in game 
     public RequiredTasks requiredTasks;

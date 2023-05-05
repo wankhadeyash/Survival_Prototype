@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Armor Item", menuName = "ScriptableObject/Inventory/Amror")]
-public class Armor : Item
+public class Armor : InventoryItemData
 {
     public float durability;
     [Range(0,1)]

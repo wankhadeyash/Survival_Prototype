@@ -20,7 +20,7 @@ public enum Recipes
 }
 [CreateAssetMenu(fileName = "CraftingMaterial Item", menuName = "ScriptableObject/Inventory/CraftingMaterials")]
 
-public class CraftingMaterials : Item
+public class CraftingMaterials : InventoryItemData
 {
     public MaterialType materialType;
     public Recipes recipes;

@@ -11,7 +11,7 @@ public enum StatsRestoreType
     Thirst = 1<<3
 }
 [CreateAssetMenu(fileName = "Consumable Item", menuName = "ScriptableObject/Inventory/Consumable")]
-public class Consumables : Item
+public class Consumables : InventoryItemData
 {
     [Header("Consumable")]
     public StatsRestoreType statsRestore;

@@ -12,7 +12,7 @@ public enum UsedFor
 }
 
 [CreateAssetMenu(fileName = "Tool Item", menuName = "ScriptableObject/Inventory/Tools")]
-public class Tools : Item
+public class Tools : InventoryItemData
 {
     public UsedFor usedFor;
     public float durability;

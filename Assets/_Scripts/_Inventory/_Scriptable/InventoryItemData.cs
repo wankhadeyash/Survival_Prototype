@@ -44,7 +44,7 @@ public enum ItemStackableType
 }
 
 // A ScriptableObject representing an item in the game.
-public class Item : ScriptableObject
+public class InventoryItemData : ScriptableObject
 {
     [Header("Item")]
     public ItemType itemType; // The type of the item.

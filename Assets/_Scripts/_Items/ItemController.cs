@@ -5,10 +5,8 @@ using UnityEngine;
 public abstract class ItemController : MonoBehaviour
 {
     [Tooltip("Assign scriptable item object")]
-    [SerializeField] protected Item m_Item; // Serialized field to hold a reference to the ScriptableObject item
-    public Item item => m_Item;
-
-    protected InventoryManager m_InventoryManager;
+    [SerializeField] protected InventoryItemData m_Item; // Serialized field to hold a reference to the ScriptableObject item
+    public InventoryItemData item => m_Item;
 
     protected bool m_IsEquipped;
     protected KeyCode m_UseButton; // Protected variable to hold the key code for using the item
@@ -17,7 +15,6 @@ public abstract class ItemController : MonoBehaviour
     {
         m_UseButton = m_Item.useButton; // Assign the use button from the ScriptableObject item on Awake
         m_PickUpButton = m_Item.itemPickupType == ItemPickupType.Manual ? m_Item.pickUpButton : KeyCode.None;
-        m_InventoryManager = FindObjectOfType<InventoryManager>();
     }
 
     protected virtual void OnOnStartBefore() { } // Virtual method that gets called before Start()
@@ -51,14 +48,26 @@ public abstract class ItemController : MonoBehaviour
        
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (m_Item.itemPickupType != ItemPickupType.Manual)
+            return;
+        if(Input.GetKeyDown(m_PickUpButton))
+        {
+            if(other.TryGetComponent<InventoryManager>(out InventoryManager inventory)) 
+            {
+                if (inventory.AddItem(m_Item))
+                    Destroy(gameObject);
+            }
+           
+        }
+    }
+
     protected virtual void OnOnUpdateAfter() { } // Virtual method that gets called after Update()
 
     protected virtual void PickUpItemInput() 
     {
-        if (Input.GetKeyDown(m_PickUpButton)) 
-        {
-            m_InventoryManager.AddItem(this);
-        }
+        
     }
 
     protected virtual void UseItemInput()

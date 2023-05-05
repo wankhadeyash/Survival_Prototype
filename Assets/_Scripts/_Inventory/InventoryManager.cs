@@ -3,75 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-
-public interface IInventoryObserver 
+[System.Serializable]
+public class InventoryManager
 {
-    void OnInventoryUpdated();
-}
+    private int m_NumberOfSlots;
+    [SerializeField] protected List<InventorySlot> m_InventorySlots;
+    public List<InventorySlot> InventorySlots => m_InventorySlots;
 
 
-public class InventoryManager : MonoBehaviour,IInventoryObserver
-{
-    // The maximum number of slots available in the inventory
-    public int m_MaxSlots = 15;
-
-    List<ItemController> m_ItemControllers = new List<ItemController>();
-
-
-    private void Awake()
+    public InventoryManager(int numberOfSlots)
     {
-        Inventory.m_MaxSlots = m_MaxSlots;
-        Inventory.RegisterAsObserver(this);
+        m_NumberOfSlots = numberOfSlots;
+        m_InventorySlots = new List<InventorySlot>(numberOfSlots);
+        for (int i = 0; i < m_NumberOfSlots; i++)
+        {
+            m_InventorySlots.Add(new InventorySlot());
+        }
     }
 
     // Add an item to the inventory
-    public void AddItem(ItemController itemController)
+    public bool AddItem(InventoryItemData itemData)
     {
         // Check if there is space in the inventory
-        if (Inventory.m_Items.Count >= m_MaxSlots)
+        if (m_InventorySlots.Count >= m_NumberOfSlots)
         {
             Debug.Log("Inventory is full!");
-            return;
+            return false;
         }
-        // Add the item to the inventory
-        Inventory.m_Items.Add(itemController.item);
+        //Add Item to slot
+        m_InventorySlots.Add(new InventorySlot(itemData,1));
 
-        //Add th itemController
-        m_ItemControllers.Add(itemController);
-
-        //Callback when Item is added to inventory
-        itemController.OnAddedToInventory();
-
-        //Callback to inventory which in turns calls all the resgistred interfaces
-        Inventory.OnInventoryUpdated();
-
+        return true;
     }
 
     // Remove an item from the inventory
-    public void RemoveItem(ItemController itemController)
-    {
-        // Check if the item is in the inventory
-        if (!m_ItemControllers.Contains(itemController))
-        {
-            Debug.Log("Item not found in inventory!");
-            return;
-        }
-
-        // Remove the item from the inventory
-        Inventory.m_Items.Remove(itemController.item);
-
-        //Remove the item controller
-        m_ItemControllers.Remove(itemController);
-
-        //Callback when Item is removed from inventory
-        itemController.OnRemovedFromInventory();
-
-        //Callback to inventory which in turns calls all the resgistred interfaces
-        Inventory.OnInventoryUpdated();
-    }
-
-    public void OnInventoryUpdated()
+    public void RemoveItem(InventoryItemData itemData)
     {
         
+
+
     }
 }

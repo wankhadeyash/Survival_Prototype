@@ -7,7 +7,7 @@ public enum WeaponType
     Meele, Ranged, Explosive
 }
 [CreateAssetMenu(fileName = "Weapon Item", menuName = "ScriptableObject/Inventory/Weapon")]
-public class Weapon : Item
+public class Weapon : InventoryItemData
 {
     [Header("Weapon")]
     public WeaponType weaponType;
