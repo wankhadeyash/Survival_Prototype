@@ -11,6 +11,8 @@ public abstract class ItemController : MonoBehaviour
     protected bool m_IsEquipped;
     protected KeyCode m_UseButton; // Protected variable to hold the key code for using the item
     protected KeyCode m_PickUpButton; // If pickup type is manual
+
+
     private void Awake()
     {
         m_UseButton = m_Item.useButton; // Assign the use button from the ScriptableObject item on Awake
@@ -45,21 +47,33 @@ public abstract class ItemController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       
+        if (other.tag == "Player") 
+        {
+            Debug.Log("Entered player");
+            if (other.TryGetComponent<InventoryHolder>(out InventoryHolder inventoryHolder))
+            {
+                if (inventoryHolder.InventoryManager.AddItem(m_Item))
+                    Destroy(gameObject);
+            }
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (m_Item.itemPickupType != ItemPickupType.Manual)
             return;
-        if(Input.GetKeyDown(m_PickUpButton))
+        if (other.tag == "Player")
         {
-            if(other.TryGetComponent<InventoryManager>(out InventoryManager inventory)) 
+
+            if (Input.GetKeyDown(m_PickUpButton))
             {
-                if (inventory.AddItem(m_Item))
-                    Destroy(gameObject);
+                if (other.TryGetComponent<InventoryManager>(out InventoryManager inventory))
+                {
+                    if (inventory.AddItem(m_Item))
+                        Destroy(gameObject);
+                }
+
             }
-           
         }
     }
 

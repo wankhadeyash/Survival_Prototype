@@ -26,6 +26,12 @@ public class InventorySlot
         m_StackSize = -1;
     }
 
+    public void UpdateSlot(InventoryItemData item, int amount) 
+    {
+        m_ItemData = item;
+        m_StackSize = amount;
+    }
+
     bool RoomLeftInStack(int amountToAdd) 
     {
         if (m_StackSize + amountToAdd <= m_ItemData.maxQuantity)

@@ -10,7 +10,7 @@ public class InventoryHolder : MonoBehaviour
 
     //Manager associated with this holder
     [SerializeField] protected InventoryManager m_InventoryManager;
-    public InventoryManager InventoryManager => InventoryManager;
+    public InventoryManager InventoryManager => m_InventoryManager;
 
     //UI Manager associated with this holder
     [SerializeField] protected InventoryUIManager m_UIManager;
@@ -21,11 +21,5 @@ public class InventoryHolder : MonoBehaviour
     void Start()
     {
         m_InventoryManager = new InventoryManager(m_InventorySize);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

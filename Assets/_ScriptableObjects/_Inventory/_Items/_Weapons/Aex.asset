@@ -15,8 +15,8 @@ MonoBehaviour:
   itemType: 1
   itemPickupType: 2
   pickUpButton: 49
-  itemStackableType: 0
-  maxQuantity: 0
+  itemStackableType: 1
+  maxQuantity: 2
   useButton: 32
   useButtonType: 1
   itemName: Aex

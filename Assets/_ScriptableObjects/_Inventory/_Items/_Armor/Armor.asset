@@ -15,8 +15,8 @@ MonoBehaviour:
   itemType: 0
   itemPickupType: 0
   pickUpButton: 0
-  itemStackableType: 0
-  maxQuantity: 0
+  itemStackableType: 1
+  maxQuantity: 1
   useButton: 0
   useButtonType: 0
   itemName: 
