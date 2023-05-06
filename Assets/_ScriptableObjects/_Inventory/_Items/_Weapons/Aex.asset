@@ -20,7 +20,7 @@ MonoBehaviour:
   useButton: 32
   useButtonType: 1
   itemName: Aex
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a04ecc9d5e12d5d449077414eb86635e, type: 3}
   description: 
   weight: 0
   weaponType: 0

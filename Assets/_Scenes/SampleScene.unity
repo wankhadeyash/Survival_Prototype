@@ -2514,6 +2514,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 806779107}
     m_Modifications:
+    - target: {fileID: 1175891676361854658, guid: c878cff63349824468247954d93d30fb,
+        type: 3}
+      propertyPath: m_Image
+      value: 
+      objectReference: {fileID: 2020360725}
+    - target: {fileID: 3624954822726551813, guid: c878cff63349824468247954d93d30fb,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624954822726551813, guid: c878cff63349824468247954d93d30fb,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3624954822726551813, guid: c878cff63349824468247954d93d30fb,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7761607135392650501, guid: c878cff63349824468247954d93d30fb,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2642,6 +2662,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d928272fac3da5f499233df3a33df2cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2020360725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3624954822726551813, guid: c878cff63349824468247954d93d30fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2020360722}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2131422676

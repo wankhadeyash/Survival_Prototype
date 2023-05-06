@@ -32,7 +32,7 @@ public class StaticInventoryDisplay : InventoryDisplay
         for (int i = 0; i < m_UISlots.Count; i++) 
         {
             m_SlotDictionary.Add(m_UISlots[i], invToDisplay.InventorySlots[i]);
-            UpdateSlot(invToDisplay.InventorySlots[i]);
+            m_UISlots[i].Init(invToDisplay.InventorySlots[i]);
         }
     }
 

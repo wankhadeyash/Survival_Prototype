@@ -14,13 +14,14 @@ public class InventorySlot_UI : MonoBehaviour
         ClearSlot();
     }
 
-    void Init(InventorySlot slot) 
+    public void Init(InventorySlot slot) 
     {
         m_AssignedInventorySlot = slot;
     }
 
     public void UpdateUISlot(InventorySlot slot) 
     {
+        m_AssignedInventorySlot = slot;
         m_Image.sprite = slot.m_ItemData.icon;
     }
 
