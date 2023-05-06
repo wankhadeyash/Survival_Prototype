@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
+
 [System.Serializable]
 public class InventoryManager
 {
@@ -10,6 +11,7 @@ public class InventoryManager
     [SerializeField] protected List<InventorySlot> m_InventorySlots;
     public List<InventorySlot> InventorySlots => m_InventorySlots;
 
+    public UnityAction<InventorySlot> OnInventorySlotChanged;
 
     public InventoryManager(int numberOfSlots)
     {
@@ -33,6 +35,7 @@ public class InventoryManager
                 if (slot.m_StackSize < slot.m_ItemData.maxQuantity)
                 {
                     slot.AddToStack(1);
+                    OnInventorySlotChanged?.Invoke(slot);
                     Debug.Log($"Found slot which has {itemData.name} and adding it to stack");
                     return true;
                 }
@@ -45,6 +48,7 @@ public class InventoryManager
         if (GetAvailableSlot(out InventorySlot freeSlot)) 
         {
             freeSlot.UpdateSlot(itemData, 1);
+            OnInventorySlotChanged?.Invoke(freeSlot);
             Debug.Log($"Assigning new slot to {itemData.name}");
             return true;
         }

@@ -44,7 +44,6 @@ public class InventorySlot
         if(RoomLeftInStack(amountToadd))
         {
             m_StackSize += amountToadd;  
-
         }
     }
 
