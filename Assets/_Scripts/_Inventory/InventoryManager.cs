@@ -113,8 +113,10 @@ public class InventoryManager
             }
             for (int i = 0; i < m_InventorySlots.Count; i++) 
             {
-                m_InventorySlots[i].UpdateSlot(data.m_InventorySlotData[i].ItemData, data.m_InventorySlotData[i].StackSize);
-                OnInventorySlotChanged?.Invoke(m_InventorySlots[i]);
+                if (data.m_InventorySlotData[i].ItemData != null){
+                    m_InventorySlots[i].UpdateSlot(data.m_InventorySlotData[i].ItemData, data.m_InventorySlotData[i].StackSize);
+                    OnInventorySlotChanged?.Invoke(m_InventorySlots[i]);
+                }
             }
         }
     }

@@ -52,6 +52,8 @@ public class InventorySlot_UI : MonoBehaviour, IPointerDownHandler
         // Update the parent InventoryDisplay's SlotDictionary with this UI slot and the assigned InventorySlot.
         m_InventoryDisplay.SlotDictionary[this] = slot;
         // Update the UI slot image with the assigned InventorySlot's icon sprite.
+        if (slot.ItemData == null)
+            Debug.Log("Item data is null");
         m_Image.sprite = slot.ItemData.icon;
         
     }
