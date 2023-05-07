@@ -2111,7 +2111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931359550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.64, y: 0, z: 0}
+  m_LocalPosition: {x: 2.12, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2857,6 +2857,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MouseSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994562430179112609, guid: caa91f4ab44869d44977fe43b06d1d98,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6278464067658329748, guid: caa91f4ab44869d44977fe43b06d1d98,
         type: 3}
