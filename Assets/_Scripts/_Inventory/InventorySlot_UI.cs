@@ -49,12 +49,11 @@ public class InventorySlot_UI : MonoBehaviour, IPointerDownHandler
     public void UpdateUISlot(InventorySlot slot)
     {
         m_AssignedInventorySlot = slot;
-
         // Update the parent InventoryDisplay's SlotDictionary with this UI slot and the assigned InventorySlot.
         m_InventoryDisplay.SlotDictionary[this] = slot;
-
         // Update the UI slot image with the assigned InventorySlot's icon sprite.
-        m_Image.sprite = slot.m_ItemData.icon;
+        m_Image.sprite = slot.ItemData.icon;
+        
     }
 
     // Update this UI slot with its assigned InventorySlot's data.
@@ -70,7 +69,7 @@ public class InventorySlot_UI : MonoBehaviour, IPointerDownHandler
     // Clear this UI slot's assigned InventorySlot and image.
     public void ClearSlot()
     {
-        m_AssignedInventorySlot = null;
+        m_AssignedInventorySlot?.ClearSlot();
         m_Image.sprite = null;
     }
 }

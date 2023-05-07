@@ -53,7 +53,7 @@ public class StaticInventoryDisplay : InventoryDisplay
     public override void OnSlotButtonClicked(InventorySlot_UI slot)
     {
         // Check if the UISlot has an item in it
-        if (slot.AssignedInventorySlot.m_ItemData == null)
+        if (slot.AssignedInventorySlot.ItemData == null)
         {
             // Log a message if there is no item in the UISlot and return from the function
             Debug.Log($"No Item is slot");

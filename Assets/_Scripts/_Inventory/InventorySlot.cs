@@ -6,9 +6,12 @@ using UnityEngine.UI;
 [System.Serializable]
 public class InventorySlot
 {
-    public InventoryItemData m_ItemData; // The data of the item that is stored in this slot
-    public int m_StackSize; // The amount of items stored in this slot
-                            // Constructor that initializes the slot with an item and a stack size
+    [SerializeField]InventoryItemData m_ItemData; // The data of the item that is stored in this slot
+    public InventoryItemData ItemData => m_ItemData;
+    
+    [SerializeField]int m_StackSize; // The amount of items stored in this slot
+    public int StackSize => m_StackSize;                        
+    // Constructor that initializes the slot with an item and a stack size
     public InventorySlot(InventoryItemData itemToAdd, int amount)
     {
         m_ItemData = itemToAdd;

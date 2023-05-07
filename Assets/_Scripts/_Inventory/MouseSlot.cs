@@ -29,18 +29,34 @@ public class MouseSlot : MonoBehaviour
                     //If dropped over slot
                     if (result.gameObject.TryGetComponent<InventorySlot_UI>(out InventorySlot_UI slotUI))
                     {
-                        //If slot is empty
-                        if (slotUI.AssignedInventorySlot.m_ItemData == null)
+                        if (slotUI == null)
+                            Debug.Log("Slout UI is null");
+                        if(slotUI.AssignedInventorySlot == null)
+                            Debug.Log("Slout UI Assigned is null");
+                        if(slotUI.AssignedInventorySlot.ItemData == null)
+                            Debug.Log("Slout UI Assigned Item Data is null");   
+                        if(m_AssignedInventoryUISlot == null)
+                            Debug.Log(" Assigned Item  is null");
+                        //If slot is empty or dropping on same slot
+                        if (slotUI.AssignedInventorySlot.ItemData == null && slotUI != m_AssignedInventoryUISlot)
                         {
                             Debug.Log("Assigning new slot");
                             m_FoundSlot = true;
-                            slotUI.UpdateUISlot(m_AssignedInventoryUISlot.AssignedInventorySlot);
                             //Set item data on new UI slot
-                            slotUI.UpdateUISlot(m_AssignedInventoryUISlot.AssignedInventorySlot);
+                            Debug.Log(slotUI.name);
+                            slotUI.AssignedInventorySlot.UpdateSlot(m_AssignedInventoryUISlot.AssignedInventorySlot.ItemData,
+                                m_AssignedInventoryUISlot.AssignedInventorySlot.StackSize);
+                            slotUI.UpdateUISlot();
                             //Clear selected UI slot
                             m_AssignedInventoryUISlot.ClearSlot();
                             ClearSlot();
                             break;
+                        }
+                        //If dropping on same slot do nothing just clear the mouse slot
+                        else if(slotUI == m_AssignedInventoryUISlot) 
+                        {
+                            ClearSlot();
+
                         }
 
                         //If slot is not empty switch 
@@ -79,7 +95,7 @@ public class MouseSlot : MonoBehaviour
     {
         m_AssignedInventoryUISlot = ui_Slot;
         m_Image.color = Color.white;
-        m_Image.sprite = ui_Slot.AssignedInventorySlot.m_ItemData.icon;
+        m_Image.sprite = ui_Slot.AssignedInventorySlot.ItemData.icon;
     }
 
     public void ClearSlot() 
