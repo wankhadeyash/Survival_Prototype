@@ -4,19 +4,21 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 
+// This class manages data on inventory slots, adding and removing of items from slots
+// It also notifies the Inventory display when data is changed on inventory via UnityAction
 [System.Serializable]
 public class InventoryManager
 {
-    private int m_NumberOfSlots;
-    [SerializeField] protected List<InventorySlot> m_InventorySlots;
-    public List<InventorySlot> InventorySlots => m_InventorySlots;
-
-    public UnityAction<InventorySlot> OnInventorySlotChanged;
+    private int m_NumberOfSlots; // number of slots in the inventory
+    [SerializeField] protected List<InventorySlot> m_InventorySlots; // list of inventory slots
+    public List<InventorySlot> InventorySlots => m_InventorySlots; // property to get the inventory slots
+    public UnityAction<InventorySlot> OnInventorySlotChanged; // event that is triggered when the inventory slot data changes
 
     public InventoryManager(int numberOfSlots)
     {
         m_NumberOfSlots = numberOfSlots;
         m_InventorySlots = new List<InventorySlot>(numberOfSlots);
+        // creating inventory slots
         for (int i = 0; i < m_NumberOfSlots; i++)
         {
             m_InventorySlots.Add(new InventorySlot());
@@ -29,13 +31,13 @@ public class InventoryManager
         //Check if item is already present in Inventory
         if (CheckForItemInInventory(itemData, out List<InventorySlot> slots))
         {
-            //Check if slot has remaning stack 
+            //Check if slot has remaining stack 
             foreach (InventorySlot slot in slots)
             {
                 if (slot.m_StackSize < slot.m_ItemData.maxQuantity)
                 {
                     slot.AddToStack(1);
-                    OnInventorySlotChanged?.Invoke(slot);
+                    OnInventorySlotChanged?.Invoke(slot); // triggering the event OnInventorySlotChanged
                     Debug.Log($"Found slot which has {itemData.name} and adding it to stack");
                     return true;
                 }
@@ -45,10 +47,10 @@ public class InventoryManager
         }
 
         //If item is not present in inventory add item to next free slot
-        if (GetAvailableSlot(out InventorySlot freeSlot)) 
+        if (GetAvailableSlot(out InventorySlot freeSlot))
         {
             freeSlot.UpdateSlot(itemData, 1);
-            OnInventorySlotChanged?.Invoke(freeSlot);
+            OnInventorySlotChanged?.Invoke(freeSlot); // triggering the event OnInventorySlotChanged
             Debug.Log($"Assigning new slot to {itemData.name}");
             return true;
         }
@@ -57,14 +59,16 @@ public class InventoryManager
         return false;
     }
 
-    bool CheckForItemInInventory(InventoryItemData itemData, out List<InventorySlot> slotsContainingThisItem) 
+    // Check if item is present in inventory and get the slots containing this item
+    bool CheckForItemInInventory(InventoryItemData itemData, out List<InventorySlot> slotsContainingThisItem)
     {
-         slotsContainingThisItem = m_InventorySlots.Where(s => s.m_ItemData == itemData).ToList();
+        slotsContainingThisItem = m_InventorySlots.Where(s => s.m_ItemData == itemData).ToList();
 
         return slotsContainingThisItem == null ? false : true;
     }
 
-    bool GetAvailableSlot(out InventorySlot freeSlot) 
+    // Get the first available slot in the inventory
+    bool GetAvailableSlot(out InventorySlot freeSlot)
     {
         freeSlot = m_InventorySlots.Find(s => s.m_ItemData == null);
         return freeSlot == null ? false : true;

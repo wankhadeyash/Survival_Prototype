@@ -4,33 +4,40 @@ using UnityEngine;
 
 public abstract class InventoryDisplay : MonoBehaviour
 {
-    protected InventoryManager m_InventoryManager;
-    public InventoryManager InventoryManager => m_InventoryManager;
+    protected MouseSlot m_MouseSlot; // Reference to the mouse slot
+    protected InventoryManager m_InventoryManager; // Reference to the inventory manager
+    public InventoryManager InventoryManager => m_InventoryManager; // Property to get the inventory manager reference
 
 
-    public List<InventorySlot_UI> m_UISlots;
+    protected Dictionary<InventorySlot_UI, InventorySlot> m_SlotDictionary = new Dictionary<InventorySlot_UI, InventorySlot>(); // Dictionary to map the UI slots to the actual inventory slots
+    public Dictionary<InventorySlot_UI, InventorySlot> SlotDictionary => m_SlotDictionary; // Property to get the dictionary reference
 
-
-    protected Dictionary<InventorySlot_UI, InventorySlot> m_SlotDictionary = new Dictionary<InventorySlot_UI, InventorySlot>();
-    public Dictionary<InventorySlot_UI, InventorySlot> SlotDictionary => m_SlotDictionary;
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-        
+        m_MouseSlot = FindObjectOfType<MouseSlot>(); // Find the mouse slot in the scene
     }
 
+    protected virtual void Start()
+    {
+
+    }
+
+    // Abstract method to assign the slots for the inventory to be displayed
     public abstract void AssignSlots(InventoryManager invToDisplay);
 
-    protected virtual void UpdateSlot(InventorySlot udpatedSlot) 
+    // Method to update the UI slot when the inventory slot is updated
+    protected virtual void UpdateSlot(InventorySlot udpatedSlot)
     {
-        foreach (var slot in m_SlotDictionary) 
+        foreach (var slot in m_SlotDictionary) // Loop through the slot dictionary
         {
-            if (slot.Value == udpatedSlot)
+            if (slot.Value == udpatedSlot) // If the inventory slot matches the updated slot
             {
-                slot.Key.UpdateUISlot(udpatedSlot);
-                break;
+                slot.Key.UpdateUISlot(udpatedSlot); // Update the UI slot
+                break; // Exit the loop
             }
         }
     }
 
-
+    // Abstract method to handle the slot button click event
+    public abstract void OnSlotButtonClicked(InventorySlot_UI slot);
 }
