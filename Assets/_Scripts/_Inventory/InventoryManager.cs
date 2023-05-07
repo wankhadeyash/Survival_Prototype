@@ -4,29 +4,33 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 
-public interface IInventorySlotObserver 
+[System.Serializable]
+public class InventoryData : SaveLoadDataBase
 {
-    //Whether UI slot or inventory slot changed
-    void OnInventorySlotChanged();
+    public List<InventorySlot> m_InventorySlotData;
+    public InventoryData(string folderName, string fileName)
+    {
+        base.m_DirPath = folderName;
+        base.m_FileName = fileName;
+        m_InventorySlotData = new List<InventorySlot>();
+    }
 }
-
 // This class manages data on inventory slots, adding and removing of items from slots
 // It also notifies the Inventory display when data is changed on inventory via UnityAction
 [System.Serializable]
-public class InventoryManager : IInventorySlotObserver
+public class InventoryManager
 {
     private int m_NumberOfSlots; // number of slots in the inventory
     [SerializeField] protected List<InventorySlot> m_InventorySlots; // list of inventory slots
     public List<InventorySlot> InventorySlots => m_InventorySlots; // property to get the inventory slots
     public UnityAction<InventorySlot> OnInventorySlotChanged; // event that is triggered when the inventory slot data changes
-
-    protected List<IInventorySlotObserver> m_RegisteredObserver;
-
+    
+    protected InventoryData m_InventoryData;
     public InventoryManager(int numberOfSlots)
     {
         m_NumberOfSlots = numberOfSlots;
         m_InventorySlots = new List<InventorySlot>(numberOfSlots);
-        m_RegisteredObserver = new List<IInventorySlotObserver>();
+        m_InventoryData = new InventoryData("Player", "HUDInventory");
         // creating inventory slots
         for (int i = 0; i < m_NumberOfSlots; i++)
         {
@@ -59,6 +63,7 @@ public class InventoryManager : IInventorySlotObserver
         if (GetAvailableSlot(out InventorySlot freeSlot))
         {
             freeSlot.UpdateSlot(itemData, 1);
+
             OnInventorySlotChanged?.Invoke(freeSlot); // triggering the event OnInventorySlotChanged
             Debug.Log($"Assigning new slot to {itemData.name}");
             return true;
@@ -83,8 +88,34 @@ public class InventoryManager : IInventorySlotObserver
         return freeSlot == null ? false : true;
     }
 
-    void IInventorySlotObserver.OnInventorySlotChanged()
+    public void SaveInventoryData() 
     {
-        throw new System.NotImplementedException();
+        //Get data from InventoryItemData and set it to InventoryItemData in data class
+        foreach (InventorySlot slot in m_InventorySlots) 
+        {
+            m_InventoryData.m_InventorySlotData.Add(slot);
+        }
+
+        Serializer.SaveJsonData(m_InventoryData);
+
+    }
+
+    public void LoadInventoryData()
+    {
+        // Load the user's saved avatar customization choices
+        // AvatarData data = Serializer.LoadBinaryData(m_AvatarData);
+        InventoryData data = Serializer.LoadJsonData(m_InventoryData);
+        if (data != null)
+        {
+            if (data.m_InventorySlotData.Count != m_InventorySlots.Count) {
+                Debug.LogError($"Data missmatch");
+                return;
+            }
+            for (int i = 0; i < m_InventorySlots.Count; i++) 
+            {
+                m_InventorySlots[i].UpdateSlot(data.m_InventorySlotData[i].ItemData, data.m_InventorySlotData[i].StackSize);
+                OnInventorySlotChanged?.Invoke(m_InventorySlots[i]);
+            }
+        }
     }
 }

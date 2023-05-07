@@ -8,7 +8,7 @@ public static class Serializer
 {
     #region Save Data as Binary
     //Save Data
-    public static void SaveBinaryData<T>(T classToSave) where T : DataBase
+    public static void SaveBinaryData<T>(T classToSave) where T : SaveLoadDataBase
     {
         //Create the binary formatter
         BinaryFormatter formatter = new BinaryFormatter();
@@ -37,7 +37,7 @@ public static class Serializer
     }
 
     //Load Data
-    public static T LoadBinaryData<T>(T classToLoad) where T : DataBase
+    public static T LoadBinaryData<T>(T classToLoad) where T : SaveLoadDataBase
     {
         //Directory path
         string streamPath = Path.Combine(Path.Combine(Application.persistentDataPath, classToLoad.m_DirPath), classToLoad.m_FileName) + ".binary";
@@ -45,7 +45,7 @@ public static class Serializer
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(streamPath, FileMode.Open);
-            DataBase classData = formatter.Deserialize(stream) as DataBase;
+            SaveLoadDataBase classData = formatter.Deserialize(stream) as SaveLoadDataBase;
             stream.Close();
             Debug.Log($"{typeof(T).Name} loaded successfully as .binary");
             return classData as T;
@@ -60,7 +60,7 @@ public static class Serializer
     #endregion
 
     #region Save Data as Json
-    public static void SaveJsonData<T>(T classToSave) where T : DataBase
+    public static void SaveJsonData<T>(T classToSave) where T : SaveLoadDataBase
     {
         string dirPath = Path.Combine(Application.persistentDataPath, classToSave.m_DirPath);
         Debug.Log($"Directory path is {dirPath}");
@@ -78,14 +78,14 @@ public static class Serializer
 
     }
 
-    public static T LoadJsonData<T>(T classToLoad) where T : DataBase
+    public static T LoadJsonData<T>(T classToLoad) where T : SaveLoadDataBase
     {
         string dirPath = Path.Combine(Application.persistentDataPath, classToLoad.m_DirPath);
         string streamPath = Path.Combine(dirPath, classToLoad.m_FileName + ".json");
         if (File.Exists(streamPath))
         {
             string jsonData = File.ReadAllText(dirPath + "/" + classToLoad.m_FileName + ".json");
-            DataBase classData = JsonUtility.FromJson<T>(jsonData);
+            SaveLoadDataBase classData = JsonUtility.FromJson<T>(jsonData);
             return classData as T;
         }
         else 

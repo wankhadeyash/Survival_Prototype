@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class DataBase
+public abstract class SaveLoadDataBase
 {
     //Folder name under which you want to save file for e.g. You want to save avatar data
     //Only add folder name not actual directory path.

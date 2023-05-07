@@ -4,13 +4,11 @@ using System.IO;
 using UnityEngine;
 
 [System.Serializable]
-public class AvatarData:DataBase
+public class AvatarData:SaveLoadDataBase
 {
-    private string folderName = "AvatarData";
-    private string fileName = "Data";
     public int hairIndex;
-
-    public AvatarData()
+    
+    public AvatarData(string folderName, string fileName)
     {
         base.m_DirPath = folderName;
         base.m_FileName = fileName;
@@ -21,7 +19,7 @@ public class AvatarData:DataBase
 public class AvatarCustomizationController : MonoBehaviour
 {
     [SerializeField] HairCustomization m_HairCustomization;
-    AvatarData m_AvatarData = new AvatarData();
+    AvatarData m_AvatarData = new AvatarData("Player", "AvatarData");
     // Start is called before the first frame update
     void Start()
     {
@@ -31,12 +29,12 @@ public class AvatarCustomizationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            ChangeHair(0);
-        if (Input.GetKeyDown(KeyCode.S)) 
-        {
-            SaveAvatarCustomization();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //    ChangeHair(0);
+        //if (Input.GetKeyDown(KeyCode.S)) 
+        //{
+        //    SaveAvatarCustomization();
+        //}
 
     }
 
