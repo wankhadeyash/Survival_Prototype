@@ -45,37 +45,37 @@ public abstract class ItemController : MonoBehaviour
         OnOnUpdateAfter(); // Call OnOnUpdateAfter() after Update()
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player") 
-        {
-            Debug.Log("Entered player");
-            if (other.TryGetComponent<InventoryHolder>(out InventoryHolder inventoryHolder))
-            {
-                if (inventoryHolder.InventoryManager.AddItem(m_Item))
-                    Destroy(gameObject);
-            }
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.tag == "Player") 
+    //    {
+    //        Debug.Log("Entered player");
+    //        if (other.TryGetComponent<InventoryHolder>(out InventoryHolder inventoryHolder))
+    //        {
+    //            if (inventoryHolder.InventoryManager.AddItem(m_Item))
+    //                Destroy(gameObject);
+    //        }
+    //    }
+    //}
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (m_Item.itemPickupType != ItemPickupType.Manual)
-            return;
-        if (other.tag == "Player")
-        {
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (m_Item.itemPickupType != ItemPickupType.Manual)
+    //        return;
+    //    if (other.tag == "Player")
+    //    {
 
-            if (Input.GetKeyDown(m_PickUpButton))
-            {
-                if (other.TryGetComponent<InventoryManager>(out InventoryManager inventory))
-                {
-                    if (inventory.AddItem(m_Item))
-                        Destroy(gameObject);
-                }
+    //        if (Input.GetKeyDown(m_PickUpButton))
+    //        {
+    //            if (other.TryGetComponent<InventoryManager>(out InventoryManager inventory))
+    //            {
+    //                if (inventory.AddItem(m_Item))
+    //                    Destroy(gameObject);
+    //            }
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 
     protected virtual void OnOnUpdateAfter() { } // Virtual method that gets called after Update()
 
@@ -86,6 +86,8 @@ public abstract class ItemController : MonoBehaviour
 
     protected virtual void UseItemInput()
     {
+        if (!m_IsEquipped)
+            return;
         switch (m_Item.useButtonType) // Check the use button type from the ScriptableObject item
         {
             case ItemUseButtonType.ButtonPress: // If use button type is button press
@@ -110,13 +112,13 @@ public abstract class ItemController : MonoBehaviour
     protected abstract void DoSecondaryTask(); // Abstract method that gets implemented by child classes to perform secondary tasks associated with the item
 
     //When item is equipped
-    protected virtual void OnEquipped() 
+    public virtual void OnEquipped() 
     {
         m_IsEquipped = true;
     }
 
     //When item is unequipped
-    protected virtual void OnUnequipped() 
+    public virtual void OnUnequipped() 
     {
         m_IsEquipped = false;
     }

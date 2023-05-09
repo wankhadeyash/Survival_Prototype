@@ -46,6 +46,10 @@ public enum ItemStackableType
 // A ScriptableObject representing an item in the game.
 public class InventoryItemData : ScriptableObject
 {
+    //Prefab to which itemcontroller is attached
+    //Used when equiping the item in hand
+    public GameObject itemControllerPrefab;
+
     [Header("Item")]
     public ItemType itemType; // The type of the item.
     public ItemPickupType itemPickupType; // How the item is picked up by the player.

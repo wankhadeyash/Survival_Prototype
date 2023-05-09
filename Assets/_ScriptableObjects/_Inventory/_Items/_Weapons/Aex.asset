@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731a1136e9605c442857cbff372039f9, type: 3}
   m_Name: Aex
   m_EditorClassIdentifier: 
+  itemControllerPrefab: {fileID: 8492121544219503658, guid: 06c8b482eaf6b1b48a7fe4d1c28a4bf0,
+    type: 3}
   itemType: 1
-  itemPickupType: 2
+  itemPickupType: 1
   pickUpButton: 49
   itemStackableType: 1
   maxQuantity: 2
-  useButton: 32
+  useButton: 323
   useButtonType: 1
   itemName: Aex
   icon: {fileID: 21300000, guid: a04ecc9d5e12d5d449077414eb86635e, type: 3}
