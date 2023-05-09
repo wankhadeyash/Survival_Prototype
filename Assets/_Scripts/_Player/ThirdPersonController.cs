@@ -37,9 +37,6 @@ public class ThirdPersonController : MonoBehaviour
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + m_Cam.transform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref m_TurnSmoothVelocity, 0.1f);
             transform.rotation = Quaternion.Euler(0, angle, 0);
-
-
-           // Vector3 moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
         }
         m_VelocityY += Time.deltaTime * gravity;
         if (isGrounded)
@@ -49,6 +46,7 @@ public class ThirdPersonController : MonoBehaviour
                 m_VelocityY = Mathf.Sqrt(jumpForce * -2f * gravity);
         }
         Vector3 velocity = transform.forward * moveSpeed * direction.magnitude + Vector3.up * m_VelocityY;
+        animator.SetFloat("Speed", direction.magnitude);
 
         controller.Move(velocity * Time.deltaTime);
        
