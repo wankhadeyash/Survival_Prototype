@@ -88,6 +88,8 @@ public class InventoryManager
         return freeSlot == null ? false : true;
     }
 
+    #region Saving and loading
+
     public void SaveInventoryData() 
     {
         //Get data from InventoryItemData and set it to InventoryItemData in data class
@@ -120,4 +122,6 @@ public class InventoryManager
             }
         }
     }
+
+    #endregion
 }

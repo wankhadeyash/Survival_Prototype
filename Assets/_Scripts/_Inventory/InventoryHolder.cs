@@ -23,12 +23,12 @@ public class InventoryHolder : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            m_InventoryManager.SaveInventoryData();
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            m_InventoryManager.LoadInventoryData();   
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //    m_InventoryManager.SaveInventoryData();
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    m_InventoryManager.LoadInventoryData();   
+        //}
     }
 
 }
