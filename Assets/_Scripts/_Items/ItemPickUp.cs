@@ -8,20 +8,32 @@ namespace BlankBrains.Inventory
     {
         [SerializeField] protected InventoryItemData m_Item; // Serialized field to hold a reference to the ScriptableObject item
         public InventoryItemData item => m_Item;
-        
-        
 
-        private void OnTriggerEnter(Collider other)
+        public float m_PlayerDetectionRadius;
+        public LayerMask m_PlayerMask;
+
+        private void Update()
         {
-            if (other.tag == "Player")
+            DetectPlayer();
+        }
+
+        //Using this way to detect because we are using character controller on our player and colliding with character controller doesn't
+        //call OnCollisionEnter. Can't use Ontrigger coz want to detect collision with ground
+        void DetectPlayer() 
+        {
+            Collider[] collider = Physics.OverlapSphere(transform.position, m_PlayerDetectionRadius, m_PlayerMask);
+            foreach (Collider c in collider)
             {
-                Debug.Log("Entered player");
-                if (other.TryGetComponent<InventoryHolder>(out InventoryHolder inventoryHolder))
+                if (c.TryGetComponent<InventoryHolder>(out InventoryHolder inventoryHolder))
                 {
                     if (inventoryHolder.InventoryManager.AddItem(m_Item))
                         Destroy(gameObject);
                 }
             }
+        }
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(transform.position, m_PlayerDetectionRadius);
         }
     }
 }
