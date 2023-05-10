@@ -36,11 +36,12 @@ namespace BlankBrains.Inventory
                     if (result.gameObject.TryGetComponent<InventorySlot_UI>(out InventorySlot_UI newSlotUI))
                     {
                         //If slot is empty or dropping on same slot
-                        if (newSlotUI.AssignedInventorySlot.ItemData == null && newSlotUI != m_AssignedInventoryUISlot)
+                        if (newSlotUI.AssignedInventorySlot.ItemData == null && 
+                            newSlotUI != m_AssignedInventoryUISlot)
                         {
+
                             Debug.Log("Assigning new slot");
                             //Set item data on new UI slot
-                            Debug.Log(newSlotUI.name);
                             newSlotUI.AssignedInventorySlot.UpdateSlot(m_AssignedInventoryUISlot.AssignedInventorySlot.ItemData,
                                 m_AssignedInventoryUISlot.AssignedInventorySlot.StackSize);
                             newSlotUI.UpdateUISlot();
@@ -49,7 +50,6 @@ namespace BlankBrains.Inventory
                             //ClearSlot();
                             break;
                         }
-
                         //If slot is not empty switch and not dropping on same slot
                         else if (newSlotUI != m_AssignedInventoryUISlot)
                         {
@@ -57,10 +57,12 @@ namespace BlankBrains.Inventory
                             SwitchSlots(m_AssignedInventoryUISlot, newSlotUI);
                             break;
                         }
+                        
 
                     }
                 }
             }
+           
             //Dropping item
             else
             {

@@ -44,6 +44,12 @@ namespace BlankBrains.Inventory
         //Clear InventorySlot_UI first, beacause that function will call this method internally, ensuring to clear both UI slot and item slot 
         public void ClearSlot()
         {
+            if (m_ItemController != null)
+                GameObject.Destroy(m_ItemController.gameObject);
+
+            if (m_ItemPickUp != null)
+                GameObject.Destroy(m_ItemPickUp.gameObject);
+
             m_ItemController = null;
             m_ItemPickUp = null;
 
@@ -54,17 +60,16 @@ namespace BlankBrains.Inventory
         // Updates the slot with new item data and stack size
         public void UpdateSlot(InventoryItemData item, int amount)
         {
-
             m_ItemData = item;
             m_StackSize = amount;
 
-            m_ItemController = GameObject.Instantiate(m_ItemData.itemControllerPrefab, m_EquipeItemPos.position,Quaternion.identity,m_EquipeItemPos);
+            m_ItemController = GameObject.Instantiate(m_ItemData.itemControllerPrefab, m_EquipeItemPos.position, Quaternion.identity, m_EquipeItemPos);
             m_ItemController.SetActive(false);
 
-            m_ItemPickUp = GameObject.Instantiate(m_ItemData.itemPickUpPrefab,m_DropItemPos.position,Quaternion.identity,m_DropItemPos);
+            m_ItemPickUp = GameObject.Instantiate(m_ItemData.itemPickUpPrefab, m_DropItemPos.position, Quaternion.identity, m_DropItemPos);
             m_ItemPickUp.SetActive(false);
 
-            
+
         }
 
         public void EquipeSlot()
@@ -81,7 +86,7 @@ namespace BlankBrains.Inventory
 
         }
 
-        public void DropItem() 
+        public void DropItem()
         {
             m_ItemPickUp.SetActive(true);
             m_ItemPickUp.transform.SetParent(null);
