@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a899f77334efeb54f89066f172311bbc, type: 3}
   m_Name: Armor
   m_EditorClassIdentifier: 
+  itemControllerPrefab: {fileID: 8726232841451684870, guid: b447ebc9ee95b8246bdd36dd646ccec8,
+    type: 3}
+  itemPickUpPrefab: {fileID: 6671377226744454618, guid: 9e8a043306d97214989a866e12d84730,
+    type: 3}
   itemType: 0
   itemPickupType: 0
   pickUpButton: 0

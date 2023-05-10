@@ -5,73 +5,75 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class InventorySlot_UI : MonoBehaviour, IPointerDownHandler
+namespace BlankBrains.Inventory
 {
-    // Reference to the image component used to display the item icon.
-    public Image m_Image;
-
-    // Reference to the InventorySlot this UI slot is assigned to.
-    [SerializeField] InventorySlot m_AssignedInventorySlot;
-
-    // Property to get the assigned InventorySlot.
-    public InventorySlot AssignedInventorySlot => m_AssignedInventorySlot;
-
-    // Reference to the parent InventoryDisplay component.
-    InventoryDisplay m_InventoryDisplay;
-
-    // Reference to the button component attached to this UI slot.
-    Button m_Button;
-
-    private void Awake()
+    public class InventorySlot_UI : MonoBehaviour, IPointerDownHandler
     {
-        // Initialize the slot image and button components.
-        ClearSlot();
-        m_Button = GetComponent<Button>();
+        // Reference to the image component used to display the item icon.
+        public Image m_Image;
 
-        // Get a reference to the parent InventoryDisplay component.
-        m_InventoryDisplay = GetComponentInParent<InventoryDisplay>();
-    }
+        // Reference to the InventorySlot this UI slot is assigned to.
+        [SerializeField] InventorySlot m_AssignedInventorySlot;
 
-    // Handle pointer down events for this UI slot.
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        // Notify the parent InventoryDisplay component that this UI slot button was clicked.
-        m_InventoryDisplay.OnSlotButtonClicked(this);
-    }
+        // Property to get the assigned InventorySlot.
+        public InventorySlot AssignedInventorySlot => m_AssignedInventorySlot;
 
-    // Initialize this UI slot with an assigned InventorySlot.
-    public void Init(InventorySlot slot)
-    {
-        m_AssignedInventorySlot = slot;
-    }
+        // Reference to the parent InventoryDisplay component.
+        InventoryDisplay m_InventoryDisplay;
+        public InventoryDisplay InventoryDisplay => m_InventoryDisplay;
 
-    // Update this UI slot with the assigned InventorySlot's data.
-    public void UpdateUISlot(InventorySlot slot)
-    {
-        m_AssignedInventorySlot = slot;
-        // Update the parent InventoryDisplay's SlotDictionary with this UI slot and the assigned InventorySlot.
-        m_InventoryDisplay.SlotDictionary[this] = slot;
-        // Update the UI slot image with the assigned InventorySlot's icon sprite.
-        if (slot.ItemData == null)
-            Debug.Log("Item data is null");
-        m_Image.sprite = slot.ItemData.icon;
-        
-    }
+        // Reference to the button component attached to this UI slot.
+        Button m_Button;
 
-    // Update this UI slot with its assigned InventorySlot's data.
-    public void UpdateUISlot()
-    {
-        // If this UI slot has an assigned InventorySlot, update its data.
-        if (m_AssignedInventorySlot != null)
+        private void Awake()
         {
-            UpdateUISlot(m_AssignedInventorySlot);
-        }
-    }
+            // Initialize the slot image and button components.
+            ClearSlot();
+            m_Button = GetComponent<Button>();
 
-    // Clear this UI slot's assigned InventorySlot and image.
-    public void ClearSlot()
-    {
-        m_AssignedInventorySlot?.ClearSlot();
-        m_Image.sprite = null;
+            // Get a reference to the parent InventoryDisplay component.
+            m_InventoryDisplay = GetComponentInParent<InventoryDisplay>();
+        }
+
+        // Handle pointer down events for this UI slot.
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            // Notify the parent InventoryDisplay component that this UI slot button was clicked.
+            m_InventoryDisplay.OnSlotButtonClicked(this);
+        }
+
+        // Initialize this UI slot with an assigned InventorySlot.
+        public void Init(InventorySlot slot)
+        {
+            m_AssignedInventorySlot = slot;
+        }
+
+        // Update this UI slot with the assigned InventorySlot's data.
+        public void UpdateUISlot(InventorySlot slot)
+        {
+            m_AssignedInventorySlot = slot;
+            // Update the parent InventoryDisplay's SlotDictionary with this UI slot and the assigned InventorySlot.
+            m_InventoryDisplay.SlotDictionary[this] = slot;
+            // Update the UI slot image with the assigned InventorySlot's icon sprite.
+            m_Image.sprite = slot.ItemData.icon;
+
+        }
+
+        // Update this UI slot with its assigned InventorySlot's data.
+        public void UpdateUISlot()
+        {
+            // If this UI slot has an assigned InventorySlot, update its data.
+            if (m_AssignedInventorySlot != null)
+            {
+                UpdateUISlot(m_AssignedInventorySlot);
+            }
+        }
+
+        // Clear this UI slot's assigned InventorySlot and image.
+        public void ClearSlot()
+        {
+            m_AssignedInventorySlot?.ClearSlot();
+            m_Image.sprite = null;
+        }
     }
 }

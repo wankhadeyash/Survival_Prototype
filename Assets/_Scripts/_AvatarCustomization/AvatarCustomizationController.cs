@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 
 [System.Serializable]
-public class AvatarData:SaveLoadDataBase
+public class AvatarData:SaveLoadBase
 {
     public int hairIndex;
     

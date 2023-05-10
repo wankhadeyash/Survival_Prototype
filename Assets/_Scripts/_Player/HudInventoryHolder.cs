@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using BlankBrains.Inventory;
 public class HudInventoryHolder : InventoryHolder
 {
-    [SerializeField] Transform m_HandPos;
-    ItemController m_CurrentEquipedItem;
+    InventorySlot m_CurrentEquipedSlot;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,9 +21,23 @@ public class HudInventoryHolder : InventoryHolder
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            m_CurrentEquipedItem?.OnUnequipped();
-            GameObject item = Instantiate(InventoryManager.InventorySlots[0].ItemData.itemControllerPrefab,m_HandPos.transform.position,Quaternion.identity,m_HandPos);
-            item.GetComponent<ItemController>().OnEquipped();
+            if (InventoryManager.InventorySlots[0].ItemData != null)
+            {
+                m_CurrentEquipedSlot?.UnEquipeSlot();
+                InventorySlot slotToEquipe = InventoryManager.InventorySlots[0];
+                InventoryManager.EquipeSlot(slotToEquipe);
+                m_CurrentEquipedSlot = slotToEquipe;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (InventoryManager.InventorySlots[1].ItemData != null)
+            {
+                m_CurrentEquipedSlot?.UnEquipeSlot();
+                InventorySlot slotToEquipe = InventoryManager.InventorySlots[1];
+                InventoryManager.EquipeSlot(slotToEquipe);
+                m_CurrentEquipedSlot = slotToEquipe;
+            }
         }
     }
 }
