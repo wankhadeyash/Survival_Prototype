@@ -26,7 +26,7 @@ namespace BlankBrains.Inventory
         [SerializeField] protected List<InventorySlot> m_InventorySlots; // list of inventory slots
         public List<InventorySlot> InventorySlots => m_InventorySlots; // property to get the inventory slots
         public UnityAction<InventorySlot> OnInventorySlotChanged; // event that is triggered when the inventory slot data changes
-       
+
         Transform m_EquipeItemPosition;
         Transform m_DropItemPosition;
 
@@ -43,12 +43,12 @@ namespace BlankBrains.Inventory
             // creating inventory slots
             for (int i = 0; i < m_NumberOfSlots; i++)
             {
-                m_InventorySlots.Add(new InventorySlot(m_EquipeItemPosition,m_DropItemPosition));
+                m_InventorySlots.Add(new InventorySlot(m_EquipeItemPosition, m_DropItemPosition));
             }
         }
 
         // Add an item to the inventory
-        public bool AddItem(InventoryItemData itemData)
+        public bool AddItem(InventoryItemData itemData, int stackToAdd)
         {
             //Check if item is already present in Inventory
             if (CheckForItemInInventory(itemData, out List<InventorySlot> slots))
@@ -58,7 +58,7 @@ namespace BlankBrains.Inventory
                 {
                     if (slot.StackSize < slot.ItemData.maxQuantity)
                     {
-                        slot.AddToStack(1);
+                        slot.AddToStack(stackToAdd);
                         OnInventorySlotChanged?.Invoke(slot); // triggering the event OnInventorySlotChanged
                         Debug.Log($"Found slot which has {itemData.name} and adding it to stack");
                         return true;
@@ -71,7 +71,7 @@ namespace BlankBrains.Inventory
             //If item is not present in inventory add item to next free slot
             if (GetAvailableSlot(out InventorySlot freeSlot))
             {
-                freeSlot.UpdateSlot(itemData, 1);
+                freeSlot.UpdateSlot(itemData, stackToAdd);
 
                 OnInventorySlotChanged?.Invoke(freeSlot); // triggering the event OnInventorySlotChanged
 
@@ -95,7 +95,7 @@ namespace BlankBrains.Inventory
             return true;
         }
 
-        public void DropItemFromSlot(InventorySlot slotToDropFrom) 
+        public void DropItemFromSlot(InventorySlot slotToDropFrom)
         {
             //Clear the slots
             if (!m_InventorySlots.Contains(slotToDropFrom))
@@ -117,7 +117,7 @@ namespace BlankBrains.Inventory
 
             slotToEquipe.EquipeSlot();
         }
-        public void UnequipeItem(InventorySlot slotToUnEquipe) 
+        public void UnequipeItem(InventorySlot slotToUnEquipe)
         {
             if (!m_InventorySlots.Contains(slotToUnEquipe))
             {
@@ -127,8 +127,8 @@ namespace BlankBrains.Inventory
 
             slotToUnEquipe.UnEquipeSlot();
         }
-         
-    
+
+
 
         // Check if item is present in inventory and get the slots containing this item
         bool CheckForItemInInventory(InventoryItemData itemData, out List<InventorySlot> slotsContainingThisItem)

@@ -12,6 +12,8 @@ namespace BlankBrains.Inventory
         // Reference to the image component used to display the item icon.
         public Image m_Image;
 
+        public TextMeshProUGUI m_ItemCountText;
+
         // Reference to the InventorySlot this UI slot is assigned to.
         [SerializeField] InventorySlot m_AssignedInventorySlot;
 
@@ -22,14 +24,11 @@ namespace BlankBrains.Inventory
         InventoryDisplay m_InventoryDisplay;
         public InventoryDisplay InventoryDisplay => m_InventoryDisplay;
 
-        // Reference to the button component attached to this UI slot.
-        Button m_Button;
 
         private void Awake()
         {
             // Initialize the slot image and button components.
             ClearSlot();
-            m_Button = GetComponent<Button>();
 
             // Get a reference to the parent InventoryDisplay component.
             m_InventoryDisplay = GetComponentInParent<InventoryDisplay>();
@@ -56,6 +55,8 @@ namespace BlankBrains.Inventory
             m_InventoryDisplay.SlotDictionary[this] = slot;
             // Update the UI slot image with the assigned InventorySlot's icon sprite.
             m_Image.sprite = slot.ItemData.icon;
+            //Update item count with assigned InventorySlot's 
+            m_ItemCountText.text = slot.StackSize.ToString();
 
         }
 
@@ -74,6 +75,7 @@ namespace BlankBrains.Inventory
         {
             m_AssignedInventorySlot?.ClearSlot();
             m_Image.sprite = null;
+            m_ItemCountText.text = "0";
         }
     }
 }

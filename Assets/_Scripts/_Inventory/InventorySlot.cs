@@ -63,8 +63,18 @@ namespace BlankBrains.Inventory
             m_ItemData = item;
             m_StackSize = amount;
 
+            //Check if Itemcontroller is empty
+            //If not destroy the gameobject to avoid duplicates
+            if (m_ItemController != null)
+                GameObject.Destroy(m_ItemController.gameObject);
+
             m_ItemController = GameObject.Instantiate(m_ItemData.itemControllerPrefab, m_EquipeItemPos.position, Quaternion.identity, m_EquipeItemPos);
             m_ItemController.SetActive(false);
+
+            //Check if ItemPickUp is empty
+            //If not destroy the gameobject to avoid duplicates
+            if (m_ItemPickUp != null)
+                GameObject.Destroy(m_ItemPickUp.gameObject);
 
             m_ItemPickUp = GameObject.Instantiate(m_ItemData.itemPickUpPrefab, m_DropItemPos.position, Quaternion.identity, m_DropItemPos);
             m_ItemPickUp.SetActive(false);
@@ -89,7 +99,10 @@ namespace BlankBrains.Inventory
         public void DropItem()
         {
             m_ItemPickUp.SetActive(true);
+            m_ItemPickUp.GetComponent<ItemPickUp>().m_StackSize = m_StackSize;
             m_ItemPickUp.transform.SetParent(null);
+
+
             m_ItemController.GetComponent<ItemController>().OnItemDroppedFromInventory();
             GameObject.Destroy(m_ItemController.gameObject);
         }

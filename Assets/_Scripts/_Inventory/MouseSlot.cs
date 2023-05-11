@@ -35,30 +35,41 @@ namespace BlankBrains.Inventory
                     //If dropped over slot
                     if (result.gameObject.TryGetComponent<InventorySlot_UI>(out InventorySlot_UI newSlotUI))
                     {
-                        //If slot is empty or dropping on same slot
-                        if (newSlotUI.AssignedInventorySlot.ItemData == null && 
-                            newSlotUI != m_AssignedInventoryUISlot)
+                        if (newSlotUI != m_AssignedInventoryUISlot)
                         {
+                            //If slot is empty and not dropping on same slot
+                            if (newSlotUI.AssignedInventorySlot.ItemData == null)
+                            {
 
-                            Debug.Log("Assigning new slot");
-                            //Set item data on new UI slot
-                            newSlotUI.AssignedInventorySlot.UpdateSlot(m_AssignedInventoryUISlot.AssignedInventorySlot.ItemData,
-                                m_AssignedInventoryUISlot.AssignedInventorySlot.StackSize);
-                            newSlotUI.UpdateUISlot();
-                            //Clear selected UI slot
-                            m_AssignedInventoryUISlot.ClearSlot();
-                            //ClearSlot();
-                            break;
-                        }
-                        //If slot is not empty switch and not dropping on same slot
-                        else if (newSlotUI != m_AssignedInventoryUISlot)
-                        {
-                            Debug.Log("Switching slot");
-                            SwitchSlots(m_AssignedInventoryUISlot, newSlotUI);
-                            break;
-                        }
-                        
+                                Debug.Log("Assigning new slot");
+                                //Set item data on new UI slot
+                                newSlotUI.AssignedInventorySlot.UpdateSlot(m_AssignedInventoryUISlot.AssignedInventorySlot.ItemData,
+                                    m_AssignedInventoryUISlot.AssignedInventorySlot.StackSize);
+                                newSlotUI.UpdateUISlot();
+                                //Clear selected UI slot
+                                m_AssignedInventoryUISlot.ClearSlot();
+                                //ClearSlot();
+                                break;
+                            }
+                            //If slot is not empty? switch both slots
+                            //Also item data on newSlot should not the same as itemdata on mouse assigned slot
+                            else if (newSlotUI.AssignedInventorySlot.ItemData != m_AssignedInventoryUISlot.AssignedInventorySlot.ItemData)
+                            {
+                                Debug.Log("Switching slot");
+                                SwitchSlots(m_AssignedInventoryUISlot, newSlotUI);
+                                break;
+                            }
+                            //If itemdata on newslot is same as item data on mouse assigned slot
+                            //Increase the stack size if sizeSize dosen't exceed maxStack size
+                            else
+                            {
+                                Debug.Log("Stacking items");
+                                StackItems(newSlotUI,m_AssignedInventoryUISlot);
+                                break;
+                            }
 
+                            
+                        }
                     }
                 }
             }
@@ -89,6 +100,14 @@ namespace BlankBrains.Inventory
             slot2.AssignedInventorySlot.UpdateSlot(temItemData, tempStackSize);
             slot2.UpdateUISlot();
 
+        }
+
+        //Stack items from assigned slot to desired slot
+        void StackItems(InventorySlot_UI slotToStackOn, InventorySlot_UI slotToStack) 
+        {
+            slotToStackOn.AssignedInventorySlot.AddToStack(slotToStack.AssignedInventorySlot.StackSize);
+            slotToStackOn.UpdateUISlot();
+            slotToStack.ClearSlot();
         }
 
         public static bool IsPointerOverUIObject(out List<RaycastResult> results)

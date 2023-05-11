@@ -9,6 +9,8 @@ namespace BlankBrains.Inventory
         [SerializeField] protected InventoryItemData m_Item; // Serialized field to hold a reference to the ScriptableObject item
         public InventoryItemData item => m_Item;
 
+        public int m_StackSize = 1;
+
         public float m_PlayerDetectionRadius;
         public LayerMask m_PlayerMask;
 
@@ -26,7 +28,7 @@ namespace BlankBrains.Inventory
             {
                 if (c.TryGetComponent<InventoryHolder>(out InventoryHolder inventoryHolder))
                 {
-                    if (inventoryHolder.InventoryManager.AddItem(m_Item))
+                    if (inventoryHolder.InventoryManager.AddItem(m_Item, m_StackSize))
                         Destroy(gameObject);
                 }
             }
