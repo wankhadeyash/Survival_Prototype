@@ -13,6 +13,7 @@ namespace BlankBrains.Inventory
         public Image m_Image;
 
         public TextMeshProUGUI m_ItemCountText;
+        public TextMeshProUGUI m_ItemDiscriptionText;
 
         // Reference to the InventorySlot this UI slot is assigned to.
         [SerializeField] InventorySlot m_AssignedInventorySlot;
@@ -57,6 +58,8 @@ namespace BlankBrains.Inventory
             m_Image.sprite = slot.ItemData.icon;
             //Update item count with assigned InventorySlot's 
             m_ItemCountText.text = slot.StackSize.ToString();
+            //Update item discription 
+            m_ItemDiscriptionText.text = slot.ItemData.description;
 
         }
 
@@ -76,6 +79,7 @@ namespace BlankBrains.Inventory
             m_AssignedInventorySlot?.ClearSlot();
             m_Image.sprite = null;
             m_ItemCountText.text = "0";
+            m_ItemDiscriptionText.text = "";
         }
     }
 }
