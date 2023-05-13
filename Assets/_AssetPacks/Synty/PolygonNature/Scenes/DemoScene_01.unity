@@ -7097,7 +7097,7 @@ PrefabInstance:
     - target: {fileID: 8123211590329655227, guid: 963f3bb78ade6c04292f0f6979f8b237,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8930815406824686849, guid: 963f3bb78ade6c04292f0f6979f8b237,
         type: 3}
@@ -37587,7 +37587,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260574551}
-  m_LocalRotation: {x: 0.053712964, y: 0.000000034630506, z: -0.0000000018627964,
+  m_LocalRotation: {x: 0.053712964, y: -0.000000034630506, z: 0.0000000018627964,
     w: 0.99855644}
   m_LocalPosition: {x: -6.6, y: 3.411, z: -4.067}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -38126,7 +38126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4961715093905436, guid: d7348193d18053242b67736aafdf8c03, type: 3}
       propertyPath: m_RootOrder
-      value: 31
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4961715093905436, guid: d7348193d18053242b67736aafdf8c03, type: 3}
       propertyPath: m_LocalScale.x
@@ -57293,22 +57293,22 @@ PrefabInstance:
     - target: {fileID: 8050864670229010095, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 2.401788
+      value: 4.374626
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670229010095, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.980501
+      value: -3.914908
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670258725426, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 2.401788
+      value: 4.374626
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670258725426, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.980501
+      value: -3.914908
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670336417241, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
@@ -57338,12 +57338,12 @@ PrefabInstance:
     - target: {fileID: 8050864670656914646, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_FollowOffset.y
-      value: 2.401788
+      value: 4.374626
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670656914646, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_FollowOffset.z
-      value: -5.980501
+      value: -3.914908
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670804854352, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
@@ -57428,12 +57428,12 @@ PrefabInstance:
     - target: {fileID: 8050864670964492802, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000017315251
+      value: -0.000000017315251
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670964492802, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -9.31398e-10
+      value: 9.31398e-10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0575a98be8515b240a9a8efffc5f75cc, type: 3}
