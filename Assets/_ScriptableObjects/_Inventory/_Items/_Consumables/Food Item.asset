@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad5ecef0fbbb854992b9704b8764462, type: 3}
   m_Name: Food Item
   m_EditorClassIdentifier: 
+  itemControllerPrefab: {fileID: 0}
+  itemPickUpPrefab: {fileID: 0}
   itemType: 8
   itemPickupType: 1
   pickUpButton: 0
@@ -23,7 +25,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   description: 
   weight: 0
-  statsRestore: -1
+  statsRestore: 1
   healthRestore: 0
   staminaRestore: 0
   hungerRestore: 0

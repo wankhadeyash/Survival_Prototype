@@ -17,7 +17,7 @@ MonoBehaviour:
   itemPickUpPrefab: {fileID: 6671377226744454618, guid: 9e8a043306d97214989a866e12d84730,
     type: 3}
   itemType: 0
-  itemPickupType: 0
+  itemPickupType: 1
   pickUpButton: 0
   itemStackableType: 1
   maxQuantity: 1

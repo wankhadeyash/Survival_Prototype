@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab0cfb17a3a085a489d087b3892dd4e7, type: 3}
   m_Name: Wood
   m_EditorClassIdentifier: 
+  itemControllerPrefab: {fileID: 0}
+  itemPickUpPrefab: {fileID: 0}
   itemType: 0
   itemPickupType: 0
   pickUpButton: 0

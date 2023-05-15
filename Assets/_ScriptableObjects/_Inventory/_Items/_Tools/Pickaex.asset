@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52375ea9bd06b5d44ba6f2bd3c441d99, type: 3}
   m_Name: Pickaex
   m_EditorClassIdentifier: 
+  itemControllerPrefab: {fileID: 0}
+  itemPickUpPrefab: {fileID: 0}
   itemType: 0
   itemPickupType: 0
   pickUpButton: 0
