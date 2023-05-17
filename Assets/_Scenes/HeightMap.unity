@@ -3411,7 +3411,7 @@ PrefabInstance:
     - target: {fileID: 8050864669697289613, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.007348689
+      value: -0.0073486883
       objectReference: {fileID: 0}
     - target: {fileID: 8050864669697289613, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
@@ -3421,7 +3421,7 @@ PrefabInstance:
     - target: {fileID: 8050864669697289613, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.040903766
+      value: -0.040903762
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670229010095, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
@@ -3476,7 +3476,7 @@ PrefabInstance:
     - target: {fileID: 8050864670336417241, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0028131695
+      value: 0.0028131697
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670336417241, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
@@ -3486,7 +3486,7 @@ PrefabInstance:
     - target: {fileID: 8050864670336417241, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.015658472
+      value: 0.015658474
       objectReference: {fileID: 0}
     - target: {fileID: 8050864670656914646, guid: 0575a98be8515b240a9a8efffc5f75cc,
         type: 3}
@@ -4796,7 +4796,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62837d943996a6d4a9731e0f650dfdc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Color: {r: 0.37370944, g: 1, b: 0, a: 1}
+  projectPipelineType: 1
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!65 &1748231221
 BoxCollider:
   m_ObjectHideFlags: 0
