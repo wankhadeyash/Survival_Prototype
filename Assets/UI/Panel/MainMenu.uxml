@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Background" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/_UI/Window_bg_03@3x.png?fileID=2800000&amp;guid=856b5b97b281b43479416c10e0468fa8&amp;type=3#Window_bg_03@3x&apos;); -unity-background-scale-mode: stretch-to-fill; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; flex-direction: row; width: auto; height: auto; left: 0;">
+        <ui:VisualElement />
+    </ui:VisualElement>
+</ui:UXML>
