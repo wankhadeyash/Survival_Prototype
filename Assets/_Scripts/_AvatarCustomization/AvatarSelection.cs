@@ -2,13 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
-[System.Serializable]
-public struct AvatarSelectionInfo
-{
-    public GameObject m_Prefab;
-    public string m_ClassType;
-}
 
 public class AvatarSelection : MonoBehaviour
 {
@@ -18,11 +13,28 @@ public class AvatarSelection : MonoBehaviour
     [SerializeField] TextMeshProUGUI m_AvatarClassTypeText;
     public TextMeshProUGUI AvatarClassTypeText => m_AvatarClassTypeText;
 
-    [SerializeField] private List<AvatarSelectionInfo> m_AvatarSelectionList = new List<AvatarSelectionInfo>();
-    public List<AvatarSelectionInfo> AvatarSelectionList => m_AvatarSelectionList;
+    public Slider m_HealthSlider;
+
+    public Slider m_ArmorSlider;
+
+    public Slider m_StaminaSlider;
+
+    public List<Image> m_DefaultItemsImageList = new List<Image>();
+
+
+
+
+
+
+
+
+    [SerializeField] private List<AvatarData> m_AvatarSelectionList = new List<AvatarData>();
+    public List<AvatarData> AvatarSelectionList => m_AvatarSelectionList;
 
     private List<GameObject> m_AvatarPrefabGOList = new List<GameObject>();
     public List<GameObject> AvatarPrefabGOList => m_AvatarPrefabGOList;
+
+    public AvatarData m_CurrentAvatarData;
 
     private GameObject m_CurrentAvatarPrefabGO;
     public GameObject CurrentAvatarPrefabGO => m_CurrentAvatarPrefabGO;
@@ -39,9 +51,9 @@ public class AvatarSelection : MonoBehaviour
     void InitializeAvatars() 
     {
         int i = 0;
-        foreach (AvatarSelectionInfo avatarInfo in m_AvatarSelectionList) 
+        foreach (AvatarData avatarData in m_AvatarSelectionList) 
         {
-            m_AvatarPrefabGOList.Add(Instantiate(avatarInfo.m_Prefab, m_AvatarStandPosition.transform.position, m_AvatarStandPosition.transform.rotation, transform));
+            m_AvatarPrefabGOList.Add(Instantiate(avatarData.prefab, m_AvatarStandPosition.transform.position, m_AvatarStandPosition.transform.rotation, m_AvatarStandPosition.transform));
             m_AvatarPrefabGOList[i].SetActive(false);
             i++;
         }
@@ -65,13 +77,14 @@ public class AvatarSelection : MonoBehaviour
             return;
         }
 
-
         DisplayAvatar(m_CurrrentSelectedAvatarIndex);
 
     }
 
     private void DisplayAvatar(int index) 
     {
+        m_CurrentAvatarData = m_AvatarSelectionList[m_CurrrentSelectedAvatarIndex];
+
         if(m_CurrentAvatarPrefabGO)
             m_CurrentAvatarPrefabGO.SetActive(false);
 
@@ -79,7 +92,31 @@ public class AvatarSelection : MonoBehaviour
 
         m_CurrentAvatarPrefabGO.SetActive(true);
 
-        m_AvatarClassTypeText.text = m_AvatarSelectionList[index].m_ClassType.ToString();
+        m_AvatarClassTypeText.text = m_AvatarSelectionList[index].classType.ToString();
+
+        DisplayStats();
+        DisplayDefaultItems();
+    }
+
+    private void DisplayStats() 
+    {
+        m_HealthSlider.value = m_CurrentAvatarData.health;
+        m_ArmorSlider.value = m_CurrentAvatarData.armor;
+        m_StaminaSlider.value = m_CurrentAvatarData.stamina;
+    }
+
+    private void DisplayDefaultItems() 
+    {
+        for (int i = 0; i < m_DefaultItemsImageList.Count; i++) 
+        {
+            if (i >= m_CurrentAvatarData.m_DefaultItems.Count)
+                m_DefaultItemsImageList[i].gameObject.SetActive(false);
+            else
+            {
+                m_DefaultItemsImageList[i].gameObject.SetActive(true);
+                m_DefaultItemsImageList[i].sprite = m_CurrentAvatarData.m_DefaultItems[i].icon;
+            }
+        }
     }
 
 
