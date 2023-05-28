@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb19931877b7cf40900fba58c82f35c, type: 3}
   m_Name: Male
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2172289465901417651, guid: 32505bd28e3e64b4aaae69b74c835e80, type: 3}
+  prefab: {fileID: 6048755135078609313, guid: 2c09872dc7476cc4697ef2bfb9fa9ae9, type: 3}
   classType: Attacker
   health: 100
   armor: 5

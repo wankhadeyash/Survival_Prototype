@@ -53,7 +53,7 @@ public class AvatarSelection : MonoBehaviour
         int i = 0;
         foreach (AvatarData avatarData in m_AvatarSelectionList) 
         {
-            m_AvatarPrefabGOList.Add(Instantiate(avatarData.prefab, m_AvatarStandPosition.transform.position, m_AvatarStandPosition.transform.rotation, m_AvatarStandPosition.transform));
+            m_AvatarPrefabGOList.Add(Instantiate(avatarData.prefab, m_AvatarStandPosition.transform.position, avatarData.prefab.transform.rotation, m_AvatarStandPosition.transform));
             m_AvatarPrefabGOList[i].SetActive(false);
             i++;
         }

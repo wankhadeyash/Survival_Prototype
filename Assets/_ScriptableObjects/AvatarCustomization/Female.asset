@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb19931877b7cf40900fba58c82f35c, type: 3}
   m_Name: Female
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1451198338435958191, guid: 10d0fbb495539eb46ab0361c3704400d, type: 3}
+  prefab: {fileID: 5535945295054324028, guid: 8f625cf91a6d58c4e9d732595673ccb5, type: 3}
   classType: Cook
   health: 100
   armor: 50
