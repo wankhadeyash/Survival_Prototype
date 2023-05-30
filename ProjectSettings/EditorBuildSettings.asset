@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/HeightMap.unity
+    path: Assets/_Scenes/MainMenu.unity
     guid: 88e0e412f61752c4098bb3a6389597ac
   m_configObjects: {}

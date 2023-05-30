@@ -6,10 +6,9 @@ using UnityEngine.UI;
 using Cinemachine;
 public class MainMenuUI : MonoBehaviour
 {
-    public CinemachineVirtualCamera m_MainMenuCamera;
     public CinemachineVirtualCamera m_ChatacterSelectionCamera;
+    public GameObject m_CanvasToActivate;
 
-    public CinemachineBrain m_Brain;
 
     void Awake()
     {
@@ -23,8 +22,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
-        m_MainMenuCamera.Priority = 10;
-        m_ChatacterSelectionCamera.Priority = 100;
+        CinemachineCameraSwitcher.ActivateCamera(m_ChatacterSelectionCamera, ()=> { m_CanvasToActivate.SetActive(true); });
     }
 
     public void OnSettignsButtonClicked() { }

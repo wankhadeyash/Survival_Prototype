@@ -7,11 +7,9 @@ using Cinemachine;
 
 public class CharacterSelectionUI : MonoBehaviour
 {
-    public CinemachineBrain m_CinemachineBrain;
     public CinemachineVirtualCamera m_MainMenuCamera;
-    public CinemachineVirtualCamera m_CharacterSelectionCamera;
+    public GameObject m_CanvasToDeactivate;
 
-    public GameObject m_CanvasToActivate;
     void Awake()
     {
 
@@ -22,27 +20,12 @@ public class CharacterSelectionUI : MonoBehaviour
 
     }
 
-    public void OnBackButtonClicked() 
+    public void OnBackButtonClicked()
     {
-        m_CharacterSelectionCamera.Priority = 10;
-        m_MainMenuCamera.Priority = 100;
-        m_CanvasToActivate.SetActive(false);
+        m_CanvasToDeactivate.SetActive(false);
+        CinemachineCameraSwitcher.ActivateCamera(m_MainMenuCamera);
+
     }
 
-    public void OnCameraActivated(ICinemachineCamera activatedCamera, ICinemachineCamera deactivatedCamera)
-    {
-        if (activatedCamera.VirtualCameraGameObject != m_CharacterSelectionCamera.gameObject)
-            return;
-        StartCoroutine(Coroutine(activatedCamera));
-    }
-
-    IEnumerator Coroutine(ICinemachineCamera activatedCamera)
-    {
-        yield return new WaitUntil(() => !m_CinemachineBrain.IsBlending);
-        Debug.Log("Camera transition completed!"); // Replace with your desired logic
-        m_CanvasToActivate.SetActive(true);
-
-
-    }
 }
 
