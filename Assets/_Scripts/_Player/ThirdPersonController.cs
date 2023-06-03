@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 [RequireComponent(typeof(CharacterController))]
-public class ThirdPersonController : MonoBehaviour
+public class ThirdPersonController : NetworkBehaviour
 {
     private Camera m_Cam;
     public float moveSpeed = 5.0f; // Speed at which the character moves
@@ -23,6 +24,8 @@ public class ThirdPersonController : MonoBehaviour
 
     void Start()
     {
+        if (!IsOwner)
+            return;
         m_Cam = Camera.main;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -30,6 +33,9 @@ public class ThirdPersonController : MonoBehaviour
 
     void Update()
     {
+        if (!IsOwner)
+            return;
+        
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0,  Input.GetAxisRaw("Vertical")).normalized;

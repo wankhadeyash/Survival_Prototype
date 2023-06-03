@@ -864,11 +864,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 
+  cloudProjectId: 10593231-bea0-492d-b35b-e20c7982fe3c
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: Survival_Prototype
+  organizationId: gearup117
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
