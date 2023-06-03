@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class CharacterSelectionUI : MonoBehaviour
 {
@@ -27,5 +28,9 @@ public class CharacterSelectionUI : MonoBehaviour
 
     }
 
+    public void OnConfirmButtonClicked() 
+    {
+        SceneManager.LoadScene(1);
+    }
 }
 
