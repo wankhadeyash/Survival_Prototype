@@ -75,6 +75,8 @@ GameObject:
   m_Component:
   - component: {fileID: 586782521992810944}
   - component: {fileID: 247551971512961915}
+  - component: {fileID: -6768613068295523921}
+  - component: {fileID: -1062893496862380259}
   m_Layer: 0
   m_Name: survial_architect
   m_TagString: Untagged
@@ -119,6 +121,39 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-6768613068295523921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247551971512961914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &-1062893496862380259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247551971512961914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4171e771e116c449b0c10bd5ab75a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SpawnPosition: {x: 30, y: 25, z: -75}
+  m_SpawnRotation: {x: 0, y: 0.42261827, z: 0, w: 0.90630776}
 --- !u!1 &986623251116340333
 GameObject:
   m_ObjectHideFlags: 0

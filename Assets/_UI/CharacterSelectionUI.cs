@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEngine.UI;
 using Cinemachine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 public class CharacterSelectionUI : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class CharacterSelectionUI : MonoBehaviour
 
     public void OnConfirmButtonClicked() 
     {
-        SceneManager.LoadScene(1);
+        CustomSceneManager.LoadScene(1, () => { NetworkManager.Singleton.StartHost(); });
     }
 }
 
