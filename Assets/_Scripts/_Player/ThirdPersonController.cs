@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class ThirdPersonController : MonoBehaviour
 {
-    public Camera m_Cam;
+    private Camera m_Cam;
     public float moveSpeed = 5.0f; // Speed at which the character moves
     public float jumpForce = 4.0f; // Speed at which the character jumps
     public float gravity = -12f; // Gravity applied to the character
@@ -22,6 +23,7 @@ public class ThirdPersonController : MonoBehaviour
 
     void Start()
     {
+        m_Cam = Camera.main;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }

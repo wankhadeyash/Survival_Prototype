@@ -21,7 +21,12 @@ public class CharacterSelectionUI : MonoBehaviour
     {
 
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+            NetworkManager.Singleton.StartClient();
 
+    }
     public void OnBackButtonClicked()
     {
         m_CanvasToDeactivate.SetActive(false);

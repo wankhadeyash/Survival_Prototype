@@ -7,7 +7,18 @@ using UnityEngine.Events;
 
 public class CinemachineCameraSwitcher : SingletonBase<CinemachineCameraSwitcher>
 {
-    public CinemachineBrain m_CinemachineBrain;
+    private CinemachineBrain m_CinemachineBrain;
+
+    public CinemachineBrain CinemachineBrain 
+    {
+        get {
+            if (m_CinemachineBrain == null) 
+            {
+                m_CinemachineBrain = FindObjectOfType<CinemachineBrain>();
+            }
+            return m_CinemachineBrain;
+        }
+    }
     private CinemachineVirtualCameraBase m_CurrentActiveCamera;
 
     void Start()
@@ -22,9 +33,9 @@ public class CinemachineCameraSwitcher : SingletonBase<CinemachineCameraSwitcher
 
     private CinemachineVirtualCameraBase GetCurrentActiveCinemachineCameraInternal()
     {
-        if (m_CinemachineBrain != null && m_CinemachineBrain.ActiveVirtualCamera != null)
+        if (CinemachineBrain != null && CinemachineBrain.ActiveVirtualCamera != null)
         {
-            return m_CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCameraBase>();
+            return CinemachineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCameraBase>();
         }
 
         return null;
@@ -58,8 +69,8 @@ public class CinemachineCameraSwitcher : SingletonBase<CinemachineCameraSwitcher
 
     private IEnumerator WaitForCameraTransition(System.Action onCameraTransitionFinished)
     {
-        yield return new WaitUntil(() => m_CinemachineBrain.IsBlending); // Wait until camera transition is finished
-        yield return new WaitWhile(() => m_CinemachineBrain.IsBlending); // Wait until camera transition is finished
+        yield return new WaitUntil(() => CinemachineBrain.IsBlending); // Wait until camera transition is finished
+        yield return new WaitWhile(() => CinemachineBrain.IsBlending); // Wait until camera transition is finished
 
         onCameraTransitionFinished?.Invoke(); // Invoke the action when camera transition is finished
     }

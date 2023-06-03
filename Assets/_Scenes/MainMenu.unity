@@ -71460,7 +71460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d17e1316f69454b40bc2e8b952855bb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CinemachineBrain: {fileID: 2047426269}
 --- !u!4 &1281115948
 Transform:
   m_ObjectHideFlags: 0

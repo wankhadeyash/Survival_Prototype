@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SingletonBase<T> : MonoBehaviour where T: SingletonBase<T>
+public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
 {
     static T s_Instance;
     public static T Instance => s_Instance;
@@ -14,13 +14,16 @@ public class SingletonBase<T> : MonoBehaviour where T: SingletonBase<T>
             //Set instance to this
             s_Instance = this as T;
         }
-        else 
+        else
         {
             //Destroy and set instance to null
             s_Instance = null;
             Destroy(gameObject);
             return;
         }
+        OnAwake();
+
         DontDestroyOnLoad(gameObject);
     }
+    protected virtual void OnAwake() { }
 }
