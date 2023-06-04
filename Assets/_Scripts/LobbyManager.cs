@@ -8,7 +8,7 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using System.Threading.Tasks;
 using System;
-
+using Sirenix.OdinInspector;
 
 public enum ClientType 
 {
@@ -17,14 +17,22 @@ public enum ClientType
 }
 public class LobbyManager : SingletonBase<LobbyManager>
 {
-    private Lobby joinedLobby;
+    private Lobby joinedLobby, m_HostLobby;
     public static Action<ClientType> OnLobbyJoined;
+    public static Action OnUnityAuthenticationSuccesfull;
+    public static Action OnLobbyCreated;
+    private float m_HearbeatTimer;
 
     protected override void OnAwake()
     {
         InitializeUnityAuthentication();
     }
 
+
+    private void Update()
+    {
+        HandleLobbyHeartBeat();
+    }
     private async void InitializeUnityAuthentication()
     {
         if (UnityServices.State != ServicesInitializationState.Initialized)
@@ -34,9 +42,11 @@ public class LobbyManager : SingletonBase<LobbyManager>
             await UnityServices.InitializeAsync(initializationOptions);
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            OnUnityAuthenticationSuccesfull?.Invoke();
         }
     }
 
+    [Button]
     public static void CreateLobby(string lobbyName, bool isPrivate) 
     {
         Instance.CreateLobbyInternal(lobbyName, isPrivate);
@@ -46,16 +56,22 @@ public class LobbyManager : SingletonBase<LobbyManager>
     {
         try
         {
-            joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, 10, new CreateLobbyOptions
+            m_HostLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, 10, new CreateLobbyOptions
             {
+                
                 IsPrivate = isPrivate
             });
+
+            joinedLobby = m_HostLobby;
 
         }
         catch (LobbyServiceException e) 
         {
             Debug.Log(e);
         }
+
+        Debug.Log($"Lobby created with {joinedLobby.Name} {joinedLobby.Id} {joinedLobby.LobbyCode}");
+        OnLobbyCreated?.Invoke();
         OnLobbyJoined?.Invoke(ClientType.Host);
     }
 
@@ -77,6 +93,47 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
         OnLobbyJoined?.Invoke(ClientType.Client);
 
+    }
+
+    [Button]
+    public async void ListLobbies() 
+    {
+        QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
+
+        Debug.Log($"Lobbies found {queryResponse.Results.Count}");
+        foreach (Lobby lobby in queryResponse.Results) 
+        {
+            Debug.Log($"{lobby.Name} {lobby.Id} {lobby.LobbyCode}");
+        }
+    }
+
+    public static void JoinLobby() 
+    {
+        
+    }
+
+    private async void JoinLobbyInternal() 
+    {
+        try
+        {
+
+        }
+        catch { }
+    }
+
+    private void HandleLobbyHeartBeat() 
+    {
+        if (m_HostLobby != null) 
+        {
+            m_HearbeatTimer -= Time.deltaTime;
+            if (m_HearbeatTimer < 0)
+            {
+                float heartbeatTimerMax = 15;
+                m_HearbeatTimer = heartbeatTimerMax;
+
+                LobbyService.Instance.SendHeartbeatPingAsync(m_HostLobby.Id);
+            }   
+        }
     }
 
 }
