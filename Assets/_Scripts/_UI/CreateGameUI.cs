@@ -7,33 +7,47 @@ using System;
 
 public class CreateGameUI : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField inputField;
-    [SerializeField] private Button m_CreateLobbyButton;
-    [SerializeField] private Button m_QuickJoinLobbyButton;
-    [SerializeField] private Button m_StartGameButton;
-    [SerializeField] private Image m_WaitingForHost;
+    [Header("Create Lobby")]
+    [SerializeField] private TMP_InputField m_LobbyNameIF;
+    [SerializeField] private Toggle m_LobbyTypeToggle;
+
+    //[SerializeField] private Button m_CreateLobbyButton;
+    //[SerializeField] private Button m_QuickJoinLobbyButton;
+    //[SerializeField] private Button m_StartGameButton;
+    [SerializeField] private Button m_CloseButton;
+    [SerializeField] private Button m_CreateButton;
+
+
+    public GameObject m_CreateGameUIObject;
+    public GameObject m_NavigationUIObject;
+
     void Awake()
     {
-        m_StartGameButton.gameObject.SetActive(false);
-        m_WaitingForHost.gameObject.SetActive(false);
+  
     }
 
     private void OnEnable()
     {
-        m_CreateLobbyButton.onClick.AddListener(() => OnCreateLobbyButtonClicked());
-        m_StartGameButton.onClick.AddListener(() => OnStartGameButtonClicked());
-        m_QuickJoinLobbyButton.onClick.AddListener(() => OnQuickJoinLobbyButtonClicked());
+        //m_CreateLobbyButton.onClick.AddListener(() => OnCreateLobbyButtonClicked());
+        //m_StartGameButton.onClick.AddListener(() => OnStartGameButtonClicked());
+        //m_QuickJoinLobbyButton.onClick.AddListener(() => OnQuickJoinLobbyButtonClicked());
 
-        LobbyManager.OnLobbyJoined += LobbyManager_OnLobbyJoined;
+        m_CreateButton.onClick.AddListener(() => OnCreateLobbyButtonClicked());
+        m_CloseButton.onClick.AddListener(() => OnCloseButtonClicked());
+
     }
 
    
 
     private void OnDisable()
     {
-        m_CreateLobbyButton.onClick.RemoveAllListeners();
-        m_StartGameButton.onClick.RemoveAllListeners();
-        m_QuickJoinLobbyButton.onClick.RemoveAllListeners();
+        //m_CreateLobbyButton.onClick.RemoveAllListeners();
+        //m_StartGameButton.onClick.RemoveAllListeners();
+        //m_QuickJoinLobbyButton.onClick.RemoveAllListeners();
+
+
+        m_CloseButton.onClick.RemoveAllListeners();
+        m_CreateButton.onClick.RemoveAllListeners();
     }
 
     void Start()
@@ -43,7 +57,7 @@ public class CreateGameUI : MonoBehaviour
 
     public void OnCreateLobbyButtonClicked() 
     {
-        LobbyManager.CreateLobby(inputField.text, false);
+        LobbyManager.CreateLobby(m_LobbyNameIF.text, m_LobbyTypeToggle.isOn);
     }
 
     public void OnQuickJoinLobbyButtonClicked() 
@@ -56,12 +70,11 @@ public class CreateGameUI : MonoBehaviour
         CustomSceneManager.LoadScene(1,()=> { MultiplayerManager.JoinHost(); });
     }
 
-    private void LobbyManager_OnLobbyJoined(ClientType clientType)
+    public void OnCloseButtonClicked() 
     {
-        if (clientType == ClientType.Host)
-            m_StartGameButton.gameObject.SetActive(true);
-        else
-            m_WaitingForHost.gameObject.SetActive(true);
+        m_CreateGameUIObject.SetActive(false);
+        m_NavigationUIObject.SetActive(true);
     }
+
 }
 

@@ -2,5 +2,5 @@
 
 public class LobbyInfoEnhancedScrollerData
 {
-    public string animalName;
+    public string lobbyName;
 }

@@ -10,7 +10,7 @@ public class LobbyEnchancedScrollerController : MonoBehaviour, IEnhancedScroller
     public List<LobbyInfoEnhancedScrollerData> Data => _data;
 
     public EnhancedScroller myScroller;
-    public LobbyEnhancedScollerCellView animalCellViewPrefab;
+    public LobbyEnhancedScollerCellView lobbyCellViewPrefab;
 
     void Start()
     {
@@ -29,7 +29,7 @@ public class LobbyEnchancedScrollerController : MonoBehaviour, IEnhancedScroller
     public EnhancedScrollerCellView GetCellView(EnhancedScroller scroller, int
     dataIndex, int cellIndex)
     {
-        LobbyEnhancedScollerCellView cellView = scroller.GetCellView(animalCellViewPrefab) as
+        LobbyEnhancedScollerCellView cellView = scroller.GetCellView(lobbyCellViewPrefab) as
         LobbyEnhancedScollerCellView;
         cellView.SetData(_data[dataIndex]);
         return cellView;

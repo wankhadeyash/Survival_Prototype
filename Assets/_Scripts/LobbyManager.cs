@@ -50,7 +50,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
     }
 
     [Button]
-    public static void CreateLobby(string lobbyName, bool isPrivate) 
+    public static void CreateLobby(string lobbyName,  bool isPrivate) 
     {
         Instance.CreateLobbyInternal(lobbyName, isPrivate);
     }

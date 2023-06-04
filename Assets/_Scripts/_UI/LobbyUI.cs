@@ -36,7 +36,7 @@ public class LobbyUI : MonoBehaviour
                 List<Lobby> lobbyList = await LobbyManager.Instance.GetLobbiesList();
                 foreach (Lobby lobby in lobbyList)
                 {
-                    m_EnhancedScroller.Data.Add(new LobbyInfoEnhancedScrollerData { animalName = lobby.Name });
+                    m_EnhancedScroller.Data.Add(new LobbyInfoEnhancedScrollerData { lobbyName = lobby.Name });
                 }
                 m_EnhancedScroller.myScroller.ReloadData();
             }

@@ -9,7 +9,7 @@ public class LobbyEnhancedScollerCellView : EnhancedScrollerCellView
     public TextMeshProUGUI animalNameText;
     public void SetData(LobbyInfoEnhancedScrollerData data)
     {
-       animalNameText.text = data.animalName;
+       animalNameText.text = data.lobbyName;
     }
 
 }
