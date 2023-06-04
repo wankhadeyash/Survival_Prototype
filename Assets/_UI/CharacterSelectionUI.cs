@@ -10,6 +10,8 @@ using Unity.Netcode;
 public class CharacterSelectionUI : MonoBehaviour
 {
     public CinemachineVirtualCamera m_MainMenuCamera;
+    public CinemachineVirtualCameraBase m_CreateGameCamera;
+
     public GameObject m_CanvasToDeactivate;
 
     void Awake()
@@ -36,7 +38,8 @@ public class CharacterSelectionUI : MonoBehaviour
 
     public void OnConfirmButtonClicked() 
     {
-        CustomSceneManager.LoadScene(1, () => { NetworkManager.Singleton.StartHost(); });
+        m_CanvasToDeactivate.SetActive(false);
+        CinemachineCameraSwitcher.ActivateCamera(m_CreateGameCamera);
     }
 }
 
