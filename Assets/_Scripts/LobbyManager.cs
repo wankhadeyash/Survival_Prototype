@@ -23,6 +23,8 @@ public class LobbyManager : SingletonBase<LobbyManager>
     public static Action OnLobbyCreated;
     private float m_HearbeatTimer;
 
+    public bool m_IsAuthenticated;
+
     protected override void OnAwake()
     {
         InitializeUnityAuthentication();
@@ -42,6 +44,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
             await UnityServices.InitializeAsync(initializationOptions);
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            m_IsAuthenticated = true;
             OnUnityAuthenticationSuccesfull?.Invoke();
         }
     }
@@ -96,7 +99,11 @@ public class LobbyManager : SingletonBase<LobbyManager>
     }
 
     [Button]
-    public async void ListLobbies() 
+    public async Task<List<Lobby>> GetLobbiesList()
+    {
+        return await Instance.GetLobbiesListInternal();
+    }
+    private async Task<List<Lobby>> GetLobbiesListInternal() 
     {
         QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
 
@@ -105,6 +112,8 @@ public class LobbyManager : SingletonBase<LobbyManager>
         {
             Debug.Log($"{lobby.Name} {lobby.Id} {lobby.LobbyCode}");
         }
+        return queryResponse.Results;
+
     }
 
     public static void JoinLobby() 
