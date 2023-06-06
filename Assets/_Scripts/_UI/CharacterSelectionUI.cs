@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Cinemachine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using System;
 
 public class CharacterSelectionUI : MonoBehaviour
 {
@@ -25,12 +26,17 @@ public class CharacterSelectionUI : MonoBehaviour
     }
     private void OnEnable()
     {
+
         m_BackButton.onClick.AddListener(() => OnBackButtonClicked());
         m_ConfirmButton.onClick.AddListener(() => OnConfirmButtonClicked());
     }
 
+ 
+
     private void OnDisable()
     {
+
+
         m_BackButton.onClick.RemoveAllListeners();
         m_ConfirmButton.onClick.RemoveAllListeners();
     }

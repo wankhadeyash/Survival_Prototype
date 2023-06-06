@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using System;
+
 public class LobbyUI : MonoBehaviour
 {
 
@@ -12,6 +14,19 @@ public class LobbyUI : MonoBehaviour
     {
         m_EnhancedScroller = GetComponentInChildren<LobbyEnchancedScrollerController>();
     }
+
+    private void OnEnable()
+    {
+        LobbyManager.OnLobbyLeft += OnLobbyLeft;
+    }
+
+
+    private void OnDisable()
+    {
+        LobbyManager.OnLobbyLeft -= OnLobbyLeft;
+
+    }
+
 
     void Start()
     {
@@ -43,6 +58,13 @@ public class LobbyUI : MonoBehaviour
         }
 
     }
+
+    private void OnLobbyLeft()
+    {
+        //m_EnhancedScroller.Data.Clear();
+        //m_EnhancedScroller.myScroller.ReloadData();
+    }
+
 
 }
 

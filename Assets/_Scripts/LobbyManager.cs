@@ -18,7 +18,8 @@ public enum ClientType
 public class LobbyManager : SingletonBase<LobbyManager>
 {
     private Lobby joinedLobby, m_HostLobby;
-    public static Action<ClientType> OnLobbyJoined;
+    public static Action<ClientType, Lobby> OnLobbyJoined;
+    public static Action OnLobbyLeft;
     public static Action OnUnityAuthenticationSuccesfull;
     public static Action OnLobbyCreated;
     private float m_HearbeatTimer;
@@ -33,7 +34,10 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     private void Update()
     {
-        HandleLobbyHeartBeat();
+        if (joinedLobby != null && joinedLobby.HostId == AuthenticationService.Instance.PlayerId) 
+        { 
+            HandleLobbyHeartBeat(); 
+        }
     }
     private async void InitializeUnityAuthentication()
     {
@@ -75,7 +79,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
         Debug.Log($"Lobby created with {joinedLobby.Name} {joinedLobby.Id} {joinedLobby.LobbyCode}");
         OnLobbyCreated?.Invoke();
-        OnLobbyJoined?.Invoke(ClientType.Host);
+        OnLobbyJoined?.Invoke(ClientType.Host, joinedLobby);
     }
 
 
@@ -94,7 +98,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
             Debug.Log(e);
         }
 
-        OnLobbyJoined?.Invoke(ClientType.Client);
+        OnLobbyJoined?.Invoke(ClientType.Client, joinedLobby);
 
     }
 
@@ -105,6 +109,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
     }
     private async Task<List<Lobby>> GetLobbiesListInternal() 
     {
+
         QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync();
 
         Debug.Log($"Lobbies found {queryResponse.Results.Count}");
@@ -116,19 +121,56 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     }
 
-    public static void JoinLobby() 
+    public static void LeaveLobby() 
     {
-        
+        Instance.LeaveLobbyInternal();
     }
-
-    private async void JoinLobbyInternal() 
+    private async void LeaveLobbyInternal() 
     {
         try
         {
+            //Ensure you sign-in before calling Authentication Instance
+            //See IAuthenticationService interface
+            string playerId = AuthenticationService.Instance.PlayerId;
+            await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
+            OnLobbyLeft?.Invoke();
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+
+        
+    }
+
+    public static void JoinWithCode(string lobbyCode) 
+    {
+        Instance.JoinLobbyWithCodeInternal(lobbyCode);
+    }
+
+    private async void JoinLobbyWithCodeInternal(string lobbyCode) 
+    {
+        try
+        {
+            joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+        }
+        catch (LobbyServiceException e) 
+        {
+
+            if (e.Message.Contains("InvalidJoinCode") || e.Message.Contains("contains an invalid character") || e.Message.Contains("lobby not found"))
+            {
+                Debug.Log("Wrong Lobby Code");
+            }
+            else
+            {
+                // Log other LobbyServiceException errors
+                Debug.Log("Lobby service error: " + e.Message);
+            }
 
         }
-        catch { }
     }
+
+
 
     private void HandleLobbyHeartBeat() 
     {
@@ -142,6 +184,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
                 LobbyService.Instance.SendHeartbeatPingAsync(m_HostLobby.Id);
             }   
+
         }
     }
 
