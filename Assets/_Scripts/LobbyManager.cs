@@ -34,8 +34,9 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     private void Update()
     {
-        if (joinedLobby != null && joinedLobby.HostId == AuthenticationService.Instance.PlayerId) 
+        if (joinedLobby != null) 
         { 
+            if(joinedLobby.HostId == AuthenticationService.Instance.PlayerId)
             HandleLobbyHeartBeat(); 
         }
     }
@@ -133,26 +134,32 @@ public class LobbyManager : SingletonBase<LobbyManager>
             //See IAuthenticationService interface
             string playerId = AuthenticationService.Instance.PlayerId;
             await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
-            OnLobbyLeft?.Invoke();
+
+            if (m_HostLobby != null)
+                m_HostLobby = null;
+            joinedLobby = null;
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
         }
+        OnLobbyLeft?.Invoke();
 
         
     }
 
-    public static void JoinWithCode(string lobbyCode) 
+    public static Task<string> JoinWithCode(string lobbyCode) 
     {
-        Instance.JoinLobbyWithCodeInternal(lobbyCode);
+       return Instance.JoinLobbyWithCodeInternal(lobbyCode);
     }
 
-    private async void JoinLobbyWithCodeInternal(string lobbyCode) 
+    private async  Task<string> JoinLobbyWithCodeInternal(string lobbyCode) 
     {
         try
         {
             joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            OnLobbyJoined?.Invoke(ClientType.Client, joinedLobby);
+            return "Success";
         }
         catch (LobbyServiceException e) 
         {
@@ -160,11 +167,15 @@ public class LobbyManager : SingletonBase<LobbyManager>
             if (e.Message.Contains("InvalidJoinCode") || e.Message.Contains("contains an invalid character") || e.Message.Contains("lobby not found"))
             {
                 Debug.Log("Wrong Lobby Code");
+                return "Wrong lobby Code";
+
             }
             else
             {
                 // Log other LobbyServiceException errors
                 Debug.Log("Lobby service error: " + e.Message);
+                return "e.Message";
+
             }
 
         }

@@ -26,6 +26,7 @@ public class CreateGameUI : MonoBehaviour
     [Header("Join Lobby with Code")]
     [SerializeField] private TMP_InputField m_LobbyCodeIF;
     [SerializeField] private Button m_JoinLobbyWithCodeButton;
+    [SerializeField] private TextMeshProUGUI m_LobbyCodeError;
 
 
     public GameObject m_CreateGameUIObject;
@@ -48,6 +49,8 @@ public class CreateGameUI : MonoBehaviour
         m_CloseButton.onClick.AddListener(() => OnCloseButtonClicked());
         m_LeaveCurrentLobbyButton.onClick.AddListener(() => OnLeaveLobbyButtonClicked());
         m_JoinLobbyWithCodeButton.onClick.AddListener(() => OnJoinLobbyWithCodeButtonClicked());
+
+        m_LobbyCodeError.text = "";
 
     }
 
@@ -119,12 +122,22 @@ public class CreateGameUI : MonoBehaviour
         LobbyManager.LeaveLobby();
     }
 
-    public void OnJoinLobbyWithCodeButtonClicked() 
+    public async void OnJoinLobbyWithCodeButtonClicked() 
     {
         if (string.IsNullOrEmpty(m_LobbyCodeIF.text))
             return;
 
-        //LobbyManager.JoinWithCode(m_LobbyCodeIF.text);
+        string joinResult = await LobbyManager.JoinWithCode(m_LobbyCodeIF.text);
+        m_LobbyCodeError.text = joinResult;
+        StartCoroutine(Co_ClearTextField(m_LobbyCodeError, 2));
+        
+    }
+
+    private IEnumerator Co_ClearTextField(TextMeshProUGUI textFieldToClear, float timeAfterClear) 
+    {
+        yield return new WaitForSeconds(timeAfterClear);
+        textFieldToClear.text = "";
+
     }
 }
 
