@@ -11,7 +11,6 @@ public class CharacterSelectionUI : MonoBehaviour
 {
     [Header("Cameras")]
     public CinemachineVirtualCamera m_MainMenuCamera;
-    public CinemachineVirtualCameraBase m_CreateGameCamera;
 
     [Header("UI Elements")]
     public Button m_BackButton;
