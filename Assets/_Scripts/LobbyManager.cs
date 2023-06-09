@@ -189,7 +189,11 @@ public class LobbyManager : SingletonBase<LobbyManager>
         }
     }
 
-    public async void StartGame()
+    public static void StartGame() 
+    {
+        Instance.StartGameInternal();
+    }
+    private async void StartGameInternal()
     {
         if (IsLobbyHost())
         {
@@ -249,21 +253,28 @@ public class LobbyManager : SingletonBase<LobbyManager>
             m_LobbyUpdateTimer -= Time.deltaTime;
             if (m_LobbyUpdateTimer < 0)
             {
-                float heartbeatTimerMax = 1.1f;
-                m_LobbyUpdateTimer = heartbeatTimerMax;
+                float lobbyTimeMax = 1.5f;
+                m_LobbyUpdateTimer = lobbyTimeMax;
 
-                Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
-                joinedLobby = lobby;
-
-                if (joinedLobby.Data[KEY_START_GAME].Value != "0")
+                try
                 {
-                    //Start Game
-                    if (!IsLobbyHost())
-                    {
-                        RelayManager.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
-                    }
+                    Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
+                    joinedLobby = lobby;
 
-                    OnGameStarted?.Invoke();
+                    if (joinedLobby.Data[KEY_START_GAME].Value != "0")
+                    {
+                        //Start Game
+                        if (!IsLobbyHost())
+                        {
+                            RelayManager.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
+                        }
+
+                        OnGameStarted?.Invoke();
+                    }
+                }
+                catch (LobbyServiceException e) 
+                {
+                    Debug.Log(e);
                 }
             }
 

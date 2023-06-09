@@ -14,10 +14,6 @@ using System.Threading.Tasks;
 
 public class RelayManager : SingletonBase<RelayManager>
 {
-    void Awake()
-    {
-
-    }
 
     private void OnEnable()
     {

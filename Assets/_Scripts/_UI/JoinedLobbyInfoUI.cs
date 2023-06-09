@@ -13,19 +13,30 @@ public class JoinedLobbyInfoUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_CurrentLobbyCodeText;
     [SerializeField] private Button m_LeaveCurrentLobbyButton;
 
+    [SerializeField] private Button m_StartGameButton;
     private void OnEnable()
     {
         m_LeaveCurrentLobbyButton.onClick.AddListener(() => OnLeaveLobbyButtonClicked());
+        m_StartGameButton.onClick.AddListener(() => OnStartGameButtonClicked());
         LobbyManager.OnLobbyLeft += OnLobbyLeft;
+        LobbyManager.OnGameStarted += OnGameStarted;
 
         SetCurrentLobbyData();
 
     }
 
+    private void OnGameStarted()
+    {
+        CustomSceneManager.LoadScene(1);
+    }
+
     private void OnDisable()
     {
         m_LeaveCurrentLobbyButton.onClick.RemoveAllListeners();
+        m_StartGameButton.onClick.RemoveAllListeners();
         LobbyManager.OnLobbyLeft -= OnLobbyLeft;
+        LobbyManager.OnGameStarted -= OnGameStarted;
+
 
         m_CurrentLobbyNameText.text = "";
         m_CurrentLobbyCodeText.text = "";
@@ -36,8 +47,6 @@ public class JoinedLobbyInfoUI : MonoBehaviour
 
     private void OnLobbyLeft()
     {
-        
-
         m_CreateLobbyUI.SetActive(true);
         gameObject.SetActive(false);
     }
@@ -47,7 +56,10 @@ public class JoinedLobbyInfoUI : MonoBehaviour
         LobbyManager.LeaveLobby();
     }
 
-
+    private void OnStartGameButtonClicked()
+    {
+        LobbyManager.StartGame();
+    }
     void SetCurrentLobbyData() 
     {
         if (LobbyManager.JoinedLobby != null) 
@@ -56,6 +68,10 @@ public class JoinedLobbyInfoUI : MonoBehaviour
             m_CurrentLobbyCodeText.text = LobbyManager.JoinedLobby.LobbyCode;
 
             m_LeaveCurrentLobbyButton.gameObject.SetActive(true);
+        }
+        if (LobbyManager.Instance.IsLobbyHost()) 
+        {
+            m_StartGameButton.gameObject.SetActive(true);
         }
 
     }

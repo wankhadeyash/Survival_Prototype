@@ -44096,7 +44096,6 @@ GameObject:
   - component: {fileID: 1080309731}
   - component: {fileID: 1080309730}
   - component: {fileID: 1080309729}
-  - component: {fileID: 1080309733}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -44120,7 +44119,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 255
 --- !u!114 &1080309730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44185,21 +44184,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1080309733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1080309728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a8a8bb02370dbe4b9f74a557a6c924b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MainMenuCamera: {fileID: 0}
-  m_CreateGameCamera: {fileID: 0}
-  m_CanvasToDeactivate: {fileID: 0}
 --- !u!1001 &1081446227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85066,7 +85050,7 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1080309733}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CharacterSelectionUI, Assembly-CSharp
         m_MethodName: OnCameraActivated
         m_Mode: 0
