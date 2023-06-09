@@ -5,7 +5,7 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using System;
 
-public class LobbyUI : MonoBehaviour
+public class LobbyListUI : MonoBehaviour
 {
 
     private LobbyEnchancedScrollerController m_EnhancedScroller;

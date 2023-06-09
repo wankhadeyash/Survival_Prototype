@@ -6,8 +6,10 @@ using UnityEngine.UI;
 using System;
 using Unity.Services.Lobbies.Models;
 
-public class CreateGameUI : MonoBehaviour
+public class CreateLobbyUI : MonoBehaviour
 {
+    [SerializeField] private GameObject m_JoinedLobbyInfoUI;
+
     [Header("Create Lobby")]
     [SerializeField] private TMP_InputField m_LobbyNameIF;
     [SerializeField] private Toggle m_LobbyTypeToggle;
@@ -18,10 +20,7 @@ public class CreateGameUI : MonoBehaviour
     [SerializeField] private Button m_CloseButton;
     [SerializeField] private Button m_CreateButton;
 
-    [Header("Current Lobby Info")]
-    [SerializeField] private TextMeshProUGUI m_CurrentLobbyNameText;
-    [SerializeField] private TextMeshProUGUI m_CurrentLobbyCodeText;
-    [SerializeField] private Button m_LeaveCurrentLobbyButton;
+    
 
     [Header("Join Lobby with Code")]
     [SerializeField] private TMP_InputField m_LobbyCodeIF;
@@ -40,14 +39,13 @@ public class CreateGameUI : MonoBehaviour
     private void OnEnable()
     {
         LobbyManager.OnLobbyJoined += OnLobbyJoined;
-        LobbyManager.OnLobbyLeft += OnLobbyLeft;
         //m_CreateLobbyButton.onClick.AddListener(() => OnCreateLobbyButtonClicked());
         //m_StartGameButton.onClick.AddListener(() => OnStartGameButtonClicked());
         //m_QuickJoinLobbyButton.onClick.AddListener(() => OnQuickJoinLobbyButtonClicked());
 
         m_CreateButton.onClick.AddListener(() => OnCreateLobbyButtonClicked());
         m_CloseButton.onClick.AddListener(() => OnCloseButtonClicked());
-        m_LeaveCurrentLobbyButton.onClick.AddListener(() => OnLeaveLobbyButtonClicked());
+
         m_JoinLobbyWithCodeButton.onClick.AddListener(() => OnJoinLobbyWithCodeButtonClicked());
 
         m_LobbyCodeError.text = "";
@@ -59,7 +57,6 @@ public class CreateGameUI : MonoBehaviour
     private void OnDisable()
     {
         LobbyManager.OnLobbyJoined -= OnLobbyJoined;
-        LobbyManager.OnLobbyLeft-= OnLobbyLeft;
 
         //m_CreateLobbyButton.onClick.RemoveAllListeners();
         //m_StartGameButton.onClick.RemoveAllListeners();
@@ -68,26 +65,13 @@ public class CreateGameUI : MonoBehaviour
 
         m_CloseButton.onClick.RemoveAllListeners();
         m_CreateButton.onClick.RemoveAllListeners();
-        m_LeaveCurrentLobbyButton.onClick.RemoveAllListeners();
         m_JoinLobbyWithCodeButton.onClick.RemoveAllListeners();
     }
 
 
     private void OnLobbyJoined(ClientType clientType, Lobby joinedLobby)
     {
-        m_CurrentLobbyNameText.text = joinedLobby.Name;
-        m_CurrentLobbyCodeText.text = joinedLobby.LobbyCode;
-
-        m_LeaveCurrentLobbyButton.gameObject.SetActive(true);
-
-    }
-
-    private void OnLobbyLeft()
-    {
-        m_CurrentLobbyNameText.text = "";
-        m_CurrentLobbyCodeText.text = "";
-
-        m_LeaveCurrentLobbyButton.gameObject.SetActive(false);
+        m_JoinedLobbyInfoUI.SetActive(true);
     }
 
     void Start()
@@ -117,10 +101,6 @@ public class CreateGameUI : MonoBehaviour
     }
 
 
-    public void OnLeaveLobbyButtonClicked()
-    {
-        LobbyManager.LeaveLobby();
-    }
 
     public async void OnJoinLobbyWithCodeButtonClicked() 
     {
