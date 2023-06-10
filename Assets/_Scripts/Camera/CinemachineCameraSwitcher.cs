@@ -52,12 +52,13 @@ public class CinemachineCameraSwitcher : SingletonBase<CinemachineCameraSwitcher
 
     private void ActivateCameraInternal(CinemachineVirtualCameraBase camera, System.Action onCameraTransitionFinished = null)
     {
+        camera.Priority = 11; // Set the priority of the new camera to a higher value to activate it
+        
         if (m_CurrentActiveCamera != null)
         {
-            m_CurrentActiveCamera.Priority = 0; // Lower the priority of the current active camera
+            m_CurrentActiveCamera.Priority = 10; // Lower the priority of the current active camera
         }
 
-        camera.Priority = 10; // Set the priority of the new camera to a higher value to activate it
 
         m_CurrentActiveCamera = camera;
 

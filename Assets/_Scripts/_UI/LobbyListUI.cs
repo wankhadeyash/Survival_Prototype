@@ -42,7 +42,7 @@ public class LobbyListUI : MonoBehaviour
         if (LobbyManager.Instance.m_IsAuthenticated)
         {
             m_FetchLobbyTimer -= Time.deltaTime;
-            if (m_FetchLobbyTimer < 0)
+            if (m_FetchLobbyTimer < 0 && m_EnhancedScroller != null)
             {
                 float fetchLobbyTimer = 5;
                 m_FetchLobbyTimer = fetchLobbyTimer;
@@ -51,7 +51,7 @@ public class LobbyListUI : MonoBehaviour
                 List<Lobby> lobbyList = await LobbyManager.Instance.GetLobbiesList();
                 foreach (Lobby lobby in lobbyList)
                 {
-                    m_EnhancedScroller.Data.Add(new LobbyInfoEnhancedScrollerData { lobbyName = lobby.Name });
+                    m_EnhancedScroller.Data.Add(new LobbyInfoEnhancedScrollerData { lobbyName = lobby.Name, lobbyId = lobby.Id });
                 }
                 m_EnhancedScroller.myScroller.ReloadData();
             }

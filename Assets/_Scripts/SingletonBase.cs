@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
 {
+    [SerializeField] protected bool m_IsDontDestroyOnLoad = true;
     static T s_Instance;
     public static T Instance => s_Instance;
 
@@ -22,8 +23,8 @@ public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
             return;
         }
         OnAwake();
-
-        DontDestroyOnLoad(gameObject);
+       if(m_IsDontDestroyOnLoad)
+            DontDestroyOnLoad(gameObject);
     }
     protected virtual void OnAwake() { }
 }

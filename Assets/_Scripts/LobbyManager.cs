@@ -23,7 +23,6 @@ public class LobbyManager : SingletonBase<LobbyManager>
     public static Lobby JoinedLobby => Instance.joinedLobby;
 
     public static Action<ClientType, Lobby> OnLobbyJoined;
-    public static Action OnGameStarted;
     public static Action OnLobbyLeft;
     public static Action OnUnityAuthenticationSuccesfull;
     public static Action OnLobbyCreated;
@@ -36,6 +35,22 @@ public class LobbyManager : SingletonBase<LobbyManager>
     protected override void OnAwake()
     {
         InitializeUnityAuthentication();
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnStartEntered += OnGameStart;
+    }
+
+    
+    private void OnDisable()
+    {
+        GameManager.OnStartEntered += OnGameStart;
+    }
+
+    private void OnGameStart()
+    {
+        StartGame();
     }
 
 
@@ -156,6 +171,8 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     }
 
+
+
     public static Task<string> JoinWithCode(string lobbyCode)
     {
         return Instance.JoinLobbyWithCodeInternal(lobbyCode);
@@ -189,6 +206,28 @@ public class LobbyManager : SingletonBase<LobbyManager>
         }
     }
 
+    public static void JoinWithId(string lobbyId)
+    {
+        Instance.JoinLobbyWithIdInternal(lobbyId);
+    }
+
+
+    private async void JoinLobbyWithIdInternal(string lobbyId) 
+    {
+        try
+        {
+            joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
+            OnLobbyJoined?.Invoke(ClientType.Client, joinedLobby);
+        }
+        catch (LobbyServiceException e)
+        {
+
+            Debug.Log(e);
+
+        }
+    }
+
+
     public static void StartGame() 
     {
         Instance.StartGameInternal();
@@ -211,7 +250,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
                 });
                 joinedLobby = lobby;
 
-                OnGameStarted?.Invoke();
+                MultiplayerManager.JoinHost();
             }
             catch (LobbyServiceException e)
             {
@@ -259,18 +298,15 @@ public class LobbyManager : SingletonBase<LobbyManager>
                 try
                 {
                     Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
-                    joinedLobby = lobby;
-
-                    if (joinedLobby.Data[KEY_START_GAME].Value != "0")
+                    joinedLobby = lobby; if (joinedLobby.Data[KEY_START_GAME].Value != "0")
                     {
                         //Start Game
-                        if (!IsLobbyHost())
+                        if (!IsLobbyHost() && !RelayManager.Instance.IsConnected)
                         {
                             RelayManager.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
                         }
-
-                        OnGameStarted?.Invoke();
                     }
+
                 }
                 catch (LobbyServiceException e) 
                 {

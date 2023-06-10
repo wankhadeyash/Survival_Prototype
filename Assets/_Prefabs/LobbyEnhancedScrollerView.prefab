@@ -548,4 +548,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellIdentifier: 
-  animalNameText: {fileID: 6092286536189769569}
+  m_LobbyName: {fileID: 6092286536189769569}
+  m_JoinLobbyButton: {fileID: 5134572000220424614}

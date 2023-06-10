@@ -14,10 +14,11 @@ using System.Threading.Tasks;
 
 public class RelayManager : SingletonBase<RelayManager>
 {
-
+    private bool m_IsConnected;
+    public bool IsConnected => m_IsConnected;
     private void OnEnable()
     {
-        LobbyManager.OnUnityAuthenticationSuccesfull = OnUnityAuthenticationSuccesfull;
+        LobbyManager.OnUnityAuthenticationSuccesfull += OnUnityAuthenticationSuccesfull;
     }
 
     private void OnDisable()
@@ -29,6 +30,10 @@ public class RelayManager : SingletonBase<RelayManager>
     void Start()
     {
 
+    }
+
+    private void Update()
+    {
     }
 
     private void OnUnityAuthenticationSuccesfull()
@@ -55,7 +60,7 @@ public class RelayManager : SingletonBase<RelayManager>
             Debug.Log("Join code is" + joinCode);
 
             NetworkManager.Singleton.StartHost();
-
+            m_IsConnected = true;
 
             return joinCode;
 
@@ -63,7 +68,6 @@ public class RelayManager : SingletonBase<RelayManager>
         catch (RelayServiceException e)
         
         {
-
             Debug.Log(e);
             return null;
         }
@@ -85,6 +89,7 @@ public class RelayManager : SingletonBase<RelayManager>
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartClient();
+            m_IsConnected = true;
         }
 
         catch (RelayServiceException e)

@@ -47395,6 +47395,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155569506}
   m_Mesh: {fileID: 4300000, guid: c993007ad8caaf84cb1eec69a4cf3a59, type: 3}
+--- !u!1 &1155948751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1155948753}
+  - component: {fileID: 1155948752}
+  m_Layer: 0
+  m_Name: CameraController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1155948752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155948751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda174e65322a9742ab9d82c5b9c2a61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsDontDestroyOnLoad: 0
+  m_VirtualCamera: {fileID: 743560894}
+--- !u!4 &1155948753
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155948751}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1156591800
 GameObject:
   m_ObjectHideFlags: 0
@@ -52731,6 +52777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d17e1316f69454b40bc2e8b952855bb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_IsDontDestroyOnLoad: 1
 --- !u!4 &1281115948
 Transform:
   m_ObjectHideFlags: 0
@@ -84942,7 +84989,6 @@ GameObject:
   - component: {fileID: 2047426266}
   - component: {fileID: 2047426270}
   - component: {fileID: 2047426269}
-  - component: {fileID: 2047426271}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -85095,19 +85141,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &2047426271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2047426265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bda174e65322a9742ab9d82c5b9c2a61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_VirtualCamera: {fileID: 743560894}
 --- !u!1 &2050212101
 GameObject:
   m_ObjectHideFlags: 0

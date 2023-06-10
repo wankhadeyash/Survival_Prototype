@@ -89,11 +89,6 @@ public class CreateLobbyUI : MonoBehaviour
         LobbyManager.QuickJoin();
     }
 
-    public void OnStartGameButtonClicked() 
-    {
-        CustomSceneManager.LoadScene(1,()=> { MultiplayerManager.JoinHost(); });
-    }
-
     public void OnCloseButtonClicked() 
     {
         m_CreateGameUIObject.SetActive(false);

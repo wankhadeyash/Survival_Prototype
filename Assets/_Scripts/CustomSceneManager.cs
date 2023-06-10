@@ -3,9 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using Unity.Netcode;
 
-
+public enum SceneInfo
+{
+    MainMenu,
+    MainWorld
+}
 public class CustomSceneManager : SingletonBase<CustomSceneManager>
 {
     public static void LoadScene(string sceneName, Action OnSceneLoaded = null)
@@ -61,5 +65,10 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
     {
         Scene currentScene = SceneManager.GetActiveScene();
         LoadScene(currentScene.name, onSceneLoaded);
+    }
+
+    public static void LoadSceneOnNetwork(SceneInfo sceneToLoad) 
+    {
+        NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad.ToString(), LoadSceneMode.Single);
     }
 }

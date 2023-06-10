@@ -19,15 +19,9 @@ public class JoinedLobbyInfoUI : MonoBehaviour
         m_LeaveCurrentLobbyButton.onClick.AddListener(() => OnLeaveLobbyButtonClicked());
         m_StartGameButton.onClick.AddListener(() => OnStartGameButtonClicked());
         LobbyManager.OnLobbyLeft += OnLobbyLeft;
-        LobbyManager.OnGameStarted += OnGameStarted;
 
         SetCurrentLobbyData();
 
-    }
-
-    private void OnGameStarted()
-    {
-        CustomSceneManager.LoadScene(1);
     }
 
     private void OnDisable()
@@ -35,7 +29,6 @@ public class JoinedLobbyInfoUI : MonoBehaviour
         m_LeaveCurrentLobbyButton.onClick.RemoveAllListeners();
         m_StartGameButton.onClick.RemoveAllListeners();
         LobbyManager.OnLobbyLeft -= OnLobbyLeft;
-        LobbyManager.OnGameStarted -= OnGameStarted;
 
 
         m_CurrentLobbyNameText.text = "";
@@ -58,7 +51,7 @@ public class JoinedLobbyInfoUI : MonoBehaviour
 
     private void OnStartGameButtonClicked()
     {
-        LobbyManager.StartGame();
+        GameManager.SetGameState(GameState.Start);
     }
     void SetCurrentLobbyData() 
     {

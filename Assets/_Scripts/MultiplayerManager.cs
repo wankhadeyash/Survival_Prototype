@@ -7,9 +7,17 @@ using UnityEngine;
 
 public class MultiplayerManager : SingletonBase<MultiplayerManager>
 {
+    NetworkManager m_NetworkManager;
     private void OnEnable()
     {
+        m_NetworkManager = FindObjectOfType<NetworkManager>();
+        m_NetworkManager.OnServerStarted += OnServerStarted;
+    }
 
+    private void OnServerStarted()
+    {
+        CustomSceneManager.LoadSceneOnNetwork(SceneInfo.MainWorld);
+        GameManager.SetGameState(GameState.Playing);
     }
 
     void Start()
@@ -31,7 +39,6 @@ public class MultiplayerManager : SingletonBase<MultiplayerManager>
     private void JoinHostInternal() 
     {
         NetworkManager.Singleton.StartHost();
-
     }
 
     public static void JoinClient() 
