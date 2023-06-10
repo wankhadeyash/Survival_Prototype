@@ -51,7 +51,7 @@ public class RelayManager : SingletonBase<RelayManager>
         Debug.Log("Creating relay");
         try
         {
-           Allocation allocation =   await RelayService.Instance.CreateAllocationAsync(3);
+            Allocation allocation =   await RelayService.Instance.CreateAllocationAsync(3);
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
             RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
@@ -59,7 +59,7 @@ public class RelayManager : SingletonBase<RelayManager>
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             Debug.Log("Join code is" + joinCode);
 
-            NetworkManager.Singleton.StartHost();
+            CustomSceneManager.LoadSceneOnNetwork(SceneInfo.MainWorld);
             m_IsConnected = true;
 
             return joinCode;
@@ -88,7 +88,7 @@ public class RelayManager : SingletonBase<RelayManager>
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
-            NetworkManager.Singleton.StartClient();
+            
             m_IsConnected = true;
         }
 

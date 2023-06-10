@@ -67,8 +67,11 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
         LoadScene(currentScene.name, onSceneLoaded);
     }
 
-    public static void LoadSceneOnNetwork(SceneInfo sceneToLoad) 
+    public static void LoadSceneOnNetwork(SceneInfo sceneToLoad)
     {
+        
         NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad.ToString(), LoadSceneMode.Single);
     }
+
+  
 }

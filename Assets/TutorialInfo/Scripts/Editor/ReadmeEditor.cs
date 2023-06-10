@@ -42,7 +42,7 @@ public class ReadmeEditor : Editor {
 		method.Invoke(null, new object[]{Path.Combine(Application.dataPath, "TutorialInfo/Layout.wlt"), false});
 	}
 	
-	[MenuItem("Read Me/Select Welcome Window")]
+	[MenuItem("Tutorial/Show Tutorial Instructions")]
 	static Readme SelectReadme() 
 	{
 		var ids = AssetDatabase.FindAssets("Readme t:Readme");
@@ -59,11 +59,6 @@ public class ReadmeEditor : Editor {
 			Debug.Log("Couldn't find a readme");
 			return null;
 		}
-	}
-	[MenuItem("Read Me/Get the e-book")]
-	static void OpenWebLink()
-	{
-		Application.OpenURL("https://create.unity.com/user-interface-design-implementation-in-unity?utm_source=demand-gen?utm_medium=editor&utm_campaign=authoring-ui&utm_content=ui-toolkit-demo"); //replace with your own links
 	}
 	
 	protected override void OnHeaderGUI()
@@ -128,7 +123,7 @@ public class ReadmeEditor : Editor {
 			return;
 		m_BodyStyle = new GUIStyle(EditorStyles.label);
 		m_BodyStyle.wordWrap = true;
-		m_BodyStyle.fontSize = 12;
+		m_BodyStyle.fontSize = 14;
 		
 		m_TitleStyle = new GUIStyle(m_BodyStyle);
 		m_TitleStyle.fontSize = 26;

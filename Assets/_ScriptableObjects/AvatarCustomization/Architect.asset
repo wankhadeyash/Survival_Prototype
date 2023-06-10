@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb19931877b7cf40900fba58c82f35c, type: 3}
   m_Name: Architect
   m_EditorClassIdentifier: 
-  prefab: {fileID: 247551971512961914, guid: 0ea2a1c6fd3939e43a0b7428058798a7, type: 3}
+  prefab: {fileID: 1741300157706445842, guid: b3a0bc2d0d8ff8b479e3bc25d842c0e8, type: 3}
   classType: Architect
   health: 0
   armor: 0

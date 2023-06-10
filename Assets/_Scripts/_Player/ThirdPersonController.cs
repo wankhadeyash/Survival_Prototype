@@ -30,16 +30,16 @@ public class ThirdPersonController : NetworkBehaviour
 
     void Start()
     {
-        if (!IsOwner)
-            return;
+      //  if (!IsOwner)
+        //    return;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (!IsOwner)
-            return;
+       // if (!IsOwner)
+           // return;
         
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 

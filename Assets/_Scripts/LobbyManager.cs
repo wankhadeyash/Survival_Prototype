@@ -250,7 +250,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
                 });
                 joinedLobby = lobby;
 
-                MultiplayerManager.JoinHost();
+               
             }
             catch (LobbyServiceException e)
             {
@@ -264,6 +264,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
     {
         return AuthenticationService.Instance.PlayerId == joinedLobby.HostId;
     }
+
 
     private void HandleLobbyHeartBeat()
     {

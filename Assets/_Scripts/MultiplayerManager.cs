@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class MultiplayerManager : SingletonBase<MultiplayerManager>
 {
@@ -11,7 +11,13 @@ public class MultiplayerManager : SingletonBase<MultiplayerManager>
     private void OnEnable()
     {
         m_NetworkManager = FindObjectOfType<NetworkManager>();
+     
         m_NetworkManager.OnServerStarted += OnServerStarted;
+    }
+
+    private void OnDisable()
+    {
+        m_NetworkManager.OnServerStarted -= OnServerStarted;
     }
 
     private void OnServerStarted()
