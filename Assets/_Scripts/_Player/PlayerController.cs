@@ -14,8 +14,8 @@ public class PlayerController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner)
-            return;
+       if (!IsOwner)
+           return;
         StartCoroutine(Co_SetCameraFllowAndLookAt());
     }
 
