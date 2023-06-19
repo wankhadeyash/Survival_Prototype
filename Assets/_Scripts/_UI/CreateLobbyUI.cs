@@ -38,10 +38,6 @@ public class CreateLobbyUI : MonoBehaviour
 
     private void OnEnable()
     {
-        LobbyManager.OnLobbyJoined += OnLobbyJoined;
-        //m_CreateLobbyButton.onClick.AddListener(() => OnCreateLobbyButtonClicked());
-        //m_StartGameButton.onClick.AddListener(() => OnStartGameButtonClicked());
-        //m_QuickJoinLobbyButton.onClick.AddListener(() => OnQuickJoinLobbyButtonClicked());
 
         m_CreateButton.onClick.AddListener(() => OnCreateLobbyButtonClicked());
         m_CloseButton.onClick.AddListener(() => OnCloseButtonClicked());
@@ -56,7 +52,6 @@ public class CreateLobbyUI : MonoBehaviour
 
     private void OnDisable()
     {
-        LobbyManager.OnLobbyJoined -= OnLobbyJoined;
 
         //m_CreateLobbyButton.onClick.RemoveAllListeners();
         //m_StartGameButton.onClick.RemoveAllListeners();
@@ -66,12 +61,6 @@ public class CreateLobbyUI : MonoBehaviour
         m_CloseButton.onClick.RemoveAllListeners();
         m_CreateButton.onClick.RemoveAllListeners();
         m_JoinLobbyWithCodeButton.onClick.RemoveAllListeners();
-    }
-
-
-    private void OnLobbyJoined(ClientType clientType, Lobby joinedLobby)
-    {
-        m_JoinedLobbyInfoUI.SetActive(true);
     }
 
     void Start()

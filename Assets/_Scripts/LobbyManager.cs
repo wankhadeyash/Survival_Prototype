@@ -9,6 +9,11 @@ using Unity.Services.Lobbies.Models;
 using System.Threading.Tasks;
 using System;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
+using Unity.Services.Relay.Models;
+using Unity.Services.Relay;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 
 public enum ClientType
 {
@@ -17,48 +22,64 @@ public enum ClientType
 }
 public class LobbyManager : SingletonBase<LobbyManager>
 {
-    public const string KEY_START_GAME = "Start Game Key";
+    NetworkManager m_NetworkManager;
 
-    private Lobby joinedLobby, m_HostLobby;
+    public const string KEY_START_GAME = "Start Game Key";
+    private const string KEY_RELAY_JOIN_CODE = "RelayJoinCode";
+    private Lobby joinedLobby;
     public static Lobby JoinedLobby => Instance.joinedLobby;
 
-    public static Action<ClientType, Lobby> OnLobbyJoined;
-    public static Action OnLobbyLeft;
     public static Action OnUnityAuthenticationSuccesfull;
-    public static Action OnLobbyCreated;
+
+    public  Action OnCreateLobbyStarted;
+    public  Action OnCreateLobbySuccess;
+    public  Action<string> OnCreateLobbyFailed;
+
+    public  Action OnQuickJoinLobbyStarted;
+    public  Action OnQuickJoinLobbySuccess;
+    public  Action<string> OnQuickJoinLobbyFailed;
+
+    public  Action OnJoinLobbyWithCodeStarted;
+    public  Action OnJoinLobbyWithCodeSuccess;
+    public  Action<string> OnJoinLobbyWithCodeFailed;
+
+    public  Action OnJoinLobbyWithIDStarted;
+    public  Action OnJoinLobbyWithIDSuccess;
+    public  Action<string> OnJoinLobbyWithIDFailed;
+
+    public Action<string> OnLobbyLeft;
+
+    public Action<string> OnKickFromLobby;
+
     private float m_HearbeatTimer;
     private float m_LobbyUpdateTimer;
 
     public bool m_IsAuthenticated;
 
-
+    #region Mono
     protected override void OnAwake()
     {
+        m_NetworkManager = FindObjectOfType<NetworkManager>();
+
         InitializeUnityAuthentication();
     }
 
     private void OnEnable()
     {
-        GameManager.OnStartEntered += OnGameStart;
     }
 
     
     private void OnDisable()
     {
-        GameManager.OnStartEntered += OnGameStart;
     }
-
-    private void OnGameStart()
-    {
-        StartGame();
-    }
-
-
     private void Update()
     {
         HandleLobbyHeartBeat();
-        HandleLobbyPollForUpdates();
     }
+    #endregion
+
+
+   
     private async void InitializeUnityAuthentication()
     {
         if (UnityServices.State != ServicesInitializationState.Initialized)
@@ -69,10 +90,12 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
             m_IsAuthenticated = true;
+
             OnUnityAuthenticationSuccesfull?.Invoke();
         }
     }
 
+    #region Lobby Creation and Joining
     [Button]
     public static void CreateLobby(string lobbyName, bool isPrivate)
     {
@@ -81,31 +104,40 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     private async void CreateLobbyInternal(string lobbyName, bool isPrivate)
     {
+        OnCreateLobbyStarted?.Invoke();
         try
         {
-            m_HostLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, 10, new CreateLobbyOptions
+            joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, 10, new CreateLobbyOptions
             {
-
                 IsPrivate = isPrivate,
-                Data = new Dictionary<string, DataObject>
-                {
-                    { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, "0")  }
+            });
+
+            Allocation allocation = await AllocateRelay();
+
+            string relayJoinCode = await GetRelayJoinCode(allocation);
+
+            await LobbyService.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
+            {
+                Data = new Dictionary<string, DataObject> {
+                    { KEY_RELAY_JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member,relayJoinCode) }
                 }
             });
 
-            joinedLobby = m_HostLobby;
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
+            MultiplayerManager.StartHost();
 
+            CustomSceneManager.LoadSceneOnNetwork(SceneInfo.MainWorld);
+            OnCreateLobbySuccess?.Invoke();
         }
         catch (LobbyServiceException e)
         {
-            Debug.Log(e);
+            Debug.LogError(e);
+            string a = e.ToString();
+            OnCreateLobbyFailed?.Invoke(e.ToString());
         }
 
         Debug.Log($"Lobby created with {joinedLobby.Name} {joinedLobby.Id} {joinedLobby.LobbyCode}");
-        OnLobbyCreated?.Invoke();
-        OnLobbyJoined?.Invoke(ClientType.Host, joinedLobby);
     }
-
 
     public static void QuickJoin()
     {
@@ -113,20 +145,231 @@ public class LobbyManager : SingletonBase<LobbyManager>
     }
     public async void QuickJoinInternal()
     {
+        OnQuickJoinLobbyStarted?.Invoke();
         try
         {
             joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
+            MultiplayerManager.StartClient();
+
+            OnQuickJoinLobbySuccess?.Invoke();
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+            OnQuickJoinLobbyFailed?.Invoke(e.ToString());
+        }
+
+
+    }
+
+    public static Task<string> JoinWithCode(string lobbyCode)
+    {
+        return Instance.JoinLobbyWithCodeInternal(lobbyCode);
+    }
+
+    private async Task<string> JoinLobbyWithCodeInternal(string lobbyCode)
+    {
+        OnJoinLobbyWithCodeStarted?.Invoke();
+        try
+        {
+            joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
+            MultiplayerManager.StartClient();
+
+            OnJoinLobbyWithCodeSuccess?.Invoke();
+            return "Success";
+        }
+        catch (LobbyServiceException e)
+        {
+            OnJoinLobbyWithCodeFailed?.Invoke(e.ToString());
+
+            if (e.Message.Contains("InvalidJoinCode") || e.Message.Contains("contains an invalid character") || e.Message.Contains("lobby not found"))
+            {
+                Debug.Log("Wrong Lobby Code");
+                return "Wrong lobby Code";
+
+            }
+            else
+            {
+                // Log other LobbyServiceException errors
+                Debug.Log("Lobby service error: " + e.Message);
+                return "e.Message";
+
+            }
+
+
+        }
+    }
+
+    public static void JoinWithId(string lobbyId)
+    {
+        Instance.JoinLobbyWithIdInternal(lobbyId);
+    }
+
+
+    private async void JoinLobbyWithIdInternal(string lobbyId)
+    {
+        OnJoinLobbyWithIDSuccess?.Invoke();
+        try
+        {
+            joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
+            string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+
+            MultiplayerManager.StartClient();
+            OnJoinLobbyWithIDSuccess?.Invoke();
+        }
+        catch (LobbyServiceException e)
+        {
+
+            Debug.Log(e);
+            OnJoinLobbyWithIDFailed?.Invoke(e.ToString());
+        }
+    }
+
+    public static void LeaveLobby()
+    {
+        Instance.LeaveLobbyInternal();
+    }
+    private async void LeaveLobbyInternal()
+    {
+        try
+        {
+            //Ensure you sign-in before calling Authentication Instance
+            //See IAuthenticationService interface
+            string playerId = AuthenticationService.Instance.PlayerId;
+            await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
+
+            if (joinedLobby != null)
+                joinedLobby = null;
+
+            OnLobbyLeft?.Invoke(playerId);
         }
         catch (LobbyServiceException e)
         {
             Debug.Log(e);
         }
 
-        OnLobbyJoined?.Invoke(ClientType.Client, joinedLobby);
 
     }
 
-    [Button]
+    public static void KickPlayerFromLobby(string playerId) 
+    {
+        Instance.KickPlayerFromLobbyInternal(playerId);
+    }
+
+    private async void KickPlayerFromLobbyInternal(string playerId) 
+    {
+        try
+        {
+            await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
+            OnKickFromLobby?.Invoke(playerId);
+
+        }
+
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    public static void DeleteLobby() 
+    {
+        Instance.DeleteLobbyInternal();
+    }
+    private async void DeleteLobbyInternal()
+    {
+        if (joinedLobby != null)
+        {
+            try
+            {
+                await LobbyService.Instance.DeleteLobbyAsync(joinedLobby.Id);
+
+                joinedLobby = null;
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log(e);
+            }
+        }
+    }
+    #endregion
+
+    #region Host and Client Joining
+    public static void JoinHost()
+    {
+        Instance.JoinHostInternal();
+    }
+    private void JoinHostInternal()
+    {
+        NetworkManager.Singleton.StartHost();
+    }
+    public static void JoinClient()
+    {
+        Instance.JoinClientInternal();
+    }
+    private void JoinClientInternal()
+    {
+        NetworkManager.Singleton.StartClient();
+    }
+    #endregion
+
+    #region Relay
+    private async Task<Allocation> AllocateRelay()
+    {
+        try
+        {
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(4);
+
+            return allocation;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.LogError(e);
+
+            return default;
+        }
+    }
+
+    private async Task<string> GetRelayJoinCode(Allocation allocation)
+    {
+        try
+        {
+            string relayJoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+
+            return relayJoinCode;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.LogError(e);
+            return default;
+        }
+    }
+
+    private async Task<JoinAllocation> JoinRelay(string joinCode)
+    {
+        try
+        {
+            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            return joinAllocation;
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.Log(e);
+            return default;
+        }
+    }
+    #endregion
+
     public async Task<List<Lobby>> GetLobbiesList()
     {
         return await Instance.GetLobbiesListInternal();
@@ -145,120 +388,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     }
 
-    public static void LeaveLobby()
-    {
-        Instance.LeaveLobbyInternal();
-    }
-    private async void LeaveLobbyInternal()
-    {
-        try
-        {
-            //Ensure you sign-in before calling Authentication Instance
-            //See IAuthenticationService interface
-            string playerId = AuthenticationService.Instance.PlayerId;
-            await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
-
-            if (m_HostLobby != null)
-                m_HostLobby = null;
-            joinedLobby = null;
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.Log(e);
-        }
-        OnLobbyLeft?.Invoke();
-
-
-    }
-
-
-
-    public static Task<string> JoinWithCode(string lobbyCode)
-    {
-        return Instance.JoinLobbyWithCodeInternal(lobbyCode);
-    }
-
-    private async Task<string> JoinLobbyWithCodeInternal(string lobbyCode)
-    {
-        try
-        {
-            joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
-            OnLobbyJoined?.Invoke(ClientType.Client, joinedLobby);
-            return "Success";
-        }
-        catch (LobbyServiceException e)
-        {
-
-            if (e.Message.Contains("InvalidJoinCode") || e.Message.Contains("contains an invalid character") || e.Message.Contains("lobby not found"))
-            {
-                Debug.Log("Wrong Lobby Code");
-                return "Wrong lobby Code";
-
-            }
-            else
-            {
-                // Log other LobbyServiceException errors
-                Debug.Log("Lobby service error: " + e.Message);
-                return "e.Message";
-
-            }
-
-        }
-    }
-
-    public static void JoinWithId(string lobbyId)
-    {
-        Instance.JoinLobbyWithIdInternal(lobbyId);
-    }
-
-
-    private async void JoinLobbyWithIdInternal(string lobbyId) 
-    {
-        try
-        {
-            joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
-            OnLobbyJoined?.Invoke(ClientType.Client, joinedLobby);
-        }
-        catch (LobbyServiceException e)
-        {
-
-            Debug.Log(e);
-
-        }
-    }
-
-
-    public static void StartGame() 
-    {
-        Instance.StartGameInternal();
-    }
-    private async void StartGameInternal()
-    {
-        if (IsLobbyHost())
-        {
-            try
-            {
-                Debug.Log("Start Game");
-                string relayCode = await RelayManager.CreateRelay();
-
-                Lobby lobby = await Lobbies.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
-                {
-                    Data = new Dictionary<string, DataObject>()
-                    {
-                        { KEY_START_GAME, new DataObject(DataObject.VisibilityOptions.Member, relayCode)}
-                    }
-                });
-                joinedLobby = lobby;
-
-               
-            }
-            catch (LobbyServiceException e)
-            {
-                Debug.Log(e);
-                return;
-            }
-        }
-    }
+    
 
     public bool IsLobbyHost()
     {
@@ -268,52 +398,17 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     private void HandleLobbyHeartBeat()
     {
-        if (m_HostLobby != null)
-        {
-            if (IsLobbyHost())
+        if (joinedLobby != null && IsLobbyHost())
+        { 
 
-            {
                 m_HearbeatTimer -= Time.deltaTime;
                 if (m_HearbeatTimer < 0)
                 {
                     float heartbeatTimerMax = 15;
                     m_HearbeatTimer = heartbeatTimerMax;
 
-                    LobbyService.Instance.SendHeartbeatPingAsync(m_HostLobby.Id);
+                    LobbyService.Instance.SendHeartbeatPingAsync(joinedLobby.Id);
                 }
-
-            }
-        }
-    }
-
-    private async void HandleLobbyPollForUpdates()
-    {
-        if (joinedLobby != null)
-        {
-            m_LobbyUpdateTimer -= Time.deltaTime;
-            if (m_LobbyUpdateTimer < 0)
-            {
-                float lobbyTimeMax = 1.5f;
-                m_LobbyUpdateTimer = lobbyTimeMax;
-
-                try
-                {
-                    Lobby lobby = await LobbyService.Instance.GetLobbyAsync(joinedLobby.Id);
-                    joinedLobby = lobby; if (joinedLobby.Data[KEY_START_GAME].Value != "0")
-                    {
-                        //Start Game
-                        if (!IsLobbyHost() && !RelayManager.Instance.IsConnected)
-                        {
-                            RelayManager.JoinRelay(joinedLobby.Data[KEY_START_GAME].Value);
-                        }
-                    }
-
-                }
-                catch (LobbyServiceException e) 
-                {
-                    Debug.Log(e);
-                }
-            }
 
         }
     }

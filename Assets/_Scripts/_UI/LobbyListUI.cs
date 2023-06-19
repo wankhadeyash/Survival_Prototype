@@ -17,13 +17,11 @@ public class LobbyListUI : MonoBehaviour
 
     private void OnEnable()
     {
-        LobbyManager.OnLobbyLeft += OnLobbyLeft;
     }
 
 
     private void OnDisable()
     {
-        LobbyManager.OnLobbyLeft -= OnLobbyLeft;
 
     }
 
@@ -57,12 +55,6 @@ public class LobbyListUI : MonoBehaviour
             }
         }
 
-    }
-
-    private void OnLobbyLeft()
-    {
-        //m_EnhancedScroller.Data.Clear();
-        //m_EnhancedScroller.myScroller.ReloadData();
     }
 
 

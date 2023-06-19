@@ -5,56 +5,66 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MultiplayerManager : SingletonBase<MultiplayerManager>
+public class MultiplayerManager : NetworkBehaviour
 {
-    NetworkManager m_NetworkManager;
-    private void OnEnable()
+    [SerializeField] private GameObject m_PlayerPrefab;
+    public static MultiplayerManager Instance { get; private set; }
+
+    private void Awake()
     {
-        m_NetworkManager = FindObjectOfType<NetworkManager>();
-     
-        m_NetworkManager.OnServerStarted += OnServerStarted;
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void OnDisable()
+    public static void StartHost() 
     {
-        m_NetworkManager.OnServerStarted -= OnServerStarted;
+        Instance.StartHostInternal();
     }
-
-    private void OnServerStarted()
+    private void StartHostInternal()
     {
-        CustomSceneManager.LoadSceneOnNetwork(SceneInfo.MainWorld);
-        GameManager.SetGameState(GameState.Playing);
-    }
+        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectedCallback;
 
-    void Start()
-    {
-        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_Client_OnClientConnectedCallback;
 
-    }
 
-    private void NetworkManager_Client_OnClientConnectedCallback(ulong clientId)
-    {
-        Debug.Log(clientId);
-    }
-
-    public static void JoinHost() 
-    {
-        Instance.JoinHostInternal();
-    }
-
-    private void JoinHostInternal() 
-    {
         NetworkManager.Singleton.StartHost();
     }
 
-    public static void JoinClient() 
+    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        Instance.JoinClientInternal();
+        if (IsServer)
+        {
+            if (sceneName == SceneInfo.MainWorld.ToString())
+            {
+                foreach (ulong cliendId in NetworkManager.Singleton.ConnectedClientsIds) 
+                {
+                    GameObject player = Instantiate(m_PlayerPrefab);
+                    player.GetComponent<NetworkObject>().SpawnAsPlayerObject(cliendId, true);
+
+                }
+            }
+        }
     }
 
-    private void JoinClientInternal() 
+    private void NetworkManager_OnClientConnectedCallback(ulong obj)
     {
+
+    }
+    private void NetworkManager_OnClientDisconnectedCallback(ulong obj)
+    {
+
+    }
+    public static void StartClient() 
+    {
+        Instance.StartClientInternal();
+    }
+
+    private void StartClientInternal() 
+    {
+        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectedCallback;
         NetworkManager.Singleton.StartClient();
     }
+
 }
 

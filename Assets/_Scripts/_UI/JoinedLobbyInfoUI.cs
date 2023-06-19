@@ -18,7 +18,7 @@ public class JoinedLobbyInfoUI : MonoBehaviour
     {
         m_LeaveCurrentLobbyButton.onClick.AddListener(() => OnLeaveLobbyButtonClicked());
         m_StartGameButton.onClick.AddListener(() => OnStartGameButtonClicked());
-        LobbyManager.OnLobbyLeft += OnLobbyLeft;
+        LobbyManager.Instance.OnLobbyLeft += OnLobbyLeft;
 
         SetCurrentLobbyData();
 
@@ -28,7 +28,7 @@ public class JoinedLobbyInfoUI : MonoBehaviour
     {
         m_LeaveCurrentLobbyButton.onClick.RemoveAllListeners();
         m_StartGameButton.onClick.RemoveAllListeners();
-        LobbyManager.OnLobbyLeft -= OnLobbyLeft;
+        LobbyManager.Instance.OnLobbyLeft -= OnLobbyLeft;
 
 
         m_CurrentLobbyNameText.text = "";
@@ -38,7 +38,7 @@ public class JoinedLobbyInfoUI : MonoBehaviour
 
     }
 
-    private void OnLobbyLeft()
+    private void OnLobbyLeft(string playerId)
     {
         m_CreateLobbyUI.SetActive(true);
         gameObject.SetActive(false);
