@@ -100,12 +100,13 @@ namespace StarterAssets
         private int _animIDMotionSpeed;
 
 #if ENABLE_INPUT_SYSTEM 
-        private PlayerInput _playerInput;
+        [SerializeField] private PlayerInput _playerInput;
 #endif
-        [SerializeField] private Animator _animator;
-        [SerializeField] private CharacterController _controller;
-        [SerializeField] private StarterAssetsInputs _input;
-        [SerializeField] private GameObject _mainCamera;
+         private Animator _animator;
+         private CharacterController _controller;
+        [SerializeField] private InputActionAsset inputActionAsset;
+        private StarterAssetsInputs _input;
+         private GameObject _mainCamera;
 
         private const float _threshold = 0.01f;
 
@@ -115,11 +116,9 @@ namespace StarterAssets
         {
             get
             {
-#if ENABLE_INPUT_SYSTEM
                 return _playerInput.currentControlScheme == "KeyboardMouse";
-#else
-				return false;
-#endif
+
+
             }
         }
 
@@ -147,11 +146,12 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
-#if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
-#else
-			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
-#endif
+            if (_playerInput.actions != inputActionAsset)
+            {
+                // if we have the wrong one, we assign the correct one
+                _playerInput.actions = inputActionAsset;
+            }
 
             AssignAnimationIDs();
 

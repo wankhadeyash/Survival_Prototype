@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8148182886980013479}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
@@ -1101,9 +1101,12 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
-  _animator: {fileID: 0}
-  _controller: {fileID: 0}
-  _input: {fileID: 0}
+  _playerInput: {fileID: 8148182886980013477}
+  _animator: {fileID: 8148182886980013502}
+  _controller: {fileID: 8148182886980013497}
+  inputActionAsset: {fileID: -944628639613478452, guid: 4419d82f33d36e848b3ed5af4c8da37e,
+    type: 3}
+  _input: {fileID: 8148182886980013498}
   _mainCamera: {fileID: 0}
 --- !u!114 &8148182886980013499
 MonoBehaviour:
@@ -1317,11 +1320,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8148182886980013479}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90f441cd43d24034488e22896bb48d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 5
+  rotationSpeed: 10
 --- !u!1 &8148182886985087905
 GameObject:
   m_ObjectHideFlags: 0
