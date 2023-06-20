@@ -10,17 +10,23 @@ public class CameraController : SingletonBase<CameraController>
     
     [SerializeField] private CinemachineVirtualCameraBase m_VirtualCamera;
 
-    public static void SetCameraFollowAndLookAt(Transform follow, Transform lookAt)
-    {
-        Instance.SetCameraFollowAnfLookAtInternal(follow, lookAt);
-    }
 
-    private void SetCameraFollowAnfLookAtInternal(Transform follow, Transform lookAt)
+    public void SetCameraFollowAnfLookAtInternal(Transform follow, Transform lookAt)
     {
         m_VirtualCamera.LookAt = lookAt;
         m_VirtualCamera.Follow = follow;
 
     }
 
+    public  void SetCameraFollow(Transform follow) 
+    {
+        m_VirtualCamera.Follow = follow;
+
+    }
+
+    public void SetCameraLook(Transform looAt) 
+    {
+        m_VirtualCamera.LookAt = looAt;
+    }
 }
 

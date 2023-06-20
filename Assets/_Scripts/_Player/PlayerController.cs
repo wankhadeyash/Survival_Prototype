@@ -7,6 +7,7 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
+    [SerializeField] private GameObject m_PlayerCameraRoot;
     private void OnEnable()
     {
         DontDestroyOnLoad(gameObject);
@@ -22,7 +23,7 @@ public class PlayerController : NetworkBehaviour
     private IEnumerator Co_SetCameraFllowAndLookAt()
     {
         yield return new WaitForSeconds(2f);
-        CameraController.SetCameraFollowAndLookAt(transform, transform);
+        CameraController.Instance.SetCameraFollow(m_PlayerCameraRoot.transform);
     }
 
 }
