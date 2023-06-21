@@ -99,6 +99,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
     [Button]
     public static void CreateLobby(string lobbyName, bool isPrivate)
     {
+        LoadingUI.Instance.EnableContainer("Loading World...");
         Instance.CreateLobbyInternal(lobbyName, isPrivate);
     }
 
@@ -141,6 +142,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     public static void QuickJoin()
     {
+        LoadingUI.Instance.EnableContainer("Loading World...");
         Instance.QuickJoinInternal();
     }
     public async void QuickJoinInternal()
@@ -169,6 +171,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     public static Task<string> JoinWithCode(string lobbyCode)
     {
+        LoadingUI.Instance.EnableContainer("Loading World...");
         return Instance.JoinLobbyWithCodeInternal(lobbyCode);
     }
 
@@ -211,6 +214,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     public static void JoinWithId(string lobbyId)
     {
+        LoadingUI.Instance.EnableContainer("Loading World...");
         Instance.JoinLobbyWithIdInternal(lobbyId);
     }
 

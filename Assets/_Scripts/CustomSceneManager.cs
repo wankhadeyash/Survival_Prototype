@@ -12,6 +12,9 @@ public enum SceneInfo
 }
 public class CustomSceneManager : SingletonBase<CustomSceneManager>
 {
+    public static Action OnLoadSceneStarted;
+
+    public static Action OnLoadSceneFinished;
     public static void LoadScene(string sceneName, Action OnSceneLoaded = null)
     {
         Instance.LoadSceneInternal(sceneName, OnSceneLoaded);
@@ -67,11 +70,16 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
         LoadScene(currentScene.name, onSceneLoaded);
     }
 
-    public static void LoadSceneOnNetwork(SceneInfo sceneToLoad)
+    public static void LoadSceneOnNetwork(SceneInfo sceneToLoad, Action callback = null)
     {
-        
+        OnLoadSceneStarted?.Invoke();
         NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad.ToString(), LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnLoadLevelComplete;
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadLevelComplete;
     }
 
-  
+    private static void OnLoadLevelComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+    {
+        OnLoadSceneFinished?.Invoke();
+    }
 }

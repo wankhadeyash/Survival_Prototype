@@ -24,6 +24,8 @@ public class PlayerController : NetworkBehaviour
     {
         yield return new WaitForSeconds(2f);
         CameraController.Instance.SetCameraFollow(m_PlayerCameraRoot.transform);
+        yield return new WaitForSeconds(1f);
+        LoadingUI.Instance.DisableContainer();
     }
 
 }
