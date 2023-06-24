@@ -18,7 +18,6 @@ public class SingletonBase<T> : MonoBehaviour where T : SingletonBase<T>
         else
         {
             //Destroy and set instance to null
-            s_Instance = null;
             Destroy(gameObject);
             return;
         }

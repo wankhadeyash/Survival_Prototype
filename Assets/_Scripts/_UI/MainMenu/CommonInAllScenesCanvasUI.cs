@@ -7,10 +7,6 @@ using TMPro;
 public class CommonInAllScenesCanvasUI : SingletonBase<CommonInAllScenesCanvasUI>
 {
 
-    void Start()
-    {
-
-    }
 
 }
 

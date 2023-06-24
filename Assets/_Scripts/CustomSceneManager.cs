@@ -16,22 +16,6 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
 
     public static Action OnLoadSceneFinished;
 
-    private void OnEnable()
-    {
-        LobbyManager.OnLobbyLeft += OnLobbyLeft;
-        LobbyManager.OnKickFromLobby += OnKickFromLobby;
-    }
-
-    private void OnKickFromLobby(string playerId)
-    {
-        LoadScene(0);
-    }
-
-    private void OnLobbyLeft(string playerId)
-    {
-        LoadScene(0);
-    }
-
     public static void LoadScene(string sceneName, Action OnSceneLoaded = null)
     {
         Instance.LoadSceneInternal(sceneName, OnSceneLoaded);

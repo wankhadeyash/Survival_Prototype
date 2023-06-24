@@ -5,23 +5,22 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class LoadingUI : MonoBehaviour
+public class LoadingUI : SingletonBase<LoadingUI>
 {
-    public static LoadingUI Instance;
 
     [SerializeField] private GameObject m_Container;
     [SerializeField] private TextMeshProUGUI m_Text;
 
 
-    private void OnEnable()
-    {
-        Instance = this;
-    }
-
-
-    void Awake()
+    protected override void OnAwake()
     {
         DisableContainer();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+            EnableContainer("yash");
     }
 
     public void SetLoadingText() 

@@ -125,7 +125,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
             });
 
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
-            MultiplayerManager.StartHost();
+            MultiplayerManager.Instance.StartHost();
 
             CustomSceneManager.LoadSceneOnNetwork(SceneInfo.MainWorld);
             OnCreateLobbySuccess?.Invoke();
@@ -156,7 +156,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
             JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
 
-            MultiplayerManager.StartClient();
+            MultiplayerManager.Instance.StartClient();
 
             OnQuickJoinLobbySuccess?.Invoke();
         }
@@ -185,7 +185,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
             JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
 
-            MultiplayerManager.StartClient();
+            MultiplayerManager.Instance.StartClient();
 
             OnJoinLobbyWithCodeSuccess?.Invoke();
             return "Success";
@@ -229,7 +229,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
             JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
 
-            MultiplayerManager.StartClient();
+            MultiplayerManager.Instance.StartClient();
             OnJoinLobbyWithIDSuccess?.Invoke();
         }
         catch (LobbyServiceException e)

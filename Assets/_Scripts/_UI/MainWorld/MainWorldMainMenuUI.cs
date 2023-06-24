@@ -13,7 +13,7 @@ public class MainWorldMainMenuUI : MonoBehaviour
 
     private void OnEnable()
     {
-        m_QuitButton.onClick.AddListener(() => LobbyManager.LeaveLobby());
+        m_QuitButton.onClick.AddListener(() => MultiplayerManager.Instance.Disconnect());
     }
 
     private void OnDisable()

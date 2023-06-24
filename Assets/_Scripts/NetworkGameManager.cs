@@ -12,9 +12,14 @@ using UnityEngine.SceneManagement;
 public class NetworkGameManager : NetworkBehaviour
 {
     [SerializeField] GameObject m_PlayerPrefab;
-    GameObject m_NetworkPlayer;
-
+    
     public static NetworkGameManager Instance;
+
+
+    private void OnEnable()
+    {
+
+    }
 
     private void Awake()
     {
@@ -35,14 +40,13 @@ public class NetworkGameManager : NetworkBehaviour
 
     private void SceneManager_OnLoadEventCompleted(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
-        m_NetworkPlayer = Instantiate(m_PlayerPrefab);
-        m_NetworkPlayer.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+        GameObject player = Instantiate(m_PlayerPrefab);
+        player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
     }
 
     private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
         Debug.Log($"{clientId } is disconnected");
-        m_NetworkPlayer.GetComponent<NetworkObject>().Despawn(true);
     }
 
 
