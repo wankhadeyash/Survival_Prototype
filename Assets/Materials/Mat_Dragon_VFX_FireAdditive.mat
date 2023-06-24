@@ -8,7 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_Dragon_VFX_FireAdditive
-  m_Shader: {fileID: -6465566751694194690, guid: abe5098b3aa904a5f8dcca8c077d7b1e, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: abe5098b3aa904a5f8dcca8c077d7b1e,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 0
@@ -17,6 +20,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -131,7 +135,8 @@ Material:
     - Color_24502C32: {r: 39.817204, g: 39.817204, b: 39.817204, a: 1}
     - Color_39dad05dbf7e4e2cb7a9ede9fe51ae8f: {r: 8, g: 8, b: 8, a: 0}
     - Color_4f61526f169842b498fe70dfc1614bc3: {r: 0, g: 0, b: 0, a: 0}
-    - Color_6d8340d24fa844be88e8ab429ff39f61: {r: 1, g: 0.27077776, b: 0.043137252, a: 1}
+    - Color_6d8340d24fa844be88e8ab429ff39f61: {r: 1, g: 0.27077776, b: 0.043137252,
+        a: 1}
     - Color_91a11650709741b6a5756447baf56277: {r: 1, g: 0.055243984, b: 0, a: 0.6509804}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
@@ -142,3 +147,16 @@ Material:
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.58823526, g: 0.58823526, b: 0.58823526, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &8344180991460550848
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7

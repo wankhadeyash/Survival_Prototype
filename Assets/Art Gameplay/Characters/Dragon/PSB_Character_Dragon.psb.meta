@@ -26,11 +26,13 @@ ScriptedImporter:
     convertToNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
     isReadable: 0
     streamingMipmaps: 1
     streamingMipmapsPriority: 0
     vTOnly: 0
-    ignoreMasterTextureLimit: 0
+    ignoreMipmapLimit: 0
     nPOTScale: 1
     sRGBTexture: 1
     spriteMode: 2
@@ -52,6 +54,7 @@ ScriptedImporter:
     flipbookRows: 0
     flipbookColumns: 0
     ignorePngGamma: 0
+    cookieMode: 0
     filterMode: 1
     aniso: 1
     mipBias: 0
@@ -92,7 +95,6 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 0, y: 0}
     spritePosition: {x: 0, y: 0}
   mosaicSpriteImportData: []
@@ -224,7 +226,6 @@ ScriptedImporter:
     - {x: 2, y: 3}
     - {x: 1, y: 0}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 3976, y: 946}
     spritePosition: {x: 102, y: 896}
   - name: eye_closed
@@ -374,7 +375,6 @@ ScriptedImporter:
     - {x: 5, y: 6}
     - {x: 7, y: 6}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 3976, y: 1098}
     spritePosition: {x: 285, y: 1048}
   - name: eye_open
@@ -634,7 +634,6 @@ ScriptedImporter:
     - {x: 13, y: 14}
     - {x: 14, y: 15}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 3976, y: 1030}
     spritePosition: {x: 285, y: 1047}
   - name: head_top
@@ -1357,7 +1356,6 @@ ScriptedImporter:
     - {x: 34, y: 62}
     - {x: 35, y: 62}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 3448, y: 4}
     spritePosition: {x: 61, y: 833}
   - name: jaw_front
@@ -1782,7 +1780,6 @@ ScriptedImporter:
     - {x: 8, y: 9}
     - {x: 11, y: 12}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 1323, y: 2132}
     spritePosition: {x: 113, y: 833}
   - name: tongue_dead
@@ -1976,7 +1973,6 @@ ScriptedImporter:
     - {x: 2, y: 3}
     - {x: 3, y: 4}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 1227, y: 2281}
     spritePosition: {x: 292, y: 902}
   - name: tongue
@@ -2159,7 +2155,6 @@ ScriptedImporter:
     - {x: 2, y: 3}
     - {x: 3, y: 4}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 987, y: 2281}
     spritePosition: {x: 189, y: 957}
   - name: jaw_back
@@ -2397,7 +2392,6 @@ ScriptedImporter:
     - {x: 9, y: 17}
     - {x: 10, y: 17}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 3753, y: 745}
     spritePosition: {x: 115, y: 877}
   - name: little_wing
@@ -2723,7 +2717,6 @@ ScriptedImporter:
     - {x: 23, y: 24}
     - {x: 24, y: 9}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 3753, y: 946}
     spritePosition: {x: 445, y: 950}
   - name: wing_l_part_03
@@ -3115,7 +3108,6 @@ ScriptedImporter:
     - {x: 1, y: 31}
     - {x: 29, y: 31}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 1226, y: 745}
     spritePosition: {x: 774, y: 1126}
   - name: wing_l_part_02
@@ -3333,7 +3325,6 @@ ScriptedImporter:
     - {x: 6, y: 7}
     - {x: 11, y: 12}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 433, y: 1608}
     spritePosition: {x: 1016, y: 867}
   - name: wing_r_part_01
@@ -3635,7 +3626,6 @@ ScriptedImporter:
     - {x: 0, y: 21}
     - {x: 0, y: 1}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 2083, y: 1608}
     spritePosition: {x: 785, y: 624}
   - name: wing_l_skin
@@ -3853,7 +3843,6 @@ ScriptedImporter:
     - {x: 3, y: 11}
     - {x: 8, y: 11}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 4, y: 745}
     spritePosition: {x: 896, y: 652}
   - name: leg_back_l
@@ -4327,7 +4316,6 @@ ScriptedImporter:
     - {x: 16, y: 36}
     - {x: 17, y: 36}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 987, y: 1608}
     spritePosition: {x: 1352, y: 146}
   - name: paw_front_l
@@ -4622,7 +4610,6 @@ ScriptedImporter:
     - {x: 6, y: 7}
     - {x: 8, y: 9}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 2083, y: 2278}
     spritePosition: {x: 690, y: 110}
   - name: leg_front_l
@@ -5031,7 +5018,6 @@ ScriptedImporter:
     - {x: 19, y: 29}
     - {x: 29, y: 11}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 1323, y: 1608}
     spritePosition: {x: 630, y: 152}
   - name: neck
@@ -5639,7 +5625,6 @@ ScriptedImporter:
     - {x: 43, y: 46}
     - {x: 45, y: 46}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 4, y: 1608}
     spritePosition: {x: 363, y: 415}
   - name: torso
@@ -6605,7 +6590,6 @@ ScriptedImporter:
     - {x: 18, y: 19}
     - {x: 18, y: 52}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 4, y: 4}
     spritePosition: {x: 518, y: 161}
   - name: scales_neck
@@ -6863,7 +6847,6 @@ ScriptedImporter:
     - {x: 0, y: 1}
     - {x: 18, y: 15}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 433, y: 2048}
     spritePosition: {x: 695, y: 918}
   - name: scales_back
@@ -7669,7 +7652,6 @@ ScriptedImporter:
     - {x: 29, y: 30}
     - {x: 60, y: 55}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 2654, y: 745}
     spritePosition: {x: 762, y: 681}
   - name: leg_front_r
@@ -8125,7 +8107,6 @@ ScriptedImporter:
     - {x: 31, y: 36}
     - {x: 34, y: 36}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 2379, y: 1608}
     spritePosition: {x: 460, y: 180}
   - name: wing_r
@@ -8643,7 +8624,6 @@ ScriptedImporter:
     - {x: 39, y: 38}
     - {x: 38, y: 8}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 2391, y: 4}
     spritePosition: {x: 750, y: 702}
   - name: leg_back_r
@@ -9076,7 +9056,6 @@ ScriptedImporter:
     - {x: 25, y: 4}
     - {x: 12, y: 13}
     tessellationDetail: 0
-    parentGroupIndex: -1
     uvTransform: {x: 1750, y: 1608}
     spritePosition: {x: 1044, y: 209}
   characterData:
@@ -9714,6 +9693,7 @@ ScriptedImporter:
       order: 0
     dimension: {x: 0, y: 0}
     characterGroups: []
+    pivot: {x: 0, y: 0}
     boneReadOnly: 0
   sharedRigSpriteImportData: []
   sharedRigCharacterData:
@@ -9721,10 +9701,12 @@ ScriptedImporter:
     parts: []
     dimension: {x: 0, y: 0}
     characterGroups: []
+    pivot: {x: 0, y: 0}
     boneReadOnly: 0
   platformSettings:
   - name: DefaultTexturePlatform
     overridden: 0
+    ignorePlatformSupport: 0
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -9736,6 +9718,7 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   - name: Standalone
     overridden: 0
+    ignorePlatformSupport: 0
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -9747,6 +9730,7 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   - name: iPhone
     overridden: 0
+    ignorePlatformSupport: 0
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -9758,6 +9742,7 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   - name: Android
     overridden: 0
+    ignorePlatformSupport: 0
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -9769,6 +9754,7 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   - name: WebGL
     overridden: 0
+    ignorePlatformSupport: 0
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -9780,6 +9766,7 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   - name: Server
     overridden: 0
+    ignorePlatformSupport: 0
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -9799,6 +9786,8 @@ ScriptedImporter:
   paperDollMode: 0
   keepDupilcateSpriteName: 0
   skeletonAssetReferenceID: 
+  padding: 4
+  spriteSizeExpand: 0
   spriteCategoryList:
     categories:
     - name: wing_l_part_03
@@ -10155,6 +10144,9 @@ ScriptedImporter:
     isVisible: 1
   sharedRigPSDLayers: []
   pSDLayerImportSetting: []
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 0
+  spriteSizeExpandChanged: 0
   generateGOHierarchy: 0
   textureAssetName: ghdgfxfgc Texture
   prefabAssetName: ghdgfxfgc Prefab
