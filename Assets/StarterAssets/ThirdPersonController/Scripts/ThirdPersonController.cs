@@ -136,7 +136,7 @@ namespace StarterAssets
         }
         private void Update()
         {
-            if (!IsOwner)
+            if (!IsOwner || GameManager.CurrentState != GameState.Playing)
                 return;
             _hasAnimator = TryGetComponent(out _animator);
 
@@ -147,7 +147,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!IsOwner)
+            if (!IsOwner || GameManager.CurrentState != GameState.Playing)
                 return;
             CameraRotation();
         }

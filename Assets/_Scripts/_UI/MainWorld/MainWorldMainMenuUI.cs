@@ -22,7 +22,7 @@ public class MainWorldMainMenuUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-                if (GameManager.CurrentState != GameState.Paused)
+            if (GameManager.CurrentState != GameState.Paused)
                 ShowContainer();
             else
                 HideContainer();

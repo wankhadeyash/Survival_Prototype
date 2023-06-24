@@ -51,7 +51,7 @@ public class JoinedLobbyInfoUI : MonoBehaviour
 
     private void OnStartGameButtonClicked()
     {
-        GameManager.SetGameState(GameState.Start);
+       // GameManager.SetGameState(GameState.Start);
     }
     void SetCurrentLobbyData() 
     {
