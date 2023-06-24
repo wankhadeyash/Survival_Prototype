@@ -15,6 +15,7 @@ public enum GameState
     Start,
     Playing,
     Paused,
+    Unpause,
     GameOver
 };
 public class GameManager : NetworkBehaviour
@@ -25,12 +26,14 @@ public class GameManager : NetworkBehaviour
     public static Action OnStartEntered;
     public static Action OnPlayingEntered;
     public static Action OnPausedEntered;
+    public static Action OnUnPausedEntered;
     public static Action OnGameOverEntered;
 
     public static Action OnMainMenuExited;
     public static Action OnStartExited;
     public static Action OnPlayingExited;
     public static Action OnPausedExited;
+    public static Action OnUnPausedExited;
     public static Action OnGameOverExited;
 
 
@@ -89,7 +92,7 @@ public class GameManager : NetworkBehaviour
     }
 
     // A non-static method to change the game state.
-    public void SetStateInternal(GameState state)
+    private void SetStateInternal(GameState state)
     {
         // Remember the previous state.
         GameState previousState = currentState;
@@ -118,6 +121,9 @@ public class GameManager : NetworkBehaviour
             case GameState.Paused:
                 OnPausedEntered?.Invoke();
                 break;
+            case GameState.Unpause:
+                OnUnPausedEntered?.Invoke();
+                break;
             case GameState.GameOver:
                 OnGameOverEntered?.Invoke();
                 // Pause time when paused or game over.
@@ -142,6 +148,9 @@ public class GameManager : NetworkBehaviour
                 break;
             case GameState.Paused:
                 OnPausedExited?.Invoke();
+                break;
+            case GameState.Unpause:
+                OnUnPausedExited?.Invoke();
                 break;
             case GameState.GameOver:
                 OnGameOverExited?.Invoke();
