@@ -8,6 +8,19 @@ using TMPro;
 public class MainWorldMainMenuUI : MonoBehaviour
 {
     [SerializeField] private GameObject m_Container;
+
+    [SerializeField] Button m_QuitButton;
+
+    private void OnEnable()
+    {
+        m_QuitButton.onClick.AddListener(() => LobbyManager.LeaveLobby());
+    }
+
+    private void OnDisable()
+    {
+        m_QuitButton.onClick.RemoveAllListeners();
+
+    }
     void Awake()
     {
 

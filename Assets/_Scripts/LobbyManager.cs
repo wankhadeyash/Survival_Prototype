@@ -31,25 +31,25 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     public static Action OnUnityAuthenticationSuccesfull;
 
-    public  Action OnCreateLobbyStarted;
-    public  Action OnCreateLobbySuccess;
-    public  Action<string> OnCreateLobbyFailed;
+    public static Action OnCreateLobbyStarted;
+    public static Action OnCreateLobbySuccess;
+    public static Action<string> OnCreateLobbyFailed;
 
-    public  Action OnQuickJoinLobbyStarted;
-    public  Action OnQuickJoinLobbySuccess;
-    public  Action<string> OnQuickJoinLobbyFailed;
+    public static Action OnQuickJoinLobbyStarted;
+    public static Action OnQuickJoinLobbySuccess;
+    public static Action<string> OnQuickJoinLobbyFailed;
+      
+    public static Action OnJoinLobbyWithCodeStarted;
+    public static Action OnJoinLobbyWithCodeSuccess;
+    public static Action<string> OnJoinLobbyWithCodeFailed;
+       
+    public static Action OnJoinLobbyWithIDStarted;
+    public static Action OnJoinLobbyWithIDSuccess;
+    public static Action<string> OnJoinLobbyWithIDFailed;
 
-    public  Action OnJoinLobbyWithCodeStarted;
-    public  Action OnJoinLobbyWithCodeSuccess;
-    public  Action<string> OnJoinLobbyWithCodeFailed;
+    public static Action<string> OnLobbyLeft;
 
-    public  Action OnJoinLobbyWithIDStarted;
-    public  Action OnJoinLobbyWithIDSuccess;
-    public  Action<string> OnJoinLobbyWithIDFailed;
-
-    public Action<string> OnLobbyLeft;
-
-    public Action<string> OnKickFromLobby;
+    public static Action<string> OnKickFromLobby;
 
     private float m_HearbeatTimer;
     private float m_LobbyUpdateTimer;
@@ -221,7 +221,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     private async void JoinLobbyWithIdInternal(string lobbyId)
     {
-        OnJoinLobbyWithIDSuccess?.Invoke();
+        OnJoinLobbyWithIDStarted?.Invoke();
         try
         {
             joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
@@ -340,7 +340,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
         {
             Debug.LogError(e);
 
-            return default;
+            throw;
         }
     }
 
@@ -355,22 +355,27 @@ public class LobbyManager : SingletonBase<LobbyManager>
         catch (RelayServiceException e)
         {
             Debug.LogError(e);
-            return default;
+            throw;
         }
     }
 
     private async Task<JoinAllocation> JoinRelay(string joinCode)
     {
+        JoinAllocation joinAllocation;
         try
         {
-            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
             return joinAllocation;
         }
         catch (RelayServiceException e)
         {
-            Debug.Log(e);
-            return default;
+            Debug.LogError($"Relay get join code failed");
+            throw;
         }
+
+        Debug.Log($"client: {joinAllocation.ConnectionData[0]} {joinAllocation.ConnectionData[1]}");
+        Debug.Log($"host: {joinAllocation.HostConnectionData[0]} {joinAllocation.HostConnectionData[1]}");
+        Debug.Log($"client: {joinAllocation.AllocationId}");
     }
     #endregion
 

@@ -40205,6 +40205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Container: {fileID: 1604648154}
+  m_QuitButton: {fileID: 351227690}
 --- !u!1 &979875072
 GameObject:
   m_ObjectHideFlags: 0
