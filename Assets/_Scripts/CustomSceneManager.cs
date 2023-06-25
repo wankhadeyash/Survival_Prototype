@@ -16,6 +16,23 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
 
     public static Action OnLoadSceneFinished;
 
+    private void OnEnable()
+    {
+        MultiplayerManager.OnNetworkManager_Shutdown += OnNetworkManager_Shutdown;
+    }
+
+    
+
+    private void OnDisable()
+    {
+        MultiplayerManager.OnNetworkManager_Shutdown -= OnNetworkManager_Shutdown;
+
+    }
+
+    private void OnNetworkManager_Shutdown()
+    {
+        LoadScene(0);
+    }
     public static void LoadScene(string sceneName, Action OnSceneLoaded = null)
     {
         Instance.LoadSceneInternal(sceneName, OnSceneLoaded);

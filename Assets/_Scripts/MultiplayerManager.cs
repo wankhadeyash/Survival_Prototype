@@ -10,6 +10,7 @@ public class MultiplayerManager : NetworkBehaviour
 {
     public static MultiplayerManager Instance { get; private set; }
     [SerializeField] private NetworkList<PlayerData> m_PlayerDataNetworkList;
+    public static Action OnNetworkManager_Shutdown;
 
     private void Awake()
     {
@@ -36,11 +37,14 @@ public class MultiplayerManager : NetworkBehaviour
 
         NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_Server_OnClientDisconnectCallback;
         NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientDisconnectCallback;
+
         NetworkManager.Singleton.StartHost();
 
     }
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
+
+        Debug.Log($"Client id is {clientId}");
         m_PlayerDataNetworkList.Add(new PlayerData
         {
             clientId = clientId
@@ -97,6 +101,7 @@ public class MultiplayerManager : NetworkBehaviour
 
     private void NetworkManager_Client_OnClientConnectedCallback(ulong clientId)
     {
+       
         SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
     }
 
@@ -110,18 +115,11 @@ public class MultiplayerManager : NetworkBehaviour
     #endregion
     public void Disconnect()
     {
-
-        LobbyManager.LeaveLobby();
-            
-
-
         NetworkManager.Singleton.Shutdown();
+        OnNetworkManager_Shutdown?.Invoke();
 
-        CustomSceneManager.LoadScene(0);
 
     }
-
-
 
 }
 

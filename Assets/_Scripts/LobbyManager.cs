@@ -66,11 +66,23 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     private void OnEnable()
     {
+        MultiplayerManager.OnNetworkManager_Shutdown += OnNetworkManager_Shutdown;
     }
 
-    
+
+
     private void OnDisable()
     {
+        MultiplayerManager.OnNetworkManager_Shutdown -= OnNetworkManager_Shutdown;
+
+    }
+
+    private void OnNetworkManager_Shutdown()
+    {
+        if (IsLobbyHost())
+            DeleteLobby();
+        
+        joinedLobby = null;
     }
     private void Update()
     {
@@ -140,6 +152,40 @@ public class LobbyManager : SingletonBase<LobbyManager>
         Debug.Log($"Lobby created with {joinedLobby.Name} {joinedLobby.Id} {joinedLobby.LobbyCode}");
     }
 
+    private async void SubscribeToLobbyEvents()
+    {
+        var callbacks = new LobbyEventCallbacks();
+        callbacks.LobbyChanged += OnLobbyChanged;
+        callbacks.KickedFromLobby += OnKickedFromLobby;
+        try
+        {
+             await Lobbies.Instance.SubscribeToLobbyEventsAsync(joinedLobby.Id, callbacks);
+        }
+        catch (LobbyServiceException ex)
+        {
+            switch (ex.Reason)
+            {
+                case LobbyExceptionReason.AlreadySubscribedToLobby: Debug.LogWarning($"Already subscribed to lobby[{joinedLobby.Id}]. We did not need to try and subscribe again. Exception Message: {ex.Message}"); break;
+                case LobbyExceptionReason.SubscriptionToLobbyLostWhileBusy: Debug.LogError($"Subscription to lobby events was lost while it was busy trying to subscribe. Exception Message: {ex.Message}"); throw;
+                case LobbyExceptionReason.LobbyEventServiceConnectionError: Debug.LogError($"Failed to connect to lobby events. Exception Message: {ex.Message}"); throw;
+                default: throw;
+            }
+        }
+    }
+
+    
+
+    private void OnLobbyChanged(ILobbyChanges obj)
+    {
+        //if (obj.HostId != joinedLobby.HostId || obj.LobbyDeleted) 
+        //{
+            
+        //}
+    }
+    private void OnKickedFromLobby()
+    {
+        
+    }
     public static void QuickJoin()
     {
         LoadingUI.Instance.EnableContainer("Loading World...");
@@ -243,6 +289,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
     public static void LeaveLobby()
     {
         Instance.LeaveLobbyInternal();
+        
     }
     private async void LeaveLobbyInternal()
     {
@@ -251,6 +298,7 @@ public class LobbyManager : SingletonBase<LobbyManager>
             //Ensure you sign-in before calling Authentication Instance
             //See IAuthenticationService interface
             string playerId = AuthenticationService.Instance.PlayerId;
+
             await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
 
             if (joinedLobby != null)

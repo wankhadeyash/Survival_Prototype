@@ -38,6 +38,10 @@ public class NetworkGameManager : NetworkBehaviour
         GameManager.SetGameState(GameState.Playing);
     }
 
+    public override void OnNetworkDespawn()
+    {
+       
+    }
     private void SceneManager_OnLoadEventCompleted(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
         GameObject player = Instantiate(m_PlayerPrefab);
