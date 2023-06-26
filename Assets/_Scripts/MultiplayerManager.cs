@@ -12,6 +12,24 @@ public class MultiplayerManager : NetworkBehaviour
     [SerializeField] private NetworkList<PlayerData> m_PlayerDataNetworkList;
     public static Action OnNetworkManager_Shutdown;
 
+    private void OnEnable()
+    {
+        LobbyManager.OnCreateLobbyFailed += LobbyManager_OnCreateLobbyFailed;
+        LobbyManager.OnQuickJoinLobbyFailed += LobbyManager_OnJoinLobbyFailed;
+        LobbyManager.OnJoinLobbyWithCodeFailed += LobbyManager_OnJoinLobbyFailed;
+        LobbyManager.OnJoinLobbyWithIDFailed += LobbyManager_OnJoinLobbyFailed;
+    }
+    private void LobbyManager_OnCreateLobbyFailed(string obj)
+    {
+        Disconnect();
+    }
+    private void LobbyManager_OnJoinLobbyFailed(string obj)
+    {
+        Disconnect();
+    }
+
+   
+
     private void Awake()
     {
         Instance = this;

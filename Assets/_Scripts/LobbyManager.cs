@@ -144,33 +144,14 @@ public class LobbyManager : SingletonBase<LobbyManager>
         }
         catch (LobbyServiceException e)
         {
-            Debug.LogError(e);
             string a = e.ToString();
             OnCreateLobbyFailed?.Invoke(e.ToString());
+            Debug.LogError(e);
+            throw;
+            
         }
 
         Debug.Log($"Lobby created with {joinedLobby.Name} {joinedLobby.Id} {joinedLobby.LobbyCode}");
-    }
-
-    private async void SubscribeToLobbyEvents()
-    {
-        var callbacks = new LobbyEventCallbacks();
-        callbacks.LobbyChanged += OnLobbyChanged;
-        callbacks.KickedFromLobby += OnKickedFromLobby;
-        try
-        {
-             await Lobbies.Instance.SubscribeToLobbyEventsAsync(joinedLobby.Id, callbacks);
-        }
-        catch (LobbyServiceException ex)
-        {
-            switch (ex.Reason)
-            {
-                case LobbyExceptionReason.AlreadySubscribedToLobby: Debug.LogWarning($"Already subscribed to lobby[{joinedLobby.Id}]. We did not need to try and subscribe again. Exception Message: {ex.Message}"); break;
-                case LobbyExceptionReason.SubscriptionToLobbyLostWhileBusy: Debug.LogError($"Subscription to lobby events was lost while it was busy trying to subscribe. Exception Message: {ex.Message}"); throw;
-                case LobbyExceptionReason.LobbyEventServiceConnectionError: Debug.LogError($"Failed to connect to lobby events. Exception Message: {ex.Message}"); throw;
-                default: throw;
-            }
-        }
     }
 
     
@@ -208,8 +189,9 @@ public class LobbyManager : SingletonBase<LobbyManager>
         }
         catch (LobbyServiceException e)
         {
-            Debug.Log(e);
             OnQuickJoinLobbyFailed?.Invoke(e.ToString());
+            Debug.Log(e);
+            throw;
         }
 
 

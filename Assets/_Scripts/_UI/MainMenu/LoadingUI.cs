@@ -10,8 +10,23 @@ public class LoadingUI : SingletonBase<LoadingUI>
 
     [SerializeField] private GameObject m_Container;
     [SerializeField] private TextMeshProUGUI m_Text;
+    [SerializeField] private Button m_BackButton;
 
 
+    private void OnEnable()
+    {
+        m_BackButton.onClick.AddListener(() =>
+        {
+            MultiplayerManager.Instance.Disconnect();
+        });
+
+        StartCoroutine(Co_EnableBackButton());
+    }
+
+    private void OnDisable()
+    {
+        m_BackButton.onClick.RemoveAllListeners();
+    }
     protected override void OnAwake()
     {
         DisableContainer();
@@ -21,6 +36,13 @@ public class LoadingUI : SingletonBase<LoadingUI>
     {
         if (Input.GetKeyDown(KeyCode.P))
             EnableContainer("yash");
+    }
+
+    IEnumerator Co_EnableBackButton() 
+    {
+        m_BackButton.gameObject.SetActive(false);
+        yield return new WaitForSeconds(5);
+        m_BackButton.gameObject.SetActive(true);
     }
 
     public void SetLoadingText() 

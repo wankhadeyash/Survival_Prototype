@@ -1,0 +1,20 @@
+{
+    "name": "SROptions",
+    "rootNamespace": "",
+    "references": [
+        "GUID:05dbf8cd246c9274c8a78a65142e5f8a",
+        "GUID:bcc75752368a72b4aba4043ea13b2a1a",
+        "GUID:1f37a292d7968c84dbddbc418b4586d0",
+        "GUID:dcfeab5b595dd6f4391b0350c61e6a07",
+        "GUID:8bfd7b75d19313743837f04ba9811265"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
