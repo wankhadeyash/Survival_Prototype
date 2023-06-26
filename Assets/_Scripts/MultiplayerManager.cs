@@ -107,7 +107,7 @@ public class MultiplayerManager : NetworkBehaviour
 
     private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
     {
-        if (LobbyManager.JoinedLobby.HostId == clientId.ToString()) 
+        if (clientId == 0) 
         {
             Disconnect();
         }
@@ -117,8 +117,6 @@ public class MultiplayerManager : NetworkBehaviour
     {
         NetworkManager.Singleton.Shutdown();
         OnNetworkManager_Shutdown?.Invoke();
-
-
     }
 
 }

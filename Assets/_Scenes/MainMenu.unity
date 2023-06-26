@@ -42588,7 +42588,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 461.88022, y: 0}
+  m_AnchoredPosition: {x: 461.88022, y: -354.21143}
   m_SizeDelta: {x: 923.76044, y: 330.80762}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670134911
@@ -64720,7 +64720,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 461.88022, y: 0}
+  m_AnchoredPosition: {x: 461.88022, y: -128.40381}
   m_SizeDelta: {x: 923.76044, y: 120.80762}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1029087413
@@ -121269,7 +121269,7 @@ MonoBehaviour:
   loopWhileDragging: 1
   maxVelocity: 0
   scrollbarVisibility: 0
-  snapping: 0
+  snapping: 1
   snapVelocityThreshold: 0
   snapWatchOffset: 0
   snapJumpToOffset: 0
@@ -125543,7 +125543,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 461.88022, y: 0}
+  m_AnchoredPosition: {x: 461.88022, y: -34}
   m_SizeDelta: {x: 923.76044, y: 68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1948229559

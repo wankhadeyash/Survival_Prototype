@@ -96,9 +96,9 @@ namespace StarterAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
-         private Animator _animator;
-         private CharacterController _controller;
-         private GameObject _mainCamera;
+        private Animator _animator;
+        private CharacterController _controller;
+        private GameObject _mainCamera;
 
         private const float _threshold = 0.01f;
 
@@ -107,13 +107,13 @@ namespace StarterAssets
 
         private void Awake()
         {
-           
+
         }
 
         private void Start()
         {
 
-            
+
         }
         public override void OnNetworkSpawn()
         {
@@ -137,12 +137,29 @@ namespace StarterAssets
         private void Update()
         {
             if (!IsOwner || GameManager.CurrentState != GameState.Playing)
+            {
+                SetPlayerAnimationStateToIdle();
                 return;
+            }
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
             GroundedCheck();
             Move();
+        }
+
+        private void SetPlayerAnimationStateToIdle() 
+        {
+            if (_hasAnimator) 
+            {
+                _animator.SetBool(_animIDJump, false);
+                _animator.SetBool(_animIDGrounded, true);
+                _animator.SetBool(_animIDFreeFall, false);
+                _animator.SetFloat(_animIDSpeed, 0);
+                _animator.SetFloat(_animIDMotionSpeed, 1);
+
+
+            }
         }
 
         private void LateUpdate()
