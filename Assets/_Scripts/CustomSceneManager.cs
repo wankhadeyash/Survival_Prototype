@@ -19,14 +19,14 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
 
     private void OnEnable()
     {
-        MultiplayerManager.OnNetworkManager_Shutdown += OnNetworkManager_Shutdown;
+        
     }
 
     
 
     private void OnDisable()
     {
-        MultiplayerManager.OnNetworkManager_Shutdown -= OnNetworkManager_Shutdown;
+        
 
     }
 
