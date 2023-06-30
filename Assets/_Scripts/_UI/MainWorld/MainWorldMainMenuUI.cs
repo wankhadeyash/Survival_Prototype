@@ -13,7 +13,7 @@ public class MainWorldMainMenuUI : MonoBehaviour
 
     private void OnEnable()
     {
-        m_QuitButton.onClick.AddListener(() => MultiplayerManager.Instance.Disconnect());
+        m_QuitButton.onClick.AddListener(() => OnQuitButtonClicked());
     }
 
     private void OnDisable()
@@ -29,6 +29,11 @@ public class MainWorldMainMenuUI : MonoBehaviour
     void Start()
     {
 
+    }
+
+    void OnQuitButtonClicked() 
+    {
+        MultiplayerManager.Instance.Disconnect();
     }
 
     private void Update()

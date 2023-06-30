@@ -14,7 +14,7 @@ using Unity.Services.Relay.Models;
 using Unity.Services.Relay;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
-
+using UnityEngine.SceneManagement;
 public enum ClientType
 {
     Host,
@@ -59,31 +59,23 @@ public class LobbyManager : SingletonBase<LobbyManager>
     #region Mono
     protected override void OnAwake()
     {
-        m_NetworkManager = FindObjectOfType<NetworkManager>();
-
+        m_NetworkManager = FindObjectOfType<NetworkManager>();  
         InitializeUnityAuthentication();
     }
 
     private void OnEnable()
     {
-        MultiplayerManager.OnNetworkManager_Shutdown += OnNetworkManager_Shutdown;
+       
     }
 
 
 
     private void OnDisable()
     {
-        MultiplayerManager.OnNetworkManager_Shutdown -= OnNetworkManager_Shutdown;
-
-    }
-
-    private void OnNetworkManager_Shutdown()
-    {
-        if (IsLobbyHost())
-            DeleteLobby();
         
-        joinedLobby = null;
+
     }
+
     private void Update()
     {
         HandleLobbyHeartBeat();
@@ -97,26 +89,24 @@ public class LobbyManager : SingletonBase<LobbyManager>
         if (UnityServices.State != ServicesInitializationState.Initialized)
         {
             InitializationOptions initializationOptions = new InitializationOptions();
-            initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000).ToString());
+            //initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000).ToString());
             await UnityServices.InitializeAsync(initializationOptions);
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
             m_IsAuthenticated = true;
 
             OnUnityAuthenticationSuccesfull?.Invoke();
+            SceneManager.LoadScene(SceneInfo.MainMenu.ToString());
         }
     }
 
     #region Lobby Creation and Joining
-    [Button]
-    public static void CreateLobby(string lobbyName, bool isPrivate)
+    public async void CreateLobby(string lobbyName, bool isPrivate)
     {
         LoadingUI.Instance.EnableContainer("Loading World...");
-        Instance.CreateLobbyInternal(lobbyName, isPrivate);
-    }
 
-    private async void CreateLobbyInternal(string lobbyName, bool isPrivate)
-    {
+
+
         OnCreateLobbyStarted?.Invoke();
         try
         {
@@ -136,10 +126,12 @@ public class LobbyManager : SingletonBase<LobbyManager>
                 }
             });
 
+            Debug.Log($"Creating realy with code  {relayJoinCode}");
+
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
             MultiplayerManager.Instance.StartHost();
 
-            CustomSceneManager.LoadSceneOnNetwork(SceneInfo.MainWorld);
+           // CustomSceneManager.LoadSceneOnNetwork(SceneInfo.MainWorld);
             OnCreateLobbySuccess?.Invoke();
         }
         catch (LobbyServiceException e)
@@ -148,32 +140,18 @@ public class LobbyManager : SingletonBase<LobbyManager>
             OnCreateLobbyFailed?.Invoke(e.ToString());
             Debug.LogError(e);
             throw;
-            
+
         }
 
         Debug.Log($"Lobby created with {joinedLobby.Name} {joinedLobby.Id} {joinedLobby.LobbyCode}");
     }
 
-    
 
-    private void OnLobbyChanged(ILobbyChanges obj)
-    {
-        //if (obj.HostId != joinedLobby.HostId || obj.LobbyDeleted) 
-        //{
-            
-        //}
-    }
-    private void OnKickedFromLobby()
-    {
-        
-    }
-    public static void QuickJoin()
+
+    public async  void QuickJoin()
     {
         LoadingUI.Instance.EnableContainer("Loading World...");
-        Instance.QuickJoinInternal();
-    }
-    public async void QuickJoinInternal()
-    {
+
         OnQuickJoinLobbyStarted?.Invoke();
         try
         {
@@ -193,18 +171,12 @@ public class LobbyManager : SingletonBase<LobbyManager>
             Debug.Log(e);
             throw;
         }
-
-
     }
 
-    public static Task<string> JoinWithCode(string lobbyCode)
+
+    public async  Task<string> JoinWithCode(string lobbyCode)
     {
         LoadingUI.Instance.EnableContainer("Loading World...");
-        return Instance.JoinLobbyWithCodeInternal(lobbyCode);
-    }
-
-    private async Task<string> JoinLobbyWithCodeInternal(string lobbyCode)
-    {
         OnJoinLobbyWithCodeStarted?.Invoke();
         try
         {
@@ -240,20 +212,18 @@ public class LobbyManager : SingletonBase<LobbyManager>
         }
     }
 
-    public static void JoinWithId(string lobbyId)
+    
+
+    public async void JoinWithId(string lobbyId)
     {
         LoadingUI.Instance.EnableContainer("Loading World...");
-        Instance.JoinLobbyWithIdInternal(lobbyId);
-    }
-
-
-    private async void JoinLobbyWithIdInternal(string lobbyId)
-    {
         OnJoinLobbyWithIDStarted?.Invoke();
         try
         {
             joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
             string relayJoinCode = joinedLobby.Data[KEY_RELAY_JOIN_CODE].Value;
+            Debug.Log($"Joining realy with code  {relayJoinCode}");
+
             JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
 
@@ -268,13 +238,11 @@ public class LobbyManager : SingletonBase<LobbyManager>
         }
     }
 
-    public static void LeaveLobby()
+
+    public async void LeaveLobby()
     {
-        Instance.LeaveLobbyInternal();
-        
-    }
-    private async void LeaveLobbyInternal()
-    {
+        if (joinedLobby == null)
+            return;
         try
         {
             //Ensure you sign-in before calling Authentication Instance
@@ -293,16 +261,13 @@ public class LobbyManager : SingletonBase<LobbyManager>
             Debug.Log(e);
         }
 
-
     }
+ 
 
-    public static void KickPlayerFromLobby(string playerId) 
+    public async void KickPlayerFromLobby(string playerId) 
     {
-        Instance.KickPlayerFromLobbyInternal(playerId);
-    }
-
-    private async void KickPlayerFromLobbyInternal(string playerId) 
-    {
+        if (joinedLobby == null)
+            return;
         try
         {
             await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
@@ -316,12 +281,11 @@ public class LobbyManager : SingletonBase<LobbyManager>
         }
     }
 
-    public static void DeleteLobby() 
+ 
+
+    public async void DeleteLobby() 
     {
-        Instance.DeleteLobbyInternal();
-    }
-    private async void DeleteLobbyInternal()
-    {
+
         if (joinedLobby != null)
         {
             try
@@ -336,26 +300,9 @@ public class LobbyManager : SingletonBase<LobbyManager>
             }
         }
     }
+
     #endregion
 
-    #region Host and Client Joining
-    public static void JoinHost()
-    {
-        Instance.JoinHostInternal();
-    }
-    private void JoinHostInternal()
-    {
-        NetworkManager.Singleton.StartHost();
-    }
-    public static void JoinClient()
-    {
-        Instance.JoinClientInternal();
-    }
-    private void JoinClientInternal()
-    {
-        NetworkManager.Singleton.StartClient();
-    }
-    #endregion
 
     #region Relay
     private async Task<Allocation> AllocateRelay()
@@ -403,9 +350,6 @@ public class LobbyManager : SingletonBase<LobbyManager>
             throw;
         }
 
-        Debug.Log($"client: {joinAllocation.ConnectionData[0]} {joinAllocation.ConnectionData[1]}");
-        Debug.Log($"host: {joinAllocation.HostConnectionData[0]} {joinAllocation.HostConnectionData[1]}");
-        Debug.Log($"client: {joinAllocation.AllocationId}");
     }
     #endregion
 
@@ -431,9 +375,11 @@ public class LobbyManager : SingletonBase<LobbyManager>
 
     public bool IsLobbyHost()
     {
-        return AuthenticationService.Instance.PlayerId == joinedLobby.HostId;
+        if (joinedLobby != null)
+            return AuthenticationService.Instance.PlayerId == joinedLobby.HostId;
+        else
+            return false;
     }
-
 
     private void HandleLobbyHeartBeat()
     {

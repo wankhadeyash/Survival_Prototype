@@ -51,7 +51,7 @@ public class LobbyListUI : MonoBehaviour
                 {
                     m_EnhancedScroller.Data.Add(new LobbyInfoEnhancedScrollerData { lobbyName = lobby.Name, lobbyId = lobby.Id });
                 }
-                m_EnhancedScroller.myScroller.ReloadData();
+                m_EnhancedScroller?.myScroller.ReloadData();
             }
         }
 

@@ -6,18 +6,48 @@ using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MultiplayerManager : NetworkBehaviour
+public class MultiplayerManager : MonoBehaviour
 {
+
+    private PlayerData m_PlayerData;
+    public PlayerData PlayerData => m_PlayerData;
     public static MultiplayerManager Instance { get; private set; }
-    [SerializeField] private NetworkList<PlayerData> m_PlayerDataNetworkList;
     public static Action OnNetworkManager_Shutdown;
 
     private void OnEnable()
     {
+
+        LobbyManager.OnUnityAuthenticationSuccesfull += LobbyManager_AuthenticationSuccesfull;
+
         LobbyManager.OnCreateLobbyFailed += LobbyManager_OnCreateLobbyFailed;
         LobbyManager.OnQuickJoinLobbyFailed += LobbyManager_OnJoinLobbyFailed;
         LobbyManager.OnJoinLobbyWithCodeFailed += LobbyManager_OnJoinLobbyFailed;
         LobbyManager.OnJoinLobbyWithIDFailed += LobbyManager_OnJoinLobbyFailed;
+
+     
+    }
+    private void Awake()
+    {
+        if (Instance != null)
+            Destroy(gameObject);
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        m_PlayerData = new PlayerData();
+
+
+    }
+    private void LobbyManager_AuthenticationSuccesfull()
+    {
+        m_PlayerData.playerId = AuthenticationService.Instance.PlayerId;
+    }
+
+    private void OnDisable()
+    {
+        LobbyManager.OnCreateLobbyFailed -= LobbyManager_OnCreateLobbyFailed;
+        LobbyManager.OnQuickJoinLobbyFailed -= LobbyManager_OnJoinLobbyFailed;
+        LobbyManager.OnJoinLobbyWithCodeFailed -= LobbyManager_OnJoinLobbyFailed;
+        LobbyManager.OnJoinLobbyWithIDFailed -= LobbyManager_OnJoinLobbyFailed;
+
     }
     private void LobbyManager_OnCreateLobbyFailed(string obj)
     {
@@ -30,111 +60,50 @@ public class MultiplayerManager : NetworkBehaviour
 
    
 
-    private void Awake()
-    {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+   
 
-        m_PlayerDataNetworkList = new NetworkList<PlayerData>();
-        m_PlayerDataNetworkList.OnListChanged += PlayerDataNetwork_OnListChanged;
+    private void Update()
+    {
+     
     }
 
-    private void PlayerDataNetwork_OnListChanged(NetworkListEvent<PlayerData> changeEvent)
-    {
 
-    }
-
-    #region server
-    public void StartHost()
-    {
-        NetworkManager.Singleton.ConnectionApprovalCallback -= NetworkManager_ConnectionApprovalCallback;
-        NetworkManager.Singleton.ConnectionApprovalCallback += NetworkManager_ConnectionApprovalCallback;
-
-        NetworkManager.Singleton.OnClientConnectedCallback -= NetworkManager_OnClientConnectedCallback;
-        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
-
-        NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_Server_OnClientDisconnectCallback;
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Server_OnClientDisconnectCallback;
-
-        NetworkManager.Singleton.StartHost();
-
-    }
     private void NetworkManager_OnClientConnectedCallback(ulong clientId)
     {
+        Debug.Log($"Player id is {AuthenticationService.Instance.PlayerId}");
+        //if(clientId.ToString() == AuthenticationService.Instance.PlayerId)
+            //CustomSceneManager.LoadSceneOnNetwork(SceneInfo.MainWorld);
 
-        Debug.Log($"Client id is {clientId}");
-        m_PlayerDataNetworkList.Add(new PlayerData
-        {
-            clientId = clientId
-        });
-
-        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
-    }
-    private void NetworkManager_Server_OnClientDisconnectCallback(ulong clientId)
-    {
 
     }
-
-    public int GetPlayerDataIndexFromClientId(ulong clientId)
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {
-        for (int i = 0; i < m_PlayerDataNetworkList.Count; i++)
-        {
-            if (m_PlayerDataNetworkList[i].clientId == clientId)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void SetPlayerIdServerRpc(string playerId, ServerRpcParams serverRpcParams = default) 
-    {
-        int playerDataIndex = GetPlayerDataIndexFromClientId(serverRpcParams.Receive.SenderClientId);
-        PlayerData playerData = m_PlayerDataNetworkList[playerDataIndex];
-        playerData.playerId = playerId;
-        m_PlayerDataNetworkList[playerDataIndex] = playerData;
-    }
-
-
-    private static void NetworkManager_ConnectionApprovalCallback(NetworkManager.ConnectionApprovalRequest arg1, NetworkManager.ConnectionApprovalResponse arg2)
-    {
-        
-    }
-
-    #endregion
-
-    #region client
-
-    public void StartClient() 
-    {
-        NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_Client_OnClientDisconnectCallback;
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_Client_OnClientDisconnectCallback;
-        NetworkManager.Singleton.OnClientConnectedCallback -= NetworkManager_Client_OnClientConnectedCallback;
-        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_Client_OnClientConnectedCallback;
-        NetworkManager.Singleton.StartClient();
-    }
-
-
-
-    private void NetworkManager_Client_OnClientConnectedCallback(ulong clientId)
-    {
-       
-        SetPlayerIdServerRpc(AuthenticationService.Instance.PlayerId);
-    }
-
-    private void NetworkManager_Client_OnClientDisconnectCallback(ulong clientId)
-    {
-        if (clientId == 0) 
-        {
+        if (clientId == 0)
             Disconnect();
-        }
     }
-    #endregion
+
+
+    public void StartClient()
+    {
+        NetworkManager.Singleton.StartClient();
+        m_PlayerData.clientId = NetworkManager.Singleton.LocalClientId;
+        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+    }
+
+    public void StartHost()
+    {
+        NetworkManager.Singleton.StartHost();
+        m_PlayerData.clientId = NetworkManager.Singleton.LocalClientId;
+        NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback;
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+    }
+
     public void Disconnect()
     {
-        NetworkManager.Singleton.Shutdown();
-        OnNetworkManager_Shutdown?.Invoke();
+       NetworkManager.Singleton.Shutdown();
+       LobbyManager.Instance.LeaveLobby();
+       OnNetworkManager_Shutdown?.Invoke();
     }
 
 }

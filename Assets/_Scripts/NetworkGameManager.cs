@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 public class NetworkGameManager : NetworkBehaviour
 {
     [SerializeField] GameObject m_PlayerPrefab;
-    
+
     public static NetworkGameManager Instance;
 
 
@@ -27,26 +27,29 @@ public class NetworkGameManager : NetworkBehaviour
     }
 
     // Set the initial game state to Playing when the game starts.
-   
+
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
-        {
-            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
-            NetworkManager.Singleton.SceneManager.OnLoadComplete += SceneManager_OnLoadEventCompleted;
-        }
-        GameManager.SetGameState(GameState.Playing);
+        SpawnPlayerServerRpc();
+
     }
+
+  
 
     public override void OnNetworkDespawn()
     {
-       
+
     }
-    private void SceneManager_OnLoadEventCompleted(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+
+    [ServerRpc(RequireOwnership =  false)]
+    void SpawnPlayerServerRpc(ServerRpcParams serverRpcParams = default) 
     {
         GameObject player = Instantiate(m_PlayerPrefab);
-        player.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId, true);
+        player.GetComponent<NetworkObject>().SpawnAsPlayerObject(serverRpcParams.Receive.SenderClientId, true);
+        GameManager.SetGameState(GameState.Playing);
+
     }
+
 
     private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
     {

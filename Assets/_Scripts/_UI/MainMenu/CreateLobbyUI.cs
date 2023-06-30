@@ -70,12 +70,12 @@ public class CreateLobbyUI : MonoBehaviour
 
     public void OnCreateLobbyButtonClicked() 
     {
-        LobbyManager.CreateLobby(m_LobbyNameIF.text, m_LobbyTypeToggle.isOn);
+        CustomSceneManager.Instance.LoadScene(SceneInfo.MainWorld.ToString(), () => { LobbyManager.Instance.CreateLobby(m_LobbyNameIF.text, m_LobbyTypeToggle.isOn); });
     }
 
     public void OnQuickJoinLobbyButtonClicked() 
     {
-        LobbyManager.QuickJoin();
+        LobbyManager.Instance.QuickJoin();
     }
 
     public void OnCloseButtonClicked() 
@@ -91,7 +91,7 @@ public class CreateLobbyUI : MonoBehaviour
         if (string.IsNullOrEmpty(m_LobbyCodeIF.text))
             return;
 
-        string joinResult = await LobbyManager.JoinWithCode(m_LobbyCodeIF.text);
+        string joinResult = await LobbyManager.Instance.JoinWithCode(m_LobbyCodeIF.text);
         m_LobbyCodeError.text = joinResult;
         StartCoroutine(Co_ClearTextField(m_LobbyCodeError, 2));
         

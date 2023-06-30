@@ -29,7 +29,7 @@ public class LobbyEnhancedScollerCellView : EnhancedScrollerCellView
 
     private void OnJoinButtonClicked() 
     {
-        LobbyManager.JoinWithId(m_LobbyId);
+        CustomSceneManager.Instance.LoadScene(SceneInfo.MainMenu.ToString(), () => { LobbyManager.Instance.JoinWithId(m_LobbyId); });
     }
 }
 

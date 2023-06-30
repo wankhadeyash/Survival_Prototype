@@ -46,7 +46,7 @@ public class JoinedLobbyInfoUI : MonoBehaviour
 
     private void OnLeaveLobbyButtonClicked()
     {
-        LobbyManager.LeaveLobby();
+        LobbyManager.Instance.LeaveLobby();
     }
 
     private void OnStartGameButtonClicked()

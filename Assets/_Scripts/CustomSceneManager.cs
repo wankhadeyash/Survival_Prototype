@@ -7,6 +7,7 @@ using Unity.Netcode;
 
 public enum SceneInfo
 {
+    Startup,
     MainMenu,
     MainWorld
 }
@@ -31,14 +32,10 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
 
     private void OnNetworkManager_Shutdown()
     {
-        LoadScene(0);
-    }
-    public static void LoadScene(string sceneName, Action OnSceneLoaded = null)
-    {
-        Instance.LoadSceneInternal(sceneName, OnSceneLoaded);
+        LoadScene(SceneInfo.MainMenu.ToString());
     }
 
-    private void LoadSceneInternal(string sceneName, Action OnSceneLoaded)
+    public  void LoadScene(string sceneName, Action OnSceneLoaded = null)
     {
         StartCoroutine(LoadSceneAsync(sceneName, OnSceneLoaded));
     }
@@ -56,15 +53,12 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
     }
 
 
-    public static void LoadScene(int sceneIndex, Action OnSceneLoaded = null)
-    {
-        Instance.LoadSceneInternal(sceneIndex, OnSceneLoaded);
-    }
-
-    private void LoadSceneInternal(int sceneIndex, Action OnSceneLoaded)
+    public  void LoadScene(int sceneIndex, Action OnSceneLoaded = null)
     {
         StartCoroutine(LoadSceneAsync(sceneIndex, OnSceneLoaded));
+       
     }
+
 
     private System.Collections.IEnumerator LoadSceneAsync(int sceneIndex, Action OnSceneLoaded)
     {
@@ -77,18 +71,15 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
 
         OnSceneLoaded?.Invoke();
     }
-    public static void RestartScene(Action onSceneLoaded = null)
-    {
-        Instance.RestartSceneInternal(onSceneLoaded);
-    }
-
-    private void RestartSceneInternal(Action onSceneLoaded)
+    public void RestartScene(Action onSceneLoaded = null)
     {
         Scene currentScene = SceneManager.GetActiveScene();
         LoadScene(currentScene.name, onSceneLoaded);
     }
 
-    public static void LoadSceneOnNetwork(SceneInfo sceneToLoad, Action callback = null)
+
+
+    public void LoadSceneOnNetwork(SceneInfo sceneToLoad, Action callback = null)
     {
         OnLoadSceneStarted?.Invoke();
         NetworkManager.Singleton.SceneManager.LoadScene(sceneToLoad.ToString(), LoadSceneMode.Single);
@@ -96,7 +87,7 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnLoadLevelComplete;
     }
 
-    private static void OnLoadLevelComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
+    private void OnLoadLevelComplete(ulong clientId, string sceneName, LoadSceneMode loadSceneMode)
     {
         OnLoadSceneFinished?.Invoke();
     }
