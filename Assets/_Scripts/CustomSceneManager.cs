@@ -53,9 +53,8 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
         {
             yield return null;
         }
-
+        
         OnSceneLoaded?.Invoke();
-        LoadingUI.Instance.Hide();
     }
 
 

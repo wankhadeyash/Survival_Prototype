@@ -47,7 +47,11 @@ public class LoadingUI : SingletonBase<LoadingUI>
         m_IsEnabled = false;
 
     }
-
+    public IEnumerator Hide(float time)
+    {
+       yield return new WaitForSecondsRealtime(time);
+       Hide();
+    }
     private IEnumerator Co_Animate() 
     {
         string originalText = m_LoadingText.text;

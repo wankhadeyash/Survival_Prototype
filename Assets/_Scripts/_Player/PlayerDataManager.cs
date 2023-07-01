@@ -13,6 +13,8 @@ public class PlayerDataManager : SingletonBase<PlayerDataManager>
         {
             m_Data = Serializer.LoadJsonData(m_Data);
         }
+        StartCoroutine(LoadingUI.Instance.Hide(2f));
+
     }
 
     public void SetPlayerName(string name) 
