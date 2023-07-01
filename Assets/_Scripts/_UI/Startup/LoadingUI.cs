@@ -44,12 +44,13 @@ public class LoadingUI : MonoBehaviour
         while (m_IsEnabled) 
         {
             m_LoadingText.text = originalText + ".";
-            yield return new WaitForSecondsRealtime(0.25f);
+            yield return new WaitForSecondsRealtime(2f);
             m_LoadingText.text = originalText + "..";
-            yield return new WaitForSecondsRealtime(0.25f);
-            m_LoadingText.text = originalText + "...";
-            yield return new WaitForSecondsRealtime(0.25f);
+            yield return new WaitForSecondsRealtime(1f);
+            m_LoadingText.text = originalText + "....";
+            yield return new WaitForSecondsRealtime(1f);
             m_LoadingText.text = originalText;
+            yield return new WaitForSecondsRealtime(1f);
 
         }
     }

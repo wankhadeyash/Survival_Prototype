@@ -766,6 +766,7 @@ GameObject:
   - component: {fileID: 755715599}
   - component: {fileID: 755715598}
   - component: {fileID: 755715597}
+  - component: {fileID: 755715601}
   m_Layer: 5
   m_Name: Canvas_Common
   m_TagString: Untagged
@@ -857,6 +858,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &755715601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755715596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5015eb1d766e2e479a415a9b26feb0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsDontDestroyOnLoad: 1
 --- !u!1 &810265460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,7 +1104,6 @@ GameObject:
   - component: {fileID: 1715298958}
   - component: {fileID: 1715298957}
   - component: {fileID: 1715298956}
-  - component: {fileID: 1715298960}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1177,18 +1190,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1715298960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715298955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 975fe1edaeed24845b9e11110d7e73e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1934626801
 GameObject:
   m_ObjectHideFlags: 0
