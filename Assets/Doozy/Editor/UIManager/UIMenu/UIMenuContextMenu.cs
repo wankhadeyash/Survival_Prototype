@@ -522,6 +522,21 @@ namespace Doozy.Editor.UIManager.UIMenu
                 [MenuItem(CATEGORY_MENU_PATH + "Flow Controller", false, MENU_ITEM_PRIORITY)]
                 public static void CreateFlowController(MenuCommand command) => UIMenuUtils.AddToScene(TYPE_NAME, CATEGORY_NAME, "FlowController");
             }
+        }
+
+        public static class Custom
+        {
+            private const string TYPE_NAME = "Custom";
+            private const string TYPE_MENU_PATH = MENU_PATH + "/" + TYPE_NAME + "/";
+
+            public static class Buttons
+            {
+                private const string CATEGORY_NAME = "Buttons";
+                private const string CATEGORY_MENU_PATH = TYPE_MENU_PATH + CATEGORY_NAME + "/";
+
+                [MenuItem(CATEGORY_MENU_PATH + "UI Button", false, MENU_ITEM_PRIORITY)]
+                public static void CreateUIButton(MenuCommand command) => UIMenuUtils.AddToScene(TYPE_NAME, CATEGORY_NAME, "UIButton");
+            }
         }        
     }
 }

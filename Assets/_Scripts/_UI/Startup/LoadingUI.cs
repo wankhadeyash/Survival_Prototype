@@ -6,20 +6,17 @@ using TMPro;
 
 
 
-public class LoadingUI : MonoBehaviour
+public class LoadingUI : SingletonBase<LoadingUI>
 {
 
     [SerializeField] GameObject m_Container;
     [SerializeField] TextMeshProUGUI m_LoadingText;
+    [SerializeField] float m_DotInterval;
     bool m_IsEnabled;
-    void Awake()
-    {
-
-    }
 
     void Start()
     {
-        Show("Connecting to unity");
+        
     }
 
     public void Show(string message)
@@ -27,7 +24,20 @@ public class LoadingUI : MonoBehaviour
         m_LoadingText.text = message;
         m_Container.SetActive(true);
         m_IsEnabled = true;
+        StopAllCoroutines();
         StartCoroutine(Co_Animate());
+    }
+
+    public IEnumerator Show(string message, float time) 
+    {
+        m_LoadingText.text = message;
+        m_Container.SetActive(true);
+        m_IsEnabled = true;
+        StopAllCoroutines();
+        StartCoroutine(Co_Animate());
+
+        yield return new WaitForSecondsRealtime(time);
+        Hide();
     }
 
     public void Hide() 
@@ -44,13 +54,13 @@ public class LoadingUI : MonoBehaviour
         while (m_IsEnabled) 
         {
             m_LoadingText.text = originalText + ".";
-            yield return new WaitForSecondsRealtime(2f);
+            yield return new WaitForSecondsRealtime(m_DotInterval);
             m_LoadingText.text = originalText + "..";
-            yield return new WaitForSecondsRealtime(1f);
-            m_LoadingText.text = originalText + "....";
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSecondsRealtime(m_DotInterval);
+            m_LoadingText.text = originalText + "...";
+            yield return new WaitForSecondsRealtime(m_DotInterval);
             m_LoadingText.text = originalText;
-            yield return new WaitForSecondsRealtime(1f);
+            yield return new WaitForSecondsRealtime(m_DotInterval);
 
         }
     }

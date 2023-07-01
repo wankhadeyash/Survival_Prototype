@@ -32,15 +32,20 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
 
     private void OnNetworkManager_Shutdown()
     {
-        LoadScene(SceneInfo.MainMenu.ToString());
+        LoadScene(SceneInfo.MainMenu);
     }
 
-    public  void LoadScene(string sceneName, Action OnSceneLoaded = null)
+    public void LoadScene(string sceneName)
     {
-        StartCoroutine(LoadSceneAsync(sceneName, OnSceneLoaded));
+        StartCoroutine(LoadSceneAsync(sceneName));
     }
 
-    private System.Collections.IEnumerator LoadSceneAsync(string sceneName, Action OnSceneLoaded)
+    public  void LoadScene(SceneInfo sceneInfo, Action OnSceneLoaded = null)
+    {
+        StartCoroutine(LoadSceneAsync(sceneInfo.ToString(), OnSceneLoaded));
+    }
+
+    private System.Collections.IEnumerator LoadSceneAsync(string sceneName, Action OnSceneLoaded = null)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
@@ -50,6 +55,7 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
         }
 
         OnSceneLoaded?.Invoke();
+        LoadingUI.Instance.Hide();
     }
 
 
@@ -74,7 +80,7 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
     public void RestartScene(Action onSceneLoaded = null)
     {
         Scene currentScene = SceneManager.GetActiveScene();
-        LoadScene(currentScene.name, onSceneLoaded);
+        //LoadScene(currentScene.name, onSceneLoaded);  
     }
 
 
