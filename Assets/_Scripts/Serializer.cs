@@ -94,5 +94,16 @@ public static class Serializer
             return null;
         }
     }
+
+    public static bool DoesFileExists<T>(T classToLoad) where T : SaveLoadBase 
+    {
+        string dirPath = Path.Combine(Application.persistentDataPath, classToLoad.m_DirPath);
+        string streamPath = Path.Combine(dirPath, classToLoad.m_FileName + ".json");
+        if (File.Exists(streamPath))
+            return true;
+        else
+            return false;
+    }
+
     #endregion
 }

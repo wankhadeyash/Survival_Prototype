@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerDataManager : SingletonBase<PlayerDataManager>
+{
+    [HideInInspector] public PlayerSerializedData m_Data;
+
+    public void Start()
+    {
+        m_Data = new PlayerSerializedData("PlayerData", "SavedData");
+        if (Serializer.DoesFileExists(m_Data)) 
+        {
+            m_Data = Serializer.LoadJsonData(m_Data);
+        }
+    }
+
+    public void SetPlayerName(string name) 
+    {
+        Debug.Log("Saving player name");
+        m_Data.playerName = name;
+        Serializer.SaveJsonData(m_Data);
+    }
+
+}
+
