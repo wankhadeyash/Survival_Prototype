@@ -537,6 +537,15 @@ namespace Doozy.Editor.UIManager.UIMenu
                 [MenuItem(CATEGORY_MENU_PATH + "UI Button", false, MENU_ITEM_PRIORITY)]
                 public static void CreateUIButton(MenuCommand command) => UIMenuUtils.AddToScene(TYPE_NAME, CATEGORY_NAME, "UIButton");
             }
+
+            public static class Icon
+            {
+                private const string CATEGORY_NAME = "Icon";
+                private const string CATEGORY_MENU_PATH = TYPE_MENU_PATH + CATEGORY_NAME + "/";
+
+                [MenuItem(CATEGORY_MENU_PATH + "Inventory", false, MENU_ITEM_PRIORITY)]
+                public static void CreateInventory(MenuCommand command) => UIMenuUtils.AddToScene(TYPE_NAME, CATEGORY_NAME, "Inventory");
+            }
         }        
     }
 }

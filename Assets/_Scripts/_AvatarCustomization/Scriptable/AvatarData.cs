@@ -10,9 +10,7 @@ public class AvatarData : ScriptableObject
     public string classType;
 
     [Header("Stats")]
-    public float health;
-    public float armor;
-    public float stamina;
+    public List<StatsData> statsData;
 
     [Header("Default Items")]
     public List<InventoryItemData> m_DefaultItems;

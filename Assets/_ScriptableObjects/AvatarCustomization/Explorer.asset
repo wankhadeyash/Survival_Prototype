@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 8170741099607980373, guid: 81aef7aec98530d40a1ad46102f28638, type: 3}
   classType: Explorer
-  health: 100
-  armor: 5
-  stamina: 10
+  statsData:
+  - name: Health
+    value: 100
+  - name: Stamina
+    value: 50
+  - name: Damage
+    value: 25
   m_DefaultItems:
   - {fileID: 11400000, guid: 9dd4d1defced7e948b869ce975a27cb3, type: 2}
   - {fileID: 11400000, guid: 55de803750aeb024dbda6029be3960aa, type: 2}

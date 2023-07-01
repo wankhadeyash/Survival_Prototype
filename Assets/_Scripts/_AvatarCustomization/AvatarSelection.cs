@@ -10,24 +10,6 @@ public class AvatarSelection : MonoBehaviour
     [SerializeField] private GameObject m_AvatarStandPosition;
     public GameObject CharacterPosition => m_AvatarStandPosition;
 
-    [SerializeField] TextMeshProUGUI m_AvatarClassTypeText;
-    public TextMeshProUGUI AvatarClassTypeText => m_AvatarClassTypeText;
-
-    public Slider m_HealthSlider;
-
-    public Slider m_ArmorSlider;
-
-    public Slider m_StaminaSlider;
-
-    public List<Image> m_DefaultItemsImageList = new List<Image>();
-
-
-
-
-
-
-
-
     [SerializeField] private List<AvatarData> m_AvatarSelectionList = new List<AvatarData>();
     public List<AvatarData> AvatarSelectionList => m_AvatarSelectionList;
 
@@ -41,6 +23,9 @@ public class AvatarSelection : MonoBehaviour
 
     [SerializeField] private int m_CurrrentSelectedAvatarIndex;
     public int CurrentSelectedAvatarIndex => m_CurrrentSelectedAvatarIndex;
+
+    [Header("Stats View")]
+    [SerializeField] private List<StatsView> m_StatsView;
 
 
     private void Start()
@@ -92,30 +77,19 @@ public class AvatarSelection : MonoBehaviour
 
         m_CurrentAvatarPrefabGO.SetActive(true);
 
-        m_AvatarClassTypeText.text = m_AvatarSelectionList[index].classType.ToString();
-
-        DisplayStats();
-        DisplayDefaultItems();
+        UpdateStats();
     }
 
-    private void DisplayStats() 
+    private void UpdateStats() 
     {
-        m_HealthSlider.value = m_CurrentAvatarData.health;
-        m_ArmorSlider.value = m_CurrentAvatarData.armor;
-        m_StaminaSlider.value = m_CurrentAvatarData.stamina;
-    }
-
-    private void DisplayDefaultItems() 
-    {
-        for (int i = 0; i < m_DefaultItemsImageList.Count; i++) 
+        if (m_StatsView.Count != m_CurrentAvatarData.statsData.Count)
         {
-            if (i >= m_CurrentAvatarData.m_DefaultItems.Count)
-                m_DefaultItemsImageList[i].gameObject.SetActive(false);
-            else
-            {
-                m_DefaultItemsImageList[i].gameObject.SetActive(true);
-                m_DefaultItemsImageList[i].sprite = m_CurrentAvatarData.m_DefaultItems[i].icon;
-            }
+            Debug.LogError($"Avatar has {m_CurrentAvatarData.statsData.Count} stats but view has {m_StatsView.Count}");
+            return;
+        }
+        for (int i = 0; i < m_StatsView.Count;i++) 
+        {
+            m_StatsView[i].SetData(m_CurrentAvatarData.statsData[i]);
         }
     }
 
