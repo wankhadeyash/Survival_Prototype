@@ -89,7 +89,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 997716527280980992}
   m_Enabled: 1
-  m_Alpha: 0.5
+  m_Alpha: 0.8
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -472,6 +472,7 @@ GameObject:
   - component: {fileID: 6311428562046883340}
   - component: {fileID: 2338277720969975540}
   - component: {fileID: 604739480791640299}
+  - component: {fileID: 3177372851464738070}
   m_Layer: 5
   m_Name: InventoryIcon
   m_TagString: Untagged
@@ -495,7 +496,7 @@ RectTransform:
   - {fileID: 1226834841751951169}
   - {fileID: 6543059507437483979}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -735,6 +736,20 @@ MonoBehaviour:
     Selectable: {fileID: 604739480791640299}
   Cooldown: 0
   DisableWhenInCooldown: 0
+--- !u!114 &3177372851464738070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4646308074157048021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dfad610b1c7fe74c8d05a051aa3c87a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Icon: {fileID: 4206052949240793344}
+  m_DiscriptionText: {fileID: 7358174923198103608}
 --- !u!1 &8816856661953163826
 GameObject:
   m_ObjectHideFlags: 0

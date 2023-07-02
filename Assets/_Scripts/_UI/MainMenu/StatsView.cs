@@ -11,15 +11,7 @@ public class StatsView : MonoBehaviour
     [SerializeField] TextMeshProUGUI m_Nameaa;
     [SerializeField] Image m_FillImage;
     [SerializeField] TextMeshProUGUI m_Percentage;
-    void Awake()
-    {
-
-    }
-
-    void Start()
-    {
-
-    }
+  
 
     public void SetData(StatsData data) 
     {

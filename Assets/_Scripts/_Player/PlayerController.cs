@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Unity.Netcode;
-
+using StarterAssets;
 
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private GameObject m_PlayerCameraRoot;
+    private ThirdPersonController m_ThirdPersonController;
     private void OnEnable()
     {
+       m_ThirdPersonController  =GetComponent<ThirdPersonController>();
+        if (!m_ThirdPersonController.m_Multiplayer)
+            StartCoroutine(Co_SetCameraFllowAndLookAt());
         DontDestroyOnLoad(gameObject);
     }
 

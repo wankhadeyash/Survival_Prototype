@@ -123,7 +123,7 @@ namespace BlankBrains.Inventory
         {
             m_AssignedInventoryUISlot = ui_Slot;
             m_Image.color = Color.white;
-            m_Image.sprite = ui_Slot.AssignedInventorySlot.ItemData.icon;
+            m_Image.sprite = ui_Slot.AssignedInventorySlot.ItemData.data.icon;
         }
 
         public void ClearSlot()

@@ -12,6 +12,8 @@ namespace StarterAssets
     [RequireComponent(typeof(CharacterController))]
     public class ThirdPersonController : NetworkBehaviour
     {
+        public bool m_Multiplayer;
+
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -112,10 +114,16 @@ namespace StarterAssets
 
         private void Start()
         {
-
+            if (!m_Multiplayer)
+                SetComponents();
 
         }
         public override void OnNetworkSpawn()
+        {
+            SetComponents();
+        }
+
+        private void SetComponents() 
         {
             // get a reference to our main camera
             if (_mainCamera == null)
@@ -134,9 +142,10 @@ namespace StarterAssets
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
         }
+
         private void Update()
         {
-            if (!IsOwner || GameManager.CurrentState != GameState.Playing)
+            if ((!IsOwner || GameManager.CurrentState != GameState.Playing) && m_Multiplayer)
             {
                 SetPlayerAnimationStateToIdle();
                 return;
@@ -164,7 +173,7 @@ namespace StarterAssets
 
         private void LateUpdate()
         {
-            if (!IsOwner || GameManager.CurrentState != GameState.Playing)
+            if ((!IsOwner || GameManager.CurrentState != GameState.Playing) && m_Multiplayer)
                 return;
             CameraRotation();
         }

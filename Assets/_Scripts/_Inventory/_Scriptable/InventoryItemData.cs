@@ -71,9 +71,6 @@ namespace BlankBrains.Inventory
         public KeyCode useButton; // The button to press to use the item.
         public ItemUseButtonType useButtonType; // The type of button press required to use the item.
 
-        public string itemName; // The name of the item.
-        public Sprite icon; // The icon to represent the item in the game.
-        public string description; // A description of the item.
-        public int weight; // The weight of the item in the player's inventory.
+        public ItemData data;
     }
 }

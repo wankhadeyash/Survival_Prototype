@@ -23,9 +23,9 @@ MonoBehaviour:
   maxQuantity: 1
   useButton: 0
   useButtonType: 0
-  itemName: 
-  icon: {fileID: 21300000, guid: 2f1eaeeaad36ee5469eff7ff158f37ba, type: 3}
-  description: 
-  weight: 0
+  data:
+    itemName: Armor
+    icon: {fileID: 21300000, guid: ab312538f5f2a470d9042313d7defac8, type: 3}
+    discription: Block incomming damage
   durability: 0
   damageAbsorbPercent: 0

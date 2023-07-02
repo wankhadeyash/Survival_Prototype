@@ -21,9 +21,9 @@ MonoBehaviour:
   maxQuantity: 0
   useButton: 0
   useButtonType: 0
-  itemName: 
-  icon: {fileID: 0}
-  description: 
-  weight: 0
+  data:
+    itemName: Wood
+    icon: {fileID: 21300000, guid: 468ffc4325cd64305ac0ac3f5d0ba022, type: 3}
+    discription: Used for making houses
   materialType: 0
   recipes: 0

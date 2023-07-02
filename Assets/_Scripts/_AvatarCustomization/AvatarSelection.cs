@@ -27,6 +27,9 @@ public class AvatarSelection : MonoBehaviour
     [Header("Stats View")]
     [SerializeField] private List<StatsView> m_StatsView;
 
+    [Header("Item View")]
+    [SerializeField] private List<ItemView> m_ItemView;
+
 
     private void Start()
     {
@@ -43,7 +46,7 @@ public class AvatarSelection : MonoBehaviour
             i++;
         }
 
-        DisplayAvatar(0);
+        DisplayAvatar(PlayerDataManager.Instance.m_Data.avatarIndex);
     }
 
     public void CycleAvatar(int counter) 
@@ -63,7 +66,7 @@ public class AvatarSelection : MonoBehaviour
         }
 
         DisplayAvatar(m_CurrrentSelectedAvatarIndex);
-
+        PlayerDataManager.Instance.SetAvaterIndex(m_CurrrentSelectedAvatarIndex);
     }
 
     private void DisplayAvatar(int index) 
@@ -78,6 +81,7 @@ public class AvatarSelection : MonoBehaviour
         m_CurrentAvatarPrefabGO.SetActive(true);
 
         UpdateStats();
+        UpdateItemData();
     }
 
     private void UpdateStats() 
@@ -93,5 +97,20 @@ public class AvatarSelection : MonoBehaviour
         }
     }
 
+    private void UpdateItemData() 
+    {
+        for (int i = 0; i < m_ItemView.Count; i++) 
+        {
+            if (i < m_CurrentAvatarData.m_DefaultItems.Count)
+            {
+                m_ItemView[i].gameObject.SetActive(true);
+                m_ItemView[i].SetData(m_CurrentAvatarData.m_DefaultItems[i].data);
+            }
+            else 
+            {
+                m_ItemView[i].gameObject.SetActive(false);
+            }
+        }
+    }
 
 }

@@ -55,11 +55,11 @@ namespace BlankBrains.Inventory
             // Update the parent InventoryDisplay's SlotDictionary with this UI slot and the assigned InventorySlot.
             m_InventoryDisplay.SlotDictionary[this] = slot;
             // Update the UI slot image with the assigned InventorySlot's icon sprite.
-            m_Image.sprite = slot.ItemData.icon;
+            m_Image.sprite = slot.ItemData.data.icon; ;
             //Update item count with assigned InventorySlot's 
             m_ItemCountText.text = slot.StackSize.ToString();
             //Update item discription 
-            m_ItemDiscriptionText.text = slot.ItemData.description;
+            m_ItemDiscriptionText.text = slot.ItemData.data.discription;
 
         }
 
