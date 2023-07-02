@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-
+using System;
 
 public class AvatarSelection : MonoBehaviour
 {
@@ -30,6 +30,20 @@ public class AvatarSelection : MonoBehaviour
     [Header("Item View")]
     [SerializeField] private List<ItemView> m_ItemView;
 
+
+    private void OnEnable()
+    {
+        CharacterSelectionUI.OnCharacterConfirmed += CharacterSelection_CharacterConfirmed;
+    }
+    private void OnDisable()
+    {
+        CharacterSelectionUI.OnCharacterConfirmed -= CharacterSelection_CharacterConfirmed;
+
+    }
+    private void CharacterSelection_CharacterConfirmed()
+    {
+        PlayerDataManager.Instance.SetAvaterIndex(m_CurrrentSelectedAvatarIndex);
+    }
 
     private void Start()
     {
@@ -66,7 +80,6 @@ public class AvatarSelection : MonoBehaviour
         }
 
         DisplayAvatar(m_CurrrentSelectedAvatarIndex);
-        PlayerDataManager.Instance.SetAvaterIndex(m_CurrrentSelectedAvatarIndex);
     }
 
     private void DisplayAvatar(int index) 
@@ -113,4 +126,5 @@ public class AvatarSelection : MonoBehaviour
         }
     }
 
+    
 }

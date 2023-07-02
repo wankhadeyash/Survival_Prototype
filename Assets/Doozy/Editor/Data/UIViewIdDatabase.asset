@@ -18,5 +18,7 @@ MonoBehaviour:
       Name: CharacterSelectionView
     - Category: MainMenuWorld
       Name: EnterNameView
+    - Category: MainMenuWorld
+      Name: LobbyView
     - Category: None
       Name: None

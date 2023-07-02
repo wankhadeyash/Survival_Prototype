@@ -27,7 +27,8 @@ namespace Doozy.Runtime.UIManager
         public enum MainMenuWorld
         {
             CharacterSelectionView,
-            EnterNameView
+            EnterNameView,
+            LobbyView
         }    
     }
 }

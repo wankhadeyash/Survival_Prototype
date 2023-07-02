@@ -534,6 +534,9 @@ namespace Doozy.Editor.UIManager.UIMenu
                 private const string CATEGORY_NAME = "Buttons";
                 private const string CATEGORY_MENU_PATH = TYPE_MENU_PATH + CATEGORY_NAME + "/";
 
+                [MenuItem(CATEGORY_MENU_PATH + "Close Button", false, MENU_ITEM_PRIORITY)]
+                public static void CreateCloseButton(MenuCommand command) => UIMenuUtils.AddToScene(TYPE_NAME, CATEGORY_NAME, "CloseButton");
+
                 [MenuItem(CATEGORY_MENU_PATH + "UI Button", false, MENU_ITEM_PRIORITY)]
                 public static void CreateUIButton(MenuCommand command) => UIMenuUtils.AddToScene(TYPE_NAME, CATEGORY_NAME, "UIButton");
             }
@@ -543,8 +546,17 @@ namespace Doozy.Editor.UIManager.UIMenu
                 private const string CATEGORY_NAME = "Icon";
                 private const string CATEGORY_MENU_PATH = TYPE_MENU_PATH + CATEGORY_NAME + "/";
 
-                [MenuItem(CATEGORY_MENU_PATH + "Inventory", false, MENU_ITEM_PRIORITY)]
-                public static void CreateInventory(MenuCommand command) => UIMenuUtils.AddToScene(TYPE_NAME, CATEGORY_NAME, "Inventory");
+                [MenuItem(CATEGORY_MENU_PATH + "Inventory Icon", false, MENU_ITEM_PRIORITY)]
+                public static void CreateInventoryIcon(MenuCommand command) => UIMenuUtils.AddToScene(TYPE_NAME, CATEGORY_NAME, "InventoryIcon");
+            }
+
+            public static class InputField
+            {
+                private const string CATEGORY_NAME = "InputField";
+                private const string CATEGORY_MENU_PATH = TYPE_MENU_PATH + CATEGORY_NAME + "/";
+
+                [MenuItem(CATEGORY_MENU_PATH + "Input Field", false, MENU_ITEM_PRIORITY)]
+                public static void CreateInputField(MenuCommand command) => UIMenuUtils.AddToScene(TYPE_NAME, CATEGORY_NAME, "InputField");
             }
         }        
     }
