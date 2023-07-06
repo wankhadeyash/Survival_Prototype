@@ -14,11 +14,13 @@ public class Menu : MonoBehaviour
 
     private void OnEnable()
     {
+        m_MultiplayerButton.onClickEvent.AddListener(() => CustomSceneManager.Instance.LoadScene(SceneInfo.MainMenu));
         MultiplayerManager.OnUnityAutheticationFailed += MultiplayerManager_AuthenticationFailed;
     }
 
     private void OnDisable()
     {
+        m_MultiplayerButton.onClickEvent.RemoveAllListeners();
         MultiplayerManager.OnUnityAutheticationFailed -= MultiplayerManager_AuthenticationFailed;
 
     }

@@ -120,6 +120,8 @@ namespace StarterAssets
         }
         public override void OnNetworkSpawn()
         {
+            Debug.Log("On Network Spawned");
+            GameManager.SetGameState(GameState.Playing);
             SetComponents();
         }
 
@@ -145,8 +147,14 @@ namespace StarterAssets
 
         private void Update()
         {
-            if ((!IsOwner || GameManager.CurrentState != GameState.Playing) && m_Multiplayer)
+            if (m_Multiplayer)
             {
+                if (!IsOwner)
+                {
+                    return;
+                }
+            }
+            if (GameManager.CurrentState != GameState.Playing) {
                 SetPlayerAnimationStateToIdle();
                 return;
             }

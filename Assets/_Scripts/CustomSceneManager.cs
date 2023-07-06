@@ -35,9 +35,9 @@ public class CustomSceneManager : SingletonBase<CustomSceneManager>
         LoadScene(SceneInfo.MainMenu);
     }
 
-    public void LoadScene(string sceneName)
+    public void LoadScene(string sceneName, Action OnSceneLoaded = null)
     {
-        StartCoroutine(LoadSceneAsync(sceneName));
+        StartCoroutine(LoadSceneAsync(sceneName, OnSceneLoaded));
     }
 
     public  void LoadScene(SceneInfo sceneInfo, Action OnSceneLoaded = null)

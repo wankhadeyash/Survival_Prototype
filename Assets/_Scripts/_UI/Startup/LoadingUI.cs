@@ -28,16 +28,22 @@ public class LoadingUI : SingletonBase<LoadingUI>
         StartCoroutine(Co_Animate());
     }
 
-    public IEnumerator Show(string message, float time) 
+    public void Show(string message, float time) 
+    {
+        StartCoroutine(Co_Show(message, time));
+    }
+
+    public IEnumerator Co_Show(string message, float time) 
     {
         m_LoadingText.text = message;
         m_Container.SetActive(true);
         m_IsEnabled = true;
-        StopAllCoroutines();
         StartCoroutine(Co_Animate());
 
         yield return new WaitForSecondsRealtime(time);
         Hide();
+
+
     }
 
     public void Hide() 
@@ -45,6 +51,7 @@ public class LoadingUI : SingletonBase<LoadingUI>
         m_LoadingText.text = "";
         m_Container.SetActive(false);
         m_IsEnabled = false;
+        StopAllCoroutines();
 
     }
     public IEnumerator Hide(float time)

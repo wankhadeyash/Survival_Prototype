@@ -1461,7 +1461,7 @@ PrefabInstance:
     - target: {fileID: 6209837007347335040, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
       propertyPath: PressedState.StateEvent.Event.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6209837007347335040, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
@@ -1487,7 +1487,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PressedState.StateEvent.Event.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2042201745}
+      objectReference: {fileID: 1594390748}
     - target: {fileID: 6209837007347335040, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
       propertyPath: PressedState.StateEvent.Event.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -1506,7 +1506,7 @@ PrefabInstance:
     - target: {fileID: 6209837007347335040, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
       propertyPath: PressedState.StateEvent.Event.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadScene
+      value: Show
       objectReference: {fileID: 0}
     - target: {fileID: 6209837007347335040, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
@@ -1546,7 +1546,7 @@ PrefabInstance:
     - target: {fileID: 6209837007347335040, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
       propertyPath: PressedState.StateEvent.Event.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CustomSceneManager, Assembly-CSharp
+      value: LoadingUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6209837007347335040, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
@@ -1556,7 +1556,7 @@ PrefabInstance:
     - target: {fileID: 6209837007347335040, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
       propertyPath: PressedState.StateEvent.Event.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: MainMenu
+      value: Loading
       objectReference: {fileID: 0}
     - target: {fileID: 6209837007347335040, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
@@ -1578,6 +1578,11 @@ PrefabInstance:
       propertyPath: PressedState.StateEvent.Event.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6645007149309508441, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 21d2dd36629bf406daad2064370e68fe, type: 3}
     - target: {fileID: 6856960989570169250, guid: c5f011e6b8e1d524cb7c718b29b2e7ac,
         type: 3}
       propertyPath: Target
@@ -1986,7 +1991,8 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1715298956}
-    PlayerPrefab: {fileID: 0}
+    PlayerPrefab: {fileID: 8148182886980013479, guid: 00cd646f12d7ba14bb441bda959d6745,
+      type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 803f2ec9e031da841a1888ea16a9db90, type: 2}
@@ -2036,6 +2042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsDontDestroyOnLoad: 1
+  m_RealyCode: 
 --- !u!1001 &1823222888
 PrefabInstance:
   m_ObjectHideFlags: 0
