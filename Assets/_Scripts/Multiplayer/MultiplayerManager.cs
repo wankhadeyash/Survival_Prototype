@@ -65,7 +65,7 @@ public class MultiplayerManager : SingletonBase<MultiplayerManager>
 
     public void StartClient(string relayCode)
     {
-        CustomSceneManager.Instance.LoadScene(SceneInfo.MainWorld.ToString(), ()=> { JoinRelay(relayCode); });
+        CustomSceneManager.Instance.LoadScene(SceneInfo.MainWorld.ToString(), ()=> { JoinRelay(relayCode = relayCode.Substring(0,6)); });
 
     }
 
