@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Explorer
   m_EditorClassIdentifier: 
   prefab: {fileID: 8170741099607980373, guid: 81aef7aec98530d40a1ad46102f28638, type: 3}
+  animatorAvatar: {fileID: 9000000, guid: a9d6755f3f877f845b23d2c3a2f69509, type: 3}
   classType: Explorer
   statsData:
   - name: Health

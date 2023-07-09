@@ -10,8 +10,8 @@ public class AvatarSelection : MonoBehaviour
     [SerializeField] private GameObject m_AvatarStandPosition;
     public GameObject CharacterPosition => m_AvatarStandPosition;
 
-    [SerializeField] private List<AvatarData> m_AvatarSelectionList = new List<AvatarData>();
-    public List<AvatarData> AvatarSelectionList => m_AvatarSelectionList;
+    [SerializeField] private AvatarListSO m_AvatarSelectionList;
+    public AvatarListSO AvatarSelectionList => m_AvatarSelectionList;
 
     private List<GameObject> m_AvatarPrefabGOList = new List<GameObject>();
     public List<GameObject> AvatarPrefabGOList => m_AvatarPrefabGOList;
@@ -42,7 +42,7 @@ public class AvatarSelection : MonoBehaviour
     }
     private void CharacterSelection_CharacterConfirmed()
     {
-        PlayerDataManager.Instance.SetAvaterIndex(m_CurrrentSelectedAvatarIndex);
+        PlayerDataManager.Instance.SetAvatarIndex(m_CurrrentSelectedAvatarIndex);
     }
 
     private void Start()
@@ -53,14 +53,15 @@ public class AvatarSelection : MonoBehaviour
     void InitializeAvatars() 
     {
         int i = 0;
-        foreach (AvatarData avatarData in m_AvatarSelectionList) 
+        foreach (AvatarData avatarData in m_AvatarSelectionList.avatars) 
         {
             m_AvatarPrefabGOList.Add(Instantiate(avatarData.prefab, m_AvatarStandPosition.transform.position, avatarData.prefab.transform.rotation, m_AvatarStandPosition.transform));
             m_AvatarPrefabGOList[i].SetActive(false);
             i++;
         }
 
-        DisplayAvatar(PlayerDataManager.Instance.m_Data.avatarIndex);
+        m_CurrrentSelectedAvatarIndex = PlayerDataManager.Instance.m_Data.avatarIndex;
+        DisplayAvatar(m_CurrrentSelectedAvatarIndex);
     }
 
     public void CycleAvatar(int counter) 
@@ -73,9 +74,9 @@ public class AvatarSelection : MonoBehaviour
             return;
         }
 
-        if (m_CurrrentSelectedAvatarIndex >= m_AvatarSelectionList.Count) 
+        if (m_CurrrentSelectedAvatarIndex >= m_AvatarSelectionList.avatars.Count) 
         {
-            m_CurrrentSelectedAvatarIndex = m_AvatarSelectionList.Count - 1;
+            m_CurrrentSelectedAvatarIndex = m_AvatarSelectionList.avatars.Count - 1;
             return;
         }
 
@@ -84,7 +85,7 @@ public class AvatarSelection : MonoBehaviour
 
     private void DisplayAvatar(int index) 
     {
-        m_CurrentAvatarData = m_AvatarSelectionList[m_CurrrentSelectedAvatarIndex];
+        m_CurrentAvatarData = m_AvatarSelectionList.avatars[m_CurrrentSelectedAvatarIndex];
 
         if(m_CurrentAvatarPrefabGO)
             m_CurrentAvatarPrefabGO.SetActive(false);

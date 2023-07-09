@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Architect
   m_EditorClassIdentifier: 
   prefab: {fileID: 1741300157706445842, guid: b3a0bc2d0d8ff8b479e3bc25d842c0e8, type: 3}
+  animatorAvatar: {fileID: 9000000, guid: 7caa0970593f01243a1ed5cc18d8c2d2, type: 3}
   classType: Architect
   statsData:
   - name: Health
@@ -21,4 +22,6 @@ MonoBehaviour:
     value: 50
   - name: Damage
     value: 60
-  m_DefaultItems: []
+  m_DefaultItems:
+  - {fileID: 11400000, guid: 9dd4d1defced7e948b869ce975a27cb3, type: 2}
+  - {fileID: 11400000, guid: 55de803750aeb024dbda6029be3960aa, type: 2}

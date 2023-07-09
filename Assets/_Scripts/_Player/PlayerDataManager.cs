@@ -24,7 +24,7 @@ public class PlayerDataManager : SingletonBase<PlayerDataManager>
         Serializer.SaveJsonData(m_Data);
     }
 
-    public void SetAvaterIndex(int index) 
+    public void SetAvatarIndex(int index) 
     {
         m_Data.avatarIndex = index;
         Serializer.SaveJsonData(m_Data);

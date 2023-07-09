@@ -7,6 +7,7 @@ using BlankBrains.Inventory;
 public class AvatarData : ScriptableObject
 {
     public GameObject prefab;
+    public Avatar animatorAvatar;
     public string classType;
 
     [Header("Stats")]

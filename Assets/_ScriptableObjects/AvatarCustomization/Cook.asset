@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: Cook
   m_EditorClassIdentifier: 
   prefab: {fileID: 187071463517538615, guid: 4986581d5ebd132438b7a152a80610cc, type: 3}
+  animatorAvatar: {fileID: 9000000, guid: 835e19753daff7a4aa53d06557c5cd0c, type: 3}
   classType: Cook
-  health: 0
-  armor: 0
-  stamina: 0
-  m_DefaultItems: []
+  statsData:
+  - name: Health
+    value: 100
+  - name: Stamina
+    value: 50
+  - name: Damage
+    value: 25
+  m_DefaultItems:
+  - {fileID: 11400000, guid: 9dd4d1defced7e948b869ce975a27cb3, type: 2}
+  - {fileID: 11400000, guid: 55de803750aeb024dbda6029be3960aa, type: 2}
