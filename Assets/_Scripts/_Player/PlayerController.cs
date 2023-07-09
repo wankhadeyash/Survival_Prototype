@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Unity.Netcode;
 using StarterAssets;
-
+using UnityEngine.Events;
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private GameObject m_PlayerCameraRoot;
@@ -27,7 +27,8 @@ public class PlayerController : NetworkBehaviour
        if (!IsOwner)
            return;
 
-        SetAvatar(PlayerDataManager.Instance.m_Data.avatarIndex);
+       // MultiplayerSpawnManager.Instance.SpawnAvatarOnDemand(PlayerDataManager.Instance.m_Data.avatarIndex);
+        //SetAvatar(PlayerDataManager.Instance.m_Data.avatarIndex);
         StartCoroutine(Co_SetCameraFllowAndLookAt());
     }
 

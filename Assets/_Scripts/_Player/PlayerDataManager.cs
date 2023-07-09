@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerDataManager : SingletonBase<PlayerDataManager>
 {
+    [SerializeField] private AvatarListSO m_AvatarList;
+    public AvatarListSO AvatarList => m_AvatarList;
     [HideInInspector] public PlayerSerializedData m_Data;
 
     public void Start()
