@@ -6,7 +6,8 @@ using BlankBrains.Inventory;
 [CreateAssetMenu(menuName = "ScriptableObject/AvatarCustomization/NewAvatar")]
 public class AvatarData : ScriptableObject
 {
-    public GameObject prefab;
+    public GameObject networkPrefab;
+    public GameObject avatarPrefab;
     public Avatar animatorAvatar;
     public string classType;
 

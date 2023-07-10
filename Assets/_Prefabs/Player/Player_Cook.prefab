@@ -1992,7 +1992,7 @@ Transform:
   - {fileID: 4046409693666881830}
   - {fileID: 7922958589707636952}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6123132860390068351
 Animator:
@@ -2536,17 +2536,17 @@ PrefabInstance:
     - target: {fileID: 707993326210716557, guid: 4986581d5ebd132438b7a152a80610cc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30.857153
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 707993326210716557, guid: 4986581d5ebd132438b7a152a80610cc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 24.995424
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 707993326210716557, guid: 4986581d5ebd132438b7a152a80610cc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -74.45794
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 707993326210716557, guid: 4986581d5ebd132438b7a152a80610cc,
         type: 3}

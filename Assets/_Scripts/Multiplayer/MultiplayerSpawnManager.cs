@@ -95,7 +95,7 @@ public class MultiplayerSpawnManager : NetworkBehaviour
     void SpawnplayerServerRPC(int avatarIndex, ServerRpcParams serverRpcParams = default) 
     {
 
-        GameObject player = Instantiate(PlayerDataManager.Instance.AvatarList.avatars[avatarIndex].prefab);
+        GameObject player = Instantiate(PlayerDataManager.Instance.AvatarList.avatars[avatarIndex].networkPrefab);
         player.GetComponent<NetworkObject>().SpawnAsPlayerObject(serverRpcParams.Receive.SenderClientId,false);
         
     }

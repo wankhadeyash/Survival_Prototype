@@ -50,7 +50,7 @@ public class PlayerController : NetworkBehaviour
            Destroy(m_Geometry.transform.GetChild(0).gameObject);
         }
 
-        Instantiate(avatar.prefab, m_Geometry.transform.position,m_Geometry.transform.rotation,m_Geometry.transform);
+        Instantiate(avatar.networkPrefab, m_Geometry.transform.position,m_Geometry.transform.rotation,m_Geometry.transform);
         m_Animator.Rebind();
 
     }
