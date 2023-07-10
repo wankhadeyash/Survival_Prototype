@@ -17,16 +17,22 @@ using UnityEngine;
 
 public class MultiplayerSpawnManager : NetworkBehaviour
 {
+    [SerializeField] private Transform m_PlayerPrefab;
+    [SerializeField] private GameObject m_Geometry;
+
 
     public static MultiplayerSpawnManager Instance;
     private void OnEnable()
     {
-        
+        MultiplayerManager.OnConnectedToNetworkManager += OnConnectedToNetworkManager;
     }
+
+   
 
     private void OnDisable()
     {
-        
+
+        MultiplayerManager.OnConnectedToNetworkManager -= OnConnectedToNetworkManager;
 
     }
 
@@ -37,8 +43,6 @@ public class MultiplayerSpawnManager : NetworkBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
-            Destroy(gameObject);
     }
 
     void Start()
@@ -46,23 +50,54 @@ public class MultiplayerSpawnManager : NetworkBehaviour
 
     }
 
-    public void SpawnAvatarOnDemand(int avatarIndex) 
+    public override void OnNetworkSpawn()
     {
-        SpawnAvatarOnDemandServerRPC(avatarIndex);
+        //StartCoroutine(SpawnAvatarOnDemand(PlayerDataManager.Instance.m_Data.avatarIndex));
+        SpawnplayerServerRPC(PlayerDataManager.Instance.m_Data.avatarIndex);
 
+    }
+    private void Update()
+    {
+ 
+    }
+
+    private void OnConnectedToNetworkManager()
+    {
+
+    }
+    public IEnumerator SpawnAvatarOnDemand(int avatarIndex) 
+    {
+        yield return new WaitForSeconds(10f);
+        //SpawnAvatarOnDemandServerRPC(avatarIndex);
 
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void SpawnAvatarOnDemandServerRPC(int avatarIndex, ServerRpcParams serverRpcParams = default) 
-    {
-        AvatarData avatar = PlayerDataManager.Instance.AvatarList.avatars[avatarIndex];
-        NetworkClient client = NetworkManager.Singleton.ConnectedClients[serverRpcParams.Receive.SenderClientId];
-        NetworkObject playerObj = client.PlayerObject;
+    //private void SpawnAvatarOnDemandServerRPC(int avatarIndex, ServerRpcParams serverRpcParams = default) 
+    //{
+    //    //Get player object
+    //    AvatarData avatar = PlayerDataManager.Instance.AvatarList.avatars[avatarIndex];
+    //    NetworkClient client = NetworkManager.Singleton.ConnectedClients[serverRpcParams.Receive.SenderClientId];
+    //    NetworkObject playerObj = client.PlayerObject;
 
-        GameObject avatarObj = Instantiate(PlayerDataManager.Instance.AvatarList.avatars[avatarIndex].prefab);
-        NetworkObject avatarNetworkObj = avatarObj.GetComponent<NetworkObject>();
-        avatarNetworkObj.Spawn(true);
+    //    //Get avatar object spawned
+    //    GameObject geometry = playerObj.GetComponent<PlayerController>().Geometry;
+
+    //    GameObject avatarObj = Instantiate(PlayerDataManager.Instance.AvatarList.avatars[avatarIndex].prefab,geometry.transform.position,
+    //        geometry.transform.rotation);
+    //    NetworkObject avatarNetworkObj = avatarObj.GetComponent<NetworkObject>();
+    //    avatarNetworkObj.Spawn();
+    //    avatarNetworkObj.TrySetParent(playerObj);
+    //    avatarNetworkObj.transform.position = playerObj.transform.position;
+    //    avatarNetworkObj.transform.rotation = playerObj.transform.rotation;
+
+    //}
+    [ServerRpc(RequireOwnership = false)]
+    void SpawnplayerServerRPC(int avatarIndex, ServerRpcParams serverRpcParams = default) 
+    {
+
+        GameObject player = Instantiate(PlayerDataManager.Instance.AvatarList.avatars[avatarIndex].prefab);
+        player.GetComponent<NetworkObject>().SpawnAsPlayerObject(serverRpcParams.Receive.SenderClientId,false);
+        
     }
 
 }

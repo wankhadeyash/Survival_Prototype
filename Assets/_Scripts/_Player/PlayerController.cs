@@ -9,6 +9,7 @@ public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private GameObject m_PlayerCameraRoot;
     [SerializeField] private GameObject m_Geometry;
+    public GameObject Geometry => m_Geometry;
     private ThirdPersonController m_ThirdPersonController;
     private Animator m_Animator;
     [SerializeField] private AvatarListSO m_AvatarsList;

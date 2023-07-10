@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb19931877b7cf40900fba58c82f35c, type: 3}
   m_Name: Fighter
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5120724763554860863, guid: b4fd4a09da52609479b1acc291f6b6f1, type: 3}
+  prefab: {fileID: 1686126768634473346, guid: 760040a87bb25a8429a0214b421cfa53, type: 3}
   animatorAvatar: {fileID: 9000000, guid: 466fe5820d6fd1b429ef754c4aa74f60, type: 3}
   classType: Fighter
   statsData:

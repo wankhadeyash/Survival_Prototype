@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb19931877b7cf40900fba58c82f35c, type: 3}
   m_Name: Architect
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1741300157706445842, guid: b3a0bc2d0d8ff8b479e3bc25d842c0e8, type: 3}
+  prefab: {fileID: 7789795038731294205, guid: 00cd646f12d7ba14bb441bda959d6745, type: 3}
   animatorAvatar: {fileID: 9000000, guid: 7caa0970593f01243a1ed5cc18d8c2d2, type: 3}
   classType: Architect
   statsData:

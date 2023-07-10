@@ -17,6 +17,8 @@ using UnityEngine;
 
 public class MultiplayerManager : SingletonBase<MultiplayerManager>
 {
+    public static Action OnConnectedToNetworkManager;
+
     public static Action OnUnityAutheticationSuccesfull;
     public static Action OnUnityAutheticationFailed;
 
@@ -101,6 +103,7 @@ public class MultiplayerManager : SingletonBase<MultiplayerManager>
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
             NetworkManager.Singleton.StartHost();
             Debug.Log("Create relay "  + m_RealyCode);
+            OnConnectedToNetworkManager?.Invoke();
         }
         catch (Exception e)
         {
