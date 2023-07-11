@@ -16,15 +16,8 @@ MonoBehaviour:
     type: 3}
   avatarPrefab: {fileID: 5120724763554860863, guid: b4fd4a09da52609479b1acc291f6b6f1,
     type: 3}
-  animatorAvatar: {fileID: 9000000, guid: 466fe5820d6fd1b429ef754c4aa74f60, type: 3}
   classType: Fighter
-  statsData:
-  - name: Health
-    value: 100
-  - name: Stamina
-    value: 50
-  - name: Damage
-    value: 25
+  stats: {fileID: 11400000, guid: 062a3c5dea23df14ba801479c05fddb0, type: 2}
   m_DefaultItems:
   - {fileID: 11400000, guid: 9dd4d1defced7e948b869ce975a27cb3, type: 2}
   - {fileID: 11400000, guid: 55de803750aeb024dbda6029be3960aa, type: 2}

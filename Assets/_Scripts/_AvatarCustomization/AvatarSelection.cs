@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using BlankBrains.Inventory;
 
 public class AvatarSelection : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class AvatarSelection : MonoBehaviour
     [SerializeField] private List<StatsView> m_StatsView;
 
     [Header("Item View")]
-    [SerializeField] private List<ItemView> m_ItemView;
+    [SerializeField] private List<InventorySlot_UI> m_ItemView;
 
 
     private void OnEnable()
@@ -115,7 +116,7 @@ public class AvatarSelection : MonoBehaviour
             if (i < m_CurrentAvatarData.m_DefaultItems.Count)
             {
                 m_ItemView[i].gameObject.SetActive(true);
-                m_ItemView[i].SetData(m_CurrentAvatarData.m_DefaultItems[i].data);
+                m_ItemView[i].UpdateUISlot(m_CurrentAvatarData.m_DefaultItems[i].data);
             }
             else 
             {

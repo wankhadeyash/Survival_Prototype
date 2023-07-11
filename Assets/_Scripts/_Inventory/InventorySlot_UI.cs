@@ -59,7 +59,18 @@ namespace BlankBrains.Inventory
             //Update item count with assigned InventorySlot's 
             m_ItemCountText.text = slot.StackSize.ToString();
             //Update item discription 
-            //m_ItemDiscriptionText.text = slot.ItemData.data.discription;
+            m_ItemDiscriptionText.text = slot.ItemData.data.discription;
+
+        }
+
+        //Called when avatar selection
+        public void UpdateUISlot(ItemData itemData) 
+        {
+            m_Image.sprite = itemData.icon;
+
+            m_ItemCountText.text = "";
+            m_ItemDiscriptionText.text = itemData.discription;
+
 
         }
 

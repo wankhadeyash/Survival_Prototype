@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6272cceff08faa541ae89bcda5d6a7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Nameaa: {fileID: 6259143286612299899}
+  m_Title: {fileID: 6259143286612299899}
   m_FillImage: {fileID: 6195166936443182183}
   m_Percentage: {fileID: 3430163513094304195}
 --- !u!1 &5140177772884817927
@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 1428721820386446777}
   - component: {fileID: 6259143286612299899}
   m_Layer: 5
-  m_Name: Text - Name
+  m_Name: Text - Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

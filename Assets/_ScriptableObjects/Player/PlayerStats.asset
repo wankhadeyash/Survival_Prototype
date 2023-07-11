@@ -27,4 +27,4 @@ MonoBehaviour:
   stamina:
     baseValue: 10
   armor:
-    baseValue: 0
+    baseValue: 5
