@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BlankBrains.Inventory
 {
-    //Each entity in game should attach this invetory holder
+    //Each entity in game should attach this inventory holder
     //For e.g. players backs will have one and player HUD will have one
     [System.Serializable]
     public class InventoryHolder : MonoBehaviour

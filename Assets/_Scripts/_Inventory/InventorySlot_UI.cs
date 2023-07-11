@@ -59,7 +59,7 @@ namespace BlankBrains.Inventory
             //Update item count with assigned InventorySlot's 
             m_ItemCountText.text = slot.StackSize.ToString();
             //Update item discription 
-            m_ItemDiscriptionText.text = slot.ItemData.data.discription;
+            //m_ItemDiscriptionText.text = slot.ItemData.data.discription;
 
         }
 
@@ -79,7 +79,7 @@ namespace BlankBrains.Inventory
             m_AssignedInventorySlot?.ClearSlot();
             m_Image.sprite = null;
             m_ItemCountText.text = "0";
-            m_ItemDiscriptionText.text = "";
+          //  m_ItemDiscriptionText.text = "";
         }
     }
 }

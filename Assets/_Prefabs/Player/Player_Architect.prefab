@@ -1235,7 +1235,8 @@ GameObject:
   - component: {fileID: 1677743858245360112}
   - component: {fileID: 7829159768612620434}
   - component: {fileID: 5454916757163537347}
-  m_Layer: 8
+  - component: {fileID: 3771245054924587044}
+  m_Layer: 6
   m_Name: Player_Architect
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1258,7 +1259,7 @@ Transform:
   - {fileID: 8832496529586679537}
   - {fileID: 7389389082072027260}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4719412326508689681
 Animator:
@@ -1339,7 +1340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Multiplayer: 1
+  m_Multiplayer: 0
+  m_CanMove: 1
   MoveSpeed: 2
   SprintSpeed: 5.335
   RotationSmoothTime: 0.12
@@ -1416,8 +1418,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PlayerCameraRoot: {fileID: 8973423819669299965}
-  m_Geometry: {fileID: 561812238837542441}
-  m_AvatarsList: {fileID: 11400000, guid: fd2839e0fc7965243ba3781a3ae1f692, type: 2}
 --- !u!114 &7829159768612620434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1462,6 +1462,19 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &3771245054924587044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4614334427542514485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd520ccb462db494aa5f18edfe6410ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stat: {fileID: 11400000, guid: 062a3c5dea23df14ba801479c05fddb0, type: 2}
 --- !u!1 &4643510083721059442
 GameObject:
   m_ObjectHideFlags: 0

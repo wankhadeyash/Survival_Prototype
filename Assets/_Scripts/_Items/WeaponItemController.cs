@@ -12,6 +12,7 @@ public class WeaponItemController : ItemController
 
     protected override void DoSecondaryTask()
     {
+
     }
 
 }
