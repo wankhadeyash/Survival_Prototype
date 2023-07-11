@@ -1594,7 +1594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 672949074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.33, z: 2.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3144,11 +3144,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1030918080258409800, guid: 00cd646f12d7ba14bb441bda959d6745,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1728988739}
-    - targetCorrespondingSourceObject: {fileID: 1030918080258409800, guid: 00cd646f12d7ba14bb441bda959d6745,
+      addedObject: {fileID: 672949075}
+    - targetCorrespondingSourceObject: {fileID: 2943442003423292329, guid: 00cd646f12d7ba14bb441bda959d6745,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 672949075}
+      addedObject: {fileID: 1728988739}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4614334427542514485, guid: 00cd646f12d7ba14bb441bda959d6745,
         type: 3}
@@ -3358,12 +3358,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728988738}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.11325216, y: 0.3513975, z: -0.8042377, w: -0.46572042}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1695995597}
+  m_Father: {fileID: 1927061145}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1803548490
@@ -3658,11 +3658,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Aex_Pickup (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4421921361457848507, guid: 2593c0714fc4c424caa90536c1903a3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2593c0714fc4c424caa90536c1903a3e, type: 3}
+--- !u!4 &1927061145 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2943442003423292329, guid: 00cd646f12d7ba14bb441bda959d6745,
+    type: 3}
+  m_PrefabInstance: {fileID: 1695995585}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1929001472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4892,6 +4903,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Aex_Pickup
       objectReference: {fileID: 0}
+    - target: {fileID: 4421921361457848507, guid: 2593c0714fc4c424caa90536c1903a3e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5052,6 +5068,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Armor_Pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6671377226744454618, guid: 9e8a043306d97214989a866e12d84730,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
