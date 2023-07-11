@@ -8,29 +8,47 @@ using UnityEngine.Events;
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private GameObject m_PlayerCameraRoot;
-    [SerializeField] private GameObject m_Geometry;
-    public GameObject Geometry => m_Geometry;
     private ThirdPersonController m_ThirdPersonController;
     private Animator m_Animator;
-    [SerializeField] private AvatarListSO m_AvatarsList;
+
+    //Animations Ids
+    private int _animIDPunch;
 
     private void OnEnable()
     {
-       m_ThirdPersonController  =GetComponent<ThirdPersonController>();
-        m_Animator = GetComponent<Animator>();
+        m_ThirdPersonController = GetComponent<ThirdPersonController>();
         if (!m_ThirdPersonController.m_Multiplayer)
-            StartCoroutine(Co_SetCameraFllowAndLookAt());
-        DontDestroyOnLoad(gameObject);
+            SetStartingProperties();
     }
 
     public override void OnNetworkSpawn()
     {
-       if (!IsOwner)
-           return;
-
-       // MultiplayerSpawnManager.Instance.SpawnAvatarOnDemand(PlayerDataManager.Instance.m_Data.avatarIndex);
+        if (!IsOwner)
+            return;
+        SetStartingProperties();
+        // MultiplayerSpawnManager.Instance.SpawnAvatarOnDemand(PlayerDataManager.Instance.m_Data.avatarIndex);
         //SetAvatar(PlayerDataManager.Instance.m_Data.avatarIndex);
+    }
+
+    void SetStartingProperties() 
+    {
+        m_Animator = GetComponent<Animator>();
         StartCoroutine(Co_SetCameraFllowAndLookAt());
+        SetAnimationsIds();
+        
+    }
+
+    void SetAnimationsIds()
+    {
+        _animIDPunch = Animator.StringToHash("Punch");
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) 
+        {
+            m_Animator.SetTrigger(_animIDPunch);
+        }
     }
 
     private IEnumerator Co_SetCameraFllowAndLookAt()
@@ -38,22 +56,29 @@ public class PlayerController : NetworkBehaviour
         yield return new WaitForSeconds(2f);
         CameraController.Instance.SetCameraFollow(m_PlayerCameraRoot.transform);
         yield return new WaitForSeconds(1f);
-        
     }
 
-    private void SetAvatar(int index) 
+    //Called from animation events
+    public void StartAttack() 
     {
-        AvatarData avatar = m_AvatarsList.avatars[index];
-        m_Animator.avatar = avatar.animatorAvatar;
-        if (m_Geometry.transform.childCount > 0) 
-        {
-           Destroy(m_Geometry.transform.GetChild(0).gameObject);
-        }
-
-        Instantiate(avatar.networkPrefab, m_Geometry.transform.position,m_Geometry.transform.rotation,m_Geometry.transform);
-        m_Animator.Rebind();
+        m_ThirdPersonController.m_CanMove = false;
 
     }
+
+    //Called from animation events
+
+    public void StopAttack() 
+    {
+        m_ThirdPersonController.m_CanMove = true;
+
+    }
+
+    public void ShakeCamera() 
+    {
+        CameraController.Instance.StartCameraShake(0.5f, 0.25f);
+    }
+
+
 
 }
 

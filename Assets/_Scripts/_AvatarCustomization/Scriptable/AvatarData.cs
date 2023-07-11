@@ -8,11 +8,10 @@ public class AvatarData : ScriptableObject
 {
     public GameObject networkPrefab;
     public GameObject avatarPrefab;
-    public Avatar animatorAvatar;
     public string classType;
 
     [Header("Stats")]
-    public List<StatsData> statsData;
+    public PlayerStatsSO stats;
 
     [Header("Default Items")]
     public List<InventoryItemData> m_DefaultItems;

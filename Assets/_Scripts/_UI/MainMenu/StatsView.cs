@@ -8,16 +8,15 @@ using TMPro;
 public class StatsView : MonoBehaviour
 {
 
-    [SerializeField] TextMeshProUGUI m_Nameaa;
+    [SerializeField] TextMeshProUGUI m_Title;
     [SerializeField] Image m_FillImage;
     [SerializeField] TextMeshProUGUI m_Percentage;
   
 
-    public void SetData(StatsData data) 
+    public void SetData(float value, string statTitle) 
     {
-        m_Nameaa.text = data.name;
-        Debug.Log($"Value is {data.value * 100}");
-        m_FillImage.fillAmount = data.value / 100f;
+        m_Title.text = statTitle;
+        m_FillImage.fillAmount = value / 100f;
 
         m_Percentage.text = (m_FillImage.fillAmount * 100f).ToString() + "%";
     }

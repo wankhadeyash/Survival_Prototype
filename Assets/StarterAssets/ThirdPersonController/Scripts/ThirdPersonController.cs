@@ -13,6 +13,9 @@ namespace StarterAssets
     public class ThirdPersonController : NetworkBehaviour
     {
         public bool m_Multiplayer;
+        public bool m_CanMove = true;
+        private PlayerStats m_PlayerStats;
+
 
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
@@ -134,6 +137,7 @@ namespace StarterAssets
             }
 
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+            m_PlayerStats = GetComponent<PlayerStats>(); 
 
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
@@ -154,15 +158,22 @@ namespace StarterAssets
                     return;
                 }
             }
-            if (GameManager.CurrentState != GameState.Playing) {
-                SetPlayerAnimationStateToIdle();
-                return;
+
+
+            if (m_Multiplayer)
+            {
+                if (GameManager.CurrentState != GameState.Playing)
+                {
+                    SetPlayerAnimationStateToIdle();
+                    return;
+                }
             }
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
             GroundedCheck();
-            Move();
+            if(m_CanMove)
+                Move();
         }
 
         private void SetPlayerAnimationStateToIdle() 
@@ -234,7 +245,7 @@ namespace StarterAssets
         private void Move()
         {
             // Set target speed based on move speed, sprint speed, and if sprint is pressed
-            float targetSpeed = (Input.GetKey(KeyCode.LeftShift)) ? SprintSpeed : MoveSpeed;
+            float targetSpeed = (Input.GetKey(KeyCode.LeftShift)) ? m_PlayerStats.stat.runSpeed.GetBaseValue() : m_PlayerStats.stat.walkSpeed.GetBaseValue();
 
             // A simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -256,7 +267,7 @@ namespace StarterAssets
             {
                 // Creates curved result rather than a linear one, giving a more organic speed change
                 // Note that Mathf.Lerp clamps the t value, so we don't need to clamp our speed
-                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
+                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * m_PlayerStats.stat.speedChangeRate.GetBaseValue());
 
                 // Round speed to 3 decimal places
                 _speed = Mathf.Round(_speed * 1000f) / 1000f;
@@ -266,7 +277,7 @@ namespace StarterAssets
                 _speed = targetSpeed;
             }
 
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * m_PlayerStats.stat.speedChangeRate.GetBaseValue());
             if (_animationBlend < 0.01f)
             {
                 _animationBlend = 0f;
@@ -323,7 +334,7 @@ namespace StarterAssets
                 if (Input.GetKeyDown(KeyCode.Space) && _jumpTimeoutDelta <= 0.0f)
                 {
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
-                    _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                    _verticalVelocity = Mathf.Sqrt(m_PlayerStats.stat.jumpHeight.GetBaseValue() * -2f * Gravity);
 
                     // update animator if using character
                     if (_hasAnimator)

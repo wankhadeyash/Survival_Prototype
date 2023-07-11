@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb19931877b7cf40900fba58c82f35c, type: 3}
   m_Name: Explorer
   m_EditorClassIdentifier: 
-  networkPrefab: {fileID: 9217285584502135751, guid: 5ff3b4e8b8118b146842dbf0c85d8d39,
+  networkPrefab: {fileID: 7439863324671827387, guid: 56d96047462141d4385a5d16214497ac,
     type: 3}
   avatarPrefab: {fileID: 8170741099607980373, guid: 81aef7aec98530d40a1ad46102f28638,
     type: 3}

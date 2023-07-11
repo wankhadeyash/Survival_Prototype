@@ -100,15 +100,12 @@ public class AvatarSelection : MonoBehaviour
 
     private void UpdateStats() 
     {
-        if (m_StatsView.Count != m_CurrentAvatarData.statsData.Count)
-        {
-            Debug.LogError($"Avatar has {m_CurrentAvatarData.statsData.Count} stats but view has {m_StatsView.Count}");
-            return;
-        }
-        for (int i = 0; i < m_StatsView.Count;i++) 
-        {
-            m_StatsView[i].SetData(m_CurrentAvatarData.statsData[i]);
-        }
+        PlayerStatsSO stats = m_CurrentAvatarData.stats;
+        m_StatsView[0].SetData(stats.startingHealth.GetBaseValue(), "Health");
+        m_StatsView[1].SetData(stats.stamina.GetBaseValue(), "Stamina");
+        m_StatsView[2].SetData(stats.armor.GetBaseValue(), "Health");
+
+
     }
 
     private void UpdateItemData() 

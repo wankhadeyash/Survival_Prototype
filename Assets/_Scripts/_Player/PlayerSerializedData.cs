@@ -9,6 +9,8 @@ public class PlayerSerializedData: SaveLoadBase
     public string playerName;
     public int avatarIndex;
 
+    public float health;
+
     public PlayerSerializedData(string folderName, string fileName) 
     {
         base.m_DirPath = folderName;
