@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731a1136e9605c442857cbff372039f9, type: 3}
   m_Name: Aex
   m_EditorClassIdentifier: 
-  itemControllerPrefab: {fileID: 8492121544219503658, guid: 06c8b482eaf6b1b48a7fe4d1c28a4bf0,
+  itemControllerPrefab: {fileID: 4886778960200025931, guid: 166ea5d70198045489803bcda304d9ed,
     type: 3}
-  itemPickUpPrefab: {fileID: 4421921361457848507, guid: 2593c0714fc4c424caa90536c1903a3e,
+  itemPickUpPrefab: {fileID: 7959240903530525455, guid: 11618b79fa0fa1a4f95a2d23dca2e5ca,
     type: 3}
   itemType: 1
   itemPickupType: 1

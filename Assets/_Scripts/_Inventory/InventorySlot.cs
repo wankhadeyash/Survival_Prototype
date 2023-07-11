@@ -47,8 +47,8 @@ namespace BlankBrains.Inventory
             if (m_ItemController != null)
                 GameObject.Destroy(m_ItemController.gameObject);
 
-            if (m_ItemPickUp != null)
-                GameObject.Destroy(m_ItemPickUp.gameObject);
+            //if (m_ItemPickUp != null)
+            //    GameObject.Destroy(m_ItemPickUp.gameObject);
 
             m_ItemController = null;
             m_ItemPickUp = null;
@@ -90,6 +90,10 @@ namespace BlankBrains.Inventory
 
         public void UnEquipeSlot()
         {
+            //Means there is nothing to unequip
+            if (m_ItemData == null)
+                return;
+
             m_ItemController.GetComponent<ItemController>().OnUnequipped();
 
             m_ItemController.SetActive(false);
