@@ -28,8 +28,7 @@ namespace BlankBrains.Inventory
             {
                 if (c.TryGetComponent<InventoryHolder>(out InventoryHolder inventoryHolder))
                 {
-                    if (inventoryHolder.InventoryManager.AddItem(m_Item, m_StackSize))
-                        Destroy(gameObject);
+                    inventoryHolder.InventoryManager.AddItem(this, m_StackSize);
                 }
             }
         }

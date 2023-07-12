@@ -15,6 +15,12 @@ namespace BlankBrains.Inventory
         protected KeyCode m_PickUpButton; // If pickup type is manual
 
 
+        //Components
+        private ItemPickUp m_ItemPickUp;
+        private Rigidbody m_Rb;
+        [SerializeField] private MeshRenderer m_MeshRenderer;
+        private Collider[] m_Colliders;
+
         private void Awake()
         {
             m_UseButton = m_Item.useButton; // Assign the use button from the ScriptableObject item on Awake
@@ -26,6 +32,13 @@ namespace BlankBrains.Inventory
         // Start is called before the first frame update
         void Start()
         {
+            //Get required components
+            m_ItemPickUp = GetComponent<ItemPickUp>();
+            m_Rb = GetComponent<Rigidbody>();
+            m_MeshRenderer = GetComponent<MeshRenderer>();
+            m_Colliders = GetComponents<Collider>();
+
+
             OnOnStartBefore(); // Call OnOnStartBefore() before Start()
 
             OnOnStartAfter(); // Call OnOnStartAfter() after Start()
@@ -82,24 +95,69 @@ namespace BlankBrains.Inventory
         protected abstract void DoSecondaryTask(); // Abstract method that gets implemented by child classes to perform secondary tasks associated with the item
 
         //When item is equipped
-        public virtual void OnEquipped()
+        public virtual void OnEquipped(Transform equipPosition)
         {
+            m_MeshRenderer.enabled = true;
+
+            gameObject.transform.position = equipPosition.position;
+            gameObject.transform.rotation = equipPosition.rotation;
+
             m_IsEquipped = true;
+
         }
 
         //When item is unequipped
         public virtual void OnUnequipped()
         {
             m_IsEquipped = false;
+
+            m_MeshRenderer.enabled = false;
+
+
         }
 
         //Callback when item is added in inventory
-        public virtual void OnItemAddedToInventory() { }
+        public virtual void OnItemAddedToInventory(Transform parent) 
+        {
+            gameObject.transform.SetParent(parent);
+            gameObject.transform.position = parent.position;
+            gameObject.transform.rotation = parent.rotation;
+            m_MeshRenderer.enabled = false;
+
+            //Get all colliders and disable
+            foreach (Collider c in m_Colliders) 
+            {
+                c.enabled = false;
+            }
+
+            //Disable item pick script
+            m_ItemPickUp.enabled = false;
+
+            //Disable rigidbody
+            m_Rb.isKinematic = true;
+        }
 
         //Callback when item is removed from inventory
         public virtual void OnItemRemovedFromInventory() { }
 
-        public virtual void OnItemDroppedFromInventory() { }
-        
+        public virtual void OnItemDroppedFromInventory(Transform dropPosition) 
+        {
+            m_MeshRenderer.enabled = true;
+            gameObject.transform.SetParent(null);
+            gameObject.transform.position = dropPosition.position;
+            gameObject.transform.rotation = dropPosition.rotation;
+
+            //Get all colliders and Enable
+            foreach (Collider c in m_Colliders)
+            {
+                c.enabled = true;
+            }
+
+            //Enable item pick script
+            m_ItemPickUp.enabled = true;
+
+            //Enable rigidbody
+            m_Rb.isKinematic = false;
+        }
     }
 }

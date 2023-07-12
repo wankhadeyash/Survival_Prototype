@@ -48,10 +48,10 @@ namespace BlankBrains.Inventory
         }
 
         // Add an item to the inventory
-        public bool AddItem(InventoryItemData itemData, int stackToAdd)
+        public bool AddItem(ItemPickUp itemPikcup, int stackToAdd)
         {
             //Check if item is already present in Inventory
-            if (CheckForItemInInventory(itemData, out List<InventorySlot> slots))
+            if (CheckForItemInInventory(itemPikcup.item, out List<InventorySlot> slots))
             {
                 //Check if slot has remaining stack 
                 foreach (InventorySlot slot in slots)
@@ -60,10 +60,10 @@ namespace BlankBrains.Inventory
                     {
                         slot.AddToStack(stackToAdd);
                         OnInventorySlotChanged?.Invoke(slot); // triggering the event OnInventorySlotChanged
-                        Debug.Log($"Found slot which has {itemData.name} and adding it to stack");
+                        Debug.Log($"Found slot which has {itemPikcup.name} and adding it to stack");
                         return true;
                     }
-                    Debug.Log($"Found slot which has {itemData.name} but already slot is full");
+                    Debug.Log($"Found slot which has {itemPikcup.name} but already slot is full");
 
                 }
             }
@@ -71,15 +71,15 @@ namespace BlankBrains.Inventory
             //If item is not present in inventory add item to next free slot
             if (GetAvailableSlot(out InventorySlot freeSlot))
             {
-                freeSlot.UpdateSlot(itemData, stackToAdd);
+                freeSlot.UpdateSlot(itemPikcup, stackToAdd);
 
                 OnInventorySlotChanged?.Invoke(freeSlot); // triggering the event OnInventorySlotChanged
 
-                itemData.itemControllerPrefab.GetComponent<ItemController>().OnItemAddedToInventory();
-                Debug.Log($"Assigning new slot to {itemData.name}");
+                itemPikcup.GetComponent<ItemController>().OnItemAddedToInventory(m_EquipeItemPosition);
+                Debug.Log($"Assigning new slot to {itemPikcup.name}");
                 return true;
             }
-            Debug.Log($"All slots are full can add {itemData.name}");
+            Debug.Log($"All slots are full can add {itemPikcup.name}");
 
             return false;
         }
@@ -91,7 +91,7 @@ namespace BlankBrains.Inventory
                 Debug.LogError($"Item which you are tyring to remove is not present in inventory. Try re checking your item adding to inventory");
                 return false;
             }
-            slotFromWhichToRemove.ItemData.itemControllerPrefab.GetComponent<ItemController>().OnItemRemovedFromInventory();
+            slotFromWhichToRemove.ItemData.itemPrefab.GetComponent<ItemController>().OnItemRemovedFromInventory();
             return true;
         }
 
@@ -175,7 +175,7 @@ namespace BlankBrains.Inventory
                 {
                     if (data.m_InventorySlotData[i].ItemData != null)
                     {
-                        m_InventorySlots[i].UpdateSlot(data.m_InventorySlotData[i].ItemData, data.m_InventorySlotData[i].StackSize);
+                        m_InventorySlots[i].UpdateSlot(data.m_InventorySlotData[i].ItemPickUp, data.m_InventorySlotData[i].StackSize);
                         OnInventorySlotChanged?.Invoke(m_InventorySlots[i]);
                     }
                 }

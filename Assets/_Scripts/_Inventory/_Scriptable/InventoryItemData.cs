@@ -48,13 +48,9 @@ namespace BlankBrains.Inventory
     // A ScriptableObject representing an item in the game.
     public class InventoryItemData : ScriptableObject
     {
-        //Prefab to which itemcontroller is attached
-        //Used when equiping the item in hand
-        public GameObject itemControllerPrefab;
+        //Prefab to which itemcontroller and item pick is attached
+        public GameObject itemPrefab;
 
-        //Prefab to which itempickup is attached
-        //Used when dropping an item
-        public GameObject itemPickUpPrefab;
 
         [Header("Item")]
         public ItemType itemType; // The type of the item.

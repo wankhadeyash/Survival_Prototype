@@ -43,7 +43,7 @@ namespace BlankBrains.Inventory
 
                                 Debug.Log("Assigning new slot");
                                 //Set item data on new UI slot
-                                newSlotUI.AssignedInventorySlot.UpdateSlot(m_AssignedInventoryUISlot.AssignedInventorySlot.ItemData,
+                                newSlotUI.AssignedInventorySlot.UpdateSlot(m_AssignedInventoryUISlot.AssignedInventorySlot.ItemPickUp,
                                     m_AssignedInventoryUISlot.AssignedInventorySlot.StackSize);
                                 newSlotUI.UpdateUISlot();
                                 //Clear selected UI slot
@@ -89,15 +89,15 @@ namespace BlankBrains.Inventory
         {
             Debug.Log($"{slot1.name} {slot2.name}");
 
-            InventoryItemData temItemData = slot1.AssignedInventorySlot.ItemData;
+            ItemPickUp itempickup = slot1.AssignedInventorySlot.ItemPickUp;
             int tempStackSize = slot1.AssignedInventorySlot.StackSize;
 
             //Switching slot1 to slot 2
-            slot1.AssignedInventorySlot.UpdateSlot(slot2.AssignedInventorySlot.ItemData, slot2.AssignedInventorySlot.StackSize);
+            slot1.AssignedInventorySlot.UpdateSlot(slot2.AssignedInventorySlot.ItemPickUp, slot2.AssignedInventorySlot.StackSize);
             slot1.UpdateUISlot();
 
             //Switching slo2 to slot1
-            slot2.AssignedInventorySlot.UpdateSlot(temItemData, tempStackSize);
+            slot2.AssignedInventorySlot.UpdateSlot(itempickup, tempStackSize);
             slot2.UpdateUISlot();
 
         }
