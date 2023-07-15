@@ -11,9 +11,17 @@ public class HudInventoryHolder : InventoryHolder
         
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        FindObjectOfType<HudInventoryDisplay>().SetInventoryHolder(this);
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner)
+            return;
         SwitchItem();
     }
 

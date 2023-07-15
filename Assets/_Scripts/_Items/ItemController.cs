@@ -34,7 +34,7 @@ namespace BlankBrains.Inventory
         // Start is called before the first frame update
         void Start()
         {
-            
+
             OnOnStartBefore(); // Call OnOnStartBefore() before Start()
 
             OnOnStartAfter(); // Call OnOnStartAfter() after Start()
@@ -69,6 +69,8 @@ namespace BlankBrains.Inventory
             PickUpItemInput(); // Call the GetInput() method to check for pickup item input
 
             OnOnUpdateAfter(); // Call OnOnUpdateAfter() after Update()
+
+
         }
 
         protected virtual void OnOnUpdateAfter() { } // Virtual method that gets called after Update()
@@ -115,13 +117,13 @@ namespace BlankBrains.Inventory
         }
 
         [ServerRpc(RequireOwnership = false)]
-        void OnEquippedServerRPC() 
+        void OnEquippedServerRPC()
         {
             OnEquippedClientRPC();
         }
 
         [ClientRpc]
-        void OnEquippedClientRPC() 
+        void OnEquippedClientRPC()
         {
             m_MeshRenderer.enabled = true;
 
@@ -131,11 +133,24 @@ namespace BlankBrains.Inventory
         //When item is unequipped
         public virtual void OnUnequipped()
         {
-            m_IsEquipped = false;
             m_NetworkObjectFollow.followObject = null;
+            OnUnequippedServerRPC();
+
+
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        void OnUnequippedServerRPC() 
+        {
+            OnUnequippedClientRPC();
+        }
+
+        [ClientRpc]
+        void OnUnequippedClientRPC() 
+        {
+            m_IsEquipped = false;
 
             m_MeshRenderer.enabled = false;
-
 
         }
 
@@ -164,19 +179,43 @@ namespace BlankBrains.Inventory
         //Callback when item is removed from inventory
         public virtual void OnItemRemovedFromInventory() 
         {
-          //  m_IsEquipped = false;
+            //  m_IsEquipped = false;
+            OnItemRemovedFromInventoryServerRPC();
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        void OnItemRemovedFromInventoryServerRPC() 
+        {
+            OnItemRemovedFromInventoryClientRPC();
+        }
+
+        [ClientRpc]
+        void OnItemRemovedFromInventoryClientRPC() { }
+
 
         public virtual void OnItemDroppedFromInventory(Transform dropPosition) 
         {
-            EnablePickUpComponents();
 
             gameObject.GetComponent<NetworkObject>().TryRemoveParent();
             gameObject.transform.position = dropPosition.position;
             gameObject.transform.rotation = dropPosition.rotation;
-            m_IsEquipped = false;
+
+            OnItemDroppedFromInventoryServerRPC();
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        void OnItemDroppedFromInventoryServerRPC() 
+        {
+            OnItemDroppedFromInventoryClientRPC();
+        }
+
+        [ClientRpc]
+        void OnItemDroppedFromInventoryClientRPC() 
+        {
+            EnablePickUpComponents();
+            m_IsEquipped = false;
+
+        }
 
         private void EnablePickUpComponents() 
         {

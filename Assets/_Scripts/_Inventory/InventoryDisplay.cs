@@ -28,6 +28,12 @@ namespace BlankBrains.Inventory
 
         protected virtual void Start()
         {
+            
+        }
+
+        public void SetInventoryHolder(InventoryHolder inventoryHolder) 
+        {
+            m_InventoryHolder = inventoryHolder;
             // Check if an InventoryHolder is attached to this GameObject
             if (m_InventoryHolder != null)
             {
