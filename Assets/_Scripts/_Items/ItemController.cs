@@ -34,9 +34,7 @@ namespace BlankBrains.Inventory
         // Start is called before the first frame update
         void Start()
         {
-          
-
-
+            
             OnOnStartBefore(); // Call OnOnStartBefore() before Start()
 
             OnOnStartAfter(); // Call OnOnStartAfter() after Start()
@@ -62,6 +60,8 @@ namespace BlankBrains.Inventory
         // Update is called once per frame
         void Update()
         {
+            if (!IsOwner)
+                return;
             OnOnUpdateBefore(); // Call OnOnUpdateBefore() before Update()
 
             UseItemInput(); // Call the GetInput() method to check for Use item input
@@ -108,14 +108,26 @@ namespace BlankBrains.Inventory
         //When item is equipped
         public virtual void OnEquipped(Transform equipPosition)
         {
-            m_MeshRenderer.enabled = true;
             m_NetworkObjectFollow.followObject = equipPosition;
-            
 
-            m_IsEquipped = true;
+            OnEquippedServerRPC();
 
         }
 
+        [ServerRpc(RequireOwnership = false)]
+        void OnEquippedServerRPC() 
+        {
+            OnEquippedClientRPC();
+        }
+
+        [ClientRpc]
+        void OnEquippedClientRPC() 
+        {
+            m_MeshRenderer.enabled = true;
+
+
+            m_IsEquipped = true;
+        }
         //When item is unequipped
         public virtual void OnUnequipped()
         {
@@ -128,16 +140,27 @@ namespace BlankBrains.Inventory
         }
 
         //Callback when item is added in inventory
-        public virtual void OnItemAddedToInventory(Transform playerNetowkrObject) 
+        public virtual void OnItemAddedToInventory(Transform playerNetworkObject) 
         {
-            MultiplayerSpawnManager.Instance.SetObjectsParentServerRPC(gameObject.GetComponent<NetworkObject>(), playerNetowkrObject.GetComponent<NetworkObject>());
-            gameObject.transform.position = playerNetowkrObject.position;
-            gameObject.transform.rotation = playerNetowkrObject.rotation;
+            OnItemAddedToInventoryServerRPC(playerNetworkObject.GetComponent<NetworkObject>());
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        void OnItemAddedToInventoryServerRPC(NetworkObjectReference playerNetworkObjectReference) 
+        {
+            OnItemAddedToInventoryClientRPC(playerNetworkObjectReference);
+        }
+
+        [ClientRpc]
+        void OnItemAddedToInventoryClientRPC(NetworkObjectReference playerNetworkObjectReference) 
+        {
+            MultiplayerSpawnManager.Instance.SetObjectsParentServerRPC(gameObject.GetComponent<NetworkObject>(), playerNetworkObjectReference);
+            playerNetworkObjectReference.TryGet(out NetworkObject player);
+            gameObject.transform.position = player.transform.position;
+            gameObject.transform.rotation = player.transform.rotation;
 
             DisablePickUpComponents();
         }
-
-        
         //Callback when item is removed from inventory
         public virtual void OnItemRemovedFromInventory() 
         {
