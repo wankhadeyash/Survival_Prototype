@@ -27,16 +27,18 @@ namespace BlankBrains.Inventory
         public List<InventorySlot> InventorySlots => m_InventorySlots; // property to get the inventory slots
         public UnityAction<InventorySlot> OnInventorySlotChanged; // event that is triggered when the inventory slot data changes
 
+        private GameObject m_PlayerNetworkObject;
         Transform m_EquipeItemPosition;
         Transform m_DropItemPosition;
 
         //Saving and loading data
         protected InventoryData m_InventoryData;
-        public InventoryManager(int numberOfSlots, Transform equipeItemPosition, Transform dropItemPosition)
+        public InventoryManager(int numberOfSlots, Transform equipeItemPosition, Transform dropItemPosition, GameObject playerNetworkObject)
         {
             m_NumberOfSlots = numberOfSlots;
             m_EquipeItemPosition = equipeItemPosition;
             m_DropItemPosition = dropItemPosition;
+            m_PlayerNetworkObject = playerNetworkObject;
 
             m_InventorySlots = new List<InventorySlot>(numberOfSlots);
             m_InventoryData = new InventoryData("Player", "HUDInventory");
@@ -75,7 +77,7 @@ namespace BlankBrains.Inventory
 
                 OnInventorySlotChanged?.Invoke(freeSlot); // triggering the event OnInventorySlotChanged
 
-                itemPikcup.GetComponent<ItemController>().OnItemAddedToInventory(m_EquipeItemPosition);
+                itemPikcup.GetComponent<ItemController>().OnItemAddedToInventory(m_PlayerNetworkObject.transform);
                 Debug.Log($"Assigning new slot to {itemPikcup.name}");
                 return true;
             }

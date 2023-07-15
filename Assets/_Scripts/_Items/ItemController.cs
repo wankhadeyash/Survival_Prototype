@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace BlankBrains.Inventory
 {
-    public abstract class ItemController : MonoBehaviour
+    public abstract class ItemController : NetworkBehaviour
     {
         [Tooltip("Assign scriptable item object")]
         [SerializeField] protected InventoryItemData m_Item; // Serialized field to hold a reference to the ScriptableObject item
@@ -18,8 +19,9 @@ namespace BlankBrains.Inventory
         //Components
         private ItemPickUp m_ItemPickUp;
         private Rigidbody m_Rb;
-        [SerializeField] private MeshRenderer m_MeshRenderer;
+        private MeshRenderer m_MeshRenderer;
         private Collider[] m_Colliders;
+        private NetworkObjectFollow m_NetworkObjectFollow;
 
         private void Awake()
         {
@@ -32,16 +34,25 @@ namespace BlankBrains.Inventory
         // Start is called before the first frame update
         void Start()
         {
-            //Get required components
-            m_ItemPickUp = GetComponent<ItemPickUp>();
-            m_Rb = GetComponent<Rigidbody>();
-            m_MeshRenderer = GetComponent<MeshRenderer>();
-            m_Colliders = GetComponents<Collider>();
+          
 
 
             OnOnStartBefore(); // Call OnOnStartBefore() before Start()
 
             OnOnStartAfter(); // Call OnOnStartAfter() after Start()
+        }
+
+        public override void OnNetworkSpawn()
+        {
+
+            //Get required components
+            m_ItemPickUp = GetComponent<ItemPickUp>();
+            m_Rb = GetComponent<Rigidbody>();
+            m_MeshRenderer = GetComponent<MeshRenderer>();
+            m_Colliders = GetComponents<Collider>();
+            m_NetworkObjectFollow = GetComponent<NetworkObjectFollow>();
+
+            EnablePickUpComponents();
         }
 
         protected virtual void OnOnStartAfter() { } // Virtual method that gets called after Start()
@@ -98,9 +109,8 @@ namespace BlankBrains.Inventory
         public virtual void OnEquipped(Transform equipPosition)
         {
             m_MeshRenderer.enabled = true;
-
-            gameObject.transform.position = equipPosition.position;
-            gameObject.transform.rotation = equipPosition.rotation;
+            m_NetworkObjectFollow.followObject = equipPosition;
+            
 
             m_IsEquipped = true;
 
@@ -110,6 +120,7 @@ namespace BlankBrains.Inventory
         public virtual void OnUnequipped()
         {
             m_IsEquipped = false;
+            m_NetworkObjectFollow.followObject = null;
 
             m_MeshRenderer.enabled = false;
 
@@ -117,47 +128,56 @@ namespace BlankBrains.Inventory
         }
 
         //Callback when item is added in inventory
-        public virtual void OnItemAddedToInventory(Transform parent) 
+        public virtual void OnItemAddedToInventory(Transform playerNetowkrObject) 
         {
-            gameObject.transform.SetParent(parent);
-            gameObject.transform.position = parent.position;
-            gameObject.transform.rotation = parent.rotation;
-            m_MeshRenderer.enabled = false;
+            MultiplayerSpawnManager.Instance.SetObjectsParentServerRPC(gameObject.GetComponent<NetworkObject>(), playerNetowkrObject.GetComponent<NetworkObject>());
+            gameObject.transform.position = playerNetowkrObject.position;
+            gameObject.transform.rotation = playerNetowkrObject.rotation;
 
-            //Get all colliders and disable
-            foreach (Collider c in m_Colliders) 
-            {
-                c.enabled = false;
-            }
-
-            //Disable item pick script
-            m_ItemPickUp.enabled = false;
-
-            //Disable rigidbody
-            m_Rb.isKinematic = true;
+            DisablePickUpComponents();
         }
 
+        
         //Callback when item is removed from inventory
-        public virtual void OnItemRemovedFromInventory() { }
+        public virtual void OnItemRemovedFromInventory() 
+        {
+          //  m_IsEquipped = false;
+        }
 
         public virtual void OnItemDroppedFromInventory(Transform dropPosition) 
         {
-            m_MeshRenderer.enabled = true;
-            gameObject.transform.SetParent(null);
+            EnablePickUpComponents();
+
+            gameObject.GetComponent<NetworkObject>().TryRemoveParent();
             gameObject.transform.position = dropPosition.position;
             gameObject.transform.rotation = dropPosition.rotation;
+            m_IsEquipped = false;
+        }
 
-            //Get all colliders and Enable
-            foreach (Collider c in m_Colliders)
+
+        private void EnablePickUpComponents() 
+        {
+            m_MeshRenderer.enabled = true;
+            m_ItemPickUp.enabled = true;
+            m_Rb.isKinematic = false;
+
+            foreach (Collider c in m_Colliders) 
             {
                 c.enabled = true;
             }
+            m_IsEquipped = false;
+        }
 
-            //Enable item pick script
-            m_ItemPickUp.enabled = true;
+        private void DisablePickUpComponents()
+        {
+            m_MeshRenderer.enabled = false;
+            m_ItemPickUp.enabled = false;
+            m_Rb.isKinematic = true;
 
-            //Enable rigidbody
-            m_Rb.isKinematic = false;
+            foreach (Collider c in m_Colliders)
+            {
+                c.enabled = false;
+            }
         }
     }
 }

@@ -45,6 +45,8 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
+        if (!IsOwner)
+            return;
         if (Input.GetMouseButtonDown(0)) 
         {
             m_Animator.SetTrigger(_animIDPunch);
