@@ -92,7 +92,7 @@ namespace BlankBrains.Inventory
 
         public void EquipeSlot()
         {
-            m_ItemPickup.GetComponent<ItemController>().OnEquipped(m_EquipeItemPos);
+            m_ItemPickup.GetComponent<ItemController>().OnEquipped();
 
             //m_ItemController.SetActive(true);
             //m_ItemController.GetComponent<ItemController>().OnEquipped();

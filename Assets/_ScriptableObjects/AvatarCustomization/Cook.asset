@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb19931877b7cf40900fba58c82f35c, type: 3}
   m_Name: Cook
   m_EditorClassIdentifier: 
-  networkPrefab: {fileID: 663800647394787939, guid: 415fa9e548f8cd340b0fba41336846cd,
+  networkPrefab: {fileID: 5144737572539844952, guid: 415fa9e548f8cd340b0fba41336846cd,
     type: 3}
   avatarPrefab: {fileID: 187071463517538615, guid: 4986581d5ebd132438b7a152a80610cc,
     type: 3}

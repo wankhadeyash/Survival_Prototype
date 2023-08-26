@@ -15,6 +15,7 @@ namespace BlankBrains.Inventory
         protected KeyCode m_UseButton; // Protected variable to hold the key code for using the item
         protected KeyCode m_PickUpButton; // If pickup type is manual
 
+        Transform m_EquippedPosition;
 
         //Components
         private ItemPickUp m_ItemPickUp;
@@ -108,9 +109,8 @@ namespace BlankBrains.Inventory
         protected abstract void DoSecondaryTask(); // Abstract method that gets implemented by child classes to perform secondary tasks associated with the item
 
         //When item is equipped
-        public virtual void OnEquipped(Transform equipPosition)
+        public virtual void OnEquipped()
         {
-            m_NetworkObjectFollow.followObject = equipPosition;
 
             OnEquippedServerRPC();
 
@@ -126,6 +126,7 @@ namespace BlankBrains.Inventory
         void OnEquippedClientRPC()
         {
             m_MeshRenderer.enabled = true;
+            m_NetworkObjectFollow.followObject = m_EquippedPosition;
 
 
             m_IsEquipped = true;
@@ -155,14 +156,18 @@ namespace BlankBrains.Inventory
         }
 
         //Callback when item is added in inventory
-        public virtual void OnItemAddedToInventory(Transform playerNetworkObject) 
+        public virtual void OnItemAddedToInventory(Transform playerNetworkObject, Transform equipPosition) 
         {
+            m_EquippedPosition = equipPosition;
+
             OnItemAddedToInventoryServerRPC(playerNetworkObject.GetComponent<NetworkObject>());
         }
 
         [ServerRpc(RequireOwnership = false)]
         void OnItemAddedToInventoryServerRPC(NetworkObjectReference playerNetworkObjectReference) 
         {
+            ChangeOwnerShipServerRPC();
+
             OnItemAddedToInventoryClientRPC(playerNetworkObjectReference);
         }
 
@@ -240,6 +245,13 @@ namespace BlankBrains.Inventory
             {
                 c.enabled = false;
             }
+        }
+
+        [ServerRpc]
+        void ChangeOwnerShipServerRPC(ServerRpcParams serverRpcParams = default) 
+        {
+            GetComponent<NetworkObject>().ChangeOwnership(serverRpcParams.Receive.SenderClientId);
+            
         }
     }
 }

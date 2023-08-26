@@ -77,7 +77,7 @@ namespace BlankBrains.Inventory
 
                 OnInventorySlotChanged?.Invoke(freeSlot); // triggering the event OnInventorySlotChanged
 
-                itemPikcup.GetComponent<ItemController>().OnItemAddedToInventory(m_PlayerNetworkObject.transform);
+                itemPikcup.GetComponent<ItemController>().OnItemAddedToInventory(m_PlayerNetworkObject.transform,m_EquipeItemPosition);
                 Debug.Log($"Assigning new slot to {itemPikcup.name}");
                 return true;
             }

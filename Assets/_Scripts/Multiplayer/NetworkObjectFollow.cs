@@ -17,13 +17,18 @@ public class NetworkObjectFollow : MonoBehaviour
 
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (followObject != null)
         {
             transform.position = followObject.position;
             transform.rotation = followObject.rotation;
         }
+    }
+
+    private void LateUpdate()
+    {
+        
     }
 
 }

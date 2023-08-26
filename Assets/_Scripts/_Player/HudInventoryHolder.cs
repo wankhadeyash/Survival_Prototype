@@ -13,6 +13,8 @@ public class HudInventoryHolder : InventoryHolder
 
     public override void OnNetworkSpawn()
     {
+        if (!IsOwner)
+            return;
         base.OnNetworkSpawn();
         FindObjectOfType<HudInventoryDisplay>().SetInventoryHolder(this);
     }
